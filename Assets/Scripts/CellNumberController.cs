@@ -32,7 +32,7 @@ namespace Cattoku
         private bool isPlaced; // check if GameObject is placed in the cell
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        public void Start()
+        void Start()
         {
             // If the object is not at the position yet, should check placement
             if (locationToPlace != transform) shouldCheckPlacement = true;

@@ -7,8 +7,8 @@ using Cattoku;
 public class CellNumberTest
 {
     // A Test behaves as an ordinary method
-    [Test]
-    public void CacheColliders_ShouldReturnMoreThanOneColliders()
+    [UnityTest]
+    public IEnumerator CacheColliders_ShouldReturnMoreThanOneColliders()
     {
         // Use the Assert class to test conditions
         var go = new GameObject("TestNum");
@@ -18,7 +18,10 @@ public class CellNumberTest
         go.AddComponent<BoxCollider>();
         go.AddComponent<MeshCollider>();
 
-        cnc.Start();
+        // Wait a frame for Unity to run start
+        yield return null;
+
+        //cnc.Start();
         Assert.IsNotNull(cnc.colliders);
         Assert.AreEqual(2, cnc.colliders.Count);
         Assert.IsTrue(cnc.colliders[0] is Collider);
