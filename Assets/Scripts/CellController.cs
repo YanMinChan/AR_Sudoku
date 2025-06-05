@@ -33,7 +33,8 @@ public class CellController : MonoBehaviour
 
         GameObject number = Instantiate(numberPrefab, transform);
         number.transform.localPosition = Vector3.zero;
-        number.transform.localRotation = Quaternion.identity;
+        number.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        number.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
     }
 
     // Update is called once per frame
