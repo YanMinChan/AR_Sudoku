@@ -427,8 +427,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 336533865}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -798,7 +798,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 398839215}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -806,8 +818,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 398839209}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -896,18 +908,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberPrefab: {fileID: 398839210}
---- !u!114 &416417164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &423739070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1196,7 +1196,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 423739076}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -1204,8 +1216,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 423739071}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -1280,18 +1292,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberPrefab: {fileID: 423739072}
---- !u!114 &685462561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1722,18 +1722,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
---- !u!114 &772292959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &863560402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2022,7 +2010,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 863560408}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -2030,8 +2030,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 863560403}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -2106,18 +2106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberPrefab: {fileID: 863560404}
---- !u!114 &928321448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1099370265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2463,7 +2451,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1213778522}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -2471,8 +2471,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 1213778517}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -2603,8 +2603,8 @@ Transform:
   m_GameObject: {fileID: 1232961453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.125, y: 1.8, z: 0.8}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalPosition: {x: -0.266, y: 1.85, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1675613169}
@@ -2618,18 +2618,6 @@ Transform:
   - {fileID: 336533865}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1530634916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1537381017
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2918,7 +2906,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1537381023}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -2926,8 +2926,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 1537381019}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -3290,7 +3290,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1541751728}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -3298,8 +3310,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 1541751723}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -3674,7 +3686,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1675613180}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -3682,8 +3706,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 1675613169}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -4046,7 +4070,19 @@ MonoBehaviour:
         m_Calls: []
   <OnClicked>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1749571604}
+        m_TargetAssemblyTypeName: NumberBar, Cattoku
+        m_MethodName: OnNumberPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   <OnEnabled>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
@@ -4054,8 +4090,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 1749571599}
-  allowedManipulations: 1
-  allowedInteractionTypes: -2147483641
+  allowedManipulations: 0
+  allowedInteractionTypes: 1
   rigidbodyMovementType: 0
   applyTorque: 1
   springForceSoftness: 0.1
@@ -4201,15 +4237,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4217,11 +4253,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 897005219449093980, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4262,377 +4298,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1776633595548996765, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2880879708684769380}
-    - targetCorrespondingSourceObject: {fileID: 1776633595548996765, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2880879708684769379}
-    - targetCorrespondingSourceObject: {fileID: 1776633595548996765, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2880879708684769378}
-    - targetCorrespondingSourceObject: {fileID: 1325318505701126429, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2880879708684769377}
-    - targetCorrespondingSourceObject: {fileID: 6151849651841380835, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2880879708684769376}
-    - targetCorrespondingSourceObject: {fileID: 7034884949187209957, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2880879708684769375}
-    - targetCorrespondingSourceObject: {fileID: 2473524615267520011, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1530634916}
-    - targetCorrespondingSourceObject: {fileID: 7764169550559417474, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 928321448}
-    - targetCorrespondingSourceObject: {fileID: 1361843251824506170, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 685462561}
-    - targetCorrespondingSourceObject: {fileID: 4371000933302843936, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 416417164}
-    - targetCorrespondingSourceObject: {fileID: 6701230337351848383, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 772292959}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
---- !u!1 &2880879708684769365 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6701230337351848383, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769366 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4371000933302843936, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769367 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1361843251824506170, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769368 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7764169550559417474, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769369 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2473524615267520011, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769370 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7034884949187209957, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769371 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6151849651841380835, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769372 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1325318505701126429, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2880879708684769373 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3715109354059502768, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2880879708684769374 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1776633595548996765, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
-  m_PrefabInstance: {fileID: 2880879708684769364}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2880879708684769375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2880879708684769376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2880879708684769377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2880879708684769378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9ad66e7cc9a2754d8ea989740c9f00d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 0}
-  m_Colliders: []
-  m_InteractionLayers:
-    m_Bits: 1
-  m_DistanceCalculationMode: 1
-  m_SelectMode: 1
-  m_FocusMode: 1
-  m_CustomReticle: {fileID: 0}
-  m_AllowGazeInteraction: 0
-  m_AllowGazeSelect: 0
-  m_OverrideGazeTimeToSelect: 0
-  m_GazeTimeToSelect: 0.5
-  m_OverrideTimeToAutoDeselectGaze: 0
-  m_TimeToAutoDeselectGaze: 3
-  m_AllowGazeAssistance: 0
-  m_FirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FirstSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FirstFocusEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastFocusExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FocusEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FocusExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Activated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Deactivated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_StartingHoverFilters: []
-  m_StartingSelectFilters: []
-  m_StartingInteractionStrengthFilters: []
-  isGazePinchSelected:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isRaySelected:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isPokeSelected:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isGrabSelected:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isGazeHovered:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isGazePinchHovered:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isRayHovered:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isGrabHovered:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isPokeHovered:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  isActiveHovered:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  disabledInteractorTypes:
-  - reference: MixedReality.Toolkit.IPokeInteractor, MixedReality.Toolkit.Core
-  <ToggleMode>k__BackingField: 0
-  <SelectThreshold>k__BackingField: 0.9
-  <DeselectThreshold>k__BackingField: 0.1
-  <TriggerOnRelease>k__BackingField: 1
-  <UseGazeDwell>k__BackingField: 0
-  <GazeDwellTime>k__BackingField: 1
-  <UseFarDwell>k__BackingField: 0
-  <FarDwellTime>k__BackingField: 1
-  allowSelectByVoice: 1
-  speechRecognitionKeyword: select
-  <VoiceRequiresFocus>k__BackingField: 1
-  <SelectRequiresHover>k__BackingField: 0
-  <IsToggled>k__BackingField:
-    active: 0
-    onEntered:
-      m_PersistentCalls:
-        m_Calls: []
-    onExited:
-      m_PersistentCalls:
-        m_Calls: []
-  <OnClicked>k__BackingField:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2880879708684769380}
-        m_TargetAssemblyTypeName: CellController, Cattoku
-        m_MethodName: SelectThisCell
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  <OnEnabled>k__BackingField:
-    m_PersistentCalls:
-      m_Calls: []
-  <OnDisabled>k__BackingField:
-    m_PersistentCalls:
-      m_Calls: []
-  hostTransform: {fileID: 2880879708684769373}
-  allowedManipulations: 0
-  allowedInteractionTypes: -2147483641
-  rigidbodyMovementType: 0
-  applyTorque: 1
-  springForceSoftness: 0.1
-  springTorqueSoftness: 0.1
-  springDamping: 1
-  springForceLimit: 100
-  rotationAnchorNear: 1
-  rotationAnchorFar: 1
-  releaseBehavior: 3
-  transformSmoothingLogicType:
-    reference: MixedReality.Toolkit.SpatialManipulation.DefaultTransformSmoothingLogic,
-      MixedReality.Toolkit.SpatialManipulation
-  smoothingFar: 1
-  smoothingNear: 1
-  moveLerpTime: 0.001
-  rotateLerpTime: 0.001
-  scaleLerpTime: 0.001
-  enableConstraints: 1
-  constraintsManager: {fileID: 0}
-  manipulationLogicTypes:
-    moveLogicType:
-      reference: MixedReality.Toolkit.SpatialManipulation.MoveLogic, MixedReality.Toolkit.SpatialManipulation
-    rotateLogicType:
-      reference: MixedReality.Toolkit.SpatialManipulation.RotateLogic, MixedReality.Toolkit.SpatialManipulation
-    scaleLogicType:
-      reference: MixedReality.Toolkit.SpatialManipulation.ScaleLogic, MixedReality.Toolkit.SpatialManipulation
---- !u!114 &2880879708684769379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50cdab0cd5a0916419324bb54314773d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoConstraintSelection: 1
-  selectedConstraints: []
---- !u!114 &2880879708684769380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880879708684769374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
