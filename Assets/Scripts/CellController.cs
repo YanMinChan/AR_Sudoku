@@ -26,11 +26,14 @@ public class CellController : MonoBehaviour
     /// Generate a number object to fill cell
     /// </summary>
     public void FillNumber(GameObject numberPrefab) {
+
+        // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
         {
             GameObject.Destroy(child.gameObject);
         }
 
+        // Instantiate the number
         GameObject number = Instantiate(numberPrefab, transform);
         number.transform.localPosition = Vector3.zero;
         number.transform.localRotation = Quaternion.Euler(0, 180, 0);
