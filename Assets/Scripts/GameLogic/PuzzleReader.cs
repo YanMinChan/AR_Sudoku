@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -24,27 +25,36 @@ public class PuzzleReader
         // Read from csv
         using (StreamReader sr = new StreamReader(filePath))
         {
-            string[] gameSet; //puzzle and solution
-            int i = 0; //limit num of puzzle read
-
-            string header = sr.ReadLine(); // skip the header
-            string data = sr.ReadLine();
-            while ((data != null) && i < numPuz)
+            try
             {
-                // obtain the puzzle and solution
-                gameSet = data.Split(',');
-                int[] puzSet = new int[81];
-                int[] solSet = new int[81];
-                // parse puzzle and solution to array
-                for (int j = 0; j < 81; j++)
+                string[] gameSet; //puzzle and solution
+                int i = 0; //limit num of puzzle read
+
+                string header = sr.ReadLine(); // skip the header
+                string data = sr.ReadLine();
+                while ((data != null) && i < numPuz)
                 {
-                    // convert char to int by ascii
-                    puzSet[j] = gameSet[0][j] - '0';
-                    solSet[j] = gameSet[1][j] - '0';
+                    // obtain the puzzle and solution
+                    gameSet = data.Split(',');
+                    int[] puzSet = new int[81];
+                    int[] solSet = new int[81];
+                    // parse puzzle and solution to array
+                    for (int j = 0; j < 81; j++)
+                    {
+                        // convert char to int by ascii
+                        puzSet[j] = gameSet[0][j] - '0';
+                        solSet[j] = gameSet[1][j] - '0';
+                    }
+                    this.puzzle.Add(puzSet);
+                    this.solution.Add(solSet);
+
+                    data = sr.ReadLine();
+                    i++;
                 }
-                this.puzzle.Add(puzSet);
-                this.solution.Add(solSet);
-                i++;
+            }
+            catch (FileNotFoundException fnf)
+            {
+                Console.WriteLine("Error on file path, file not found!");
             }
         }
     }

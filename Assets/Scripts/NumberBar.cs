@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class NumberBar : MonoBehaviour
 {
-    public GameObject numberPrefab;
+    [Range(1, 9)]
+    public int number;
 
     public void OnNumberPressed()
     {
         if (CellController.currentlySelected != null)
         {
-            CellController.currentlySelected.FillNumber(numberPrefab);
+            CellController.currentlySelected.FillNumber(this.number);
             Debug.Log("Placed number in selected cell.");
         } else
         {

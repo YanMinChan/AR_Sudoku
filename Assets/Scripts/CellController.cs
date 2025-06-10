@@ -1,16 +1,19 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class CellController : MonoBehaviour
 {
-    //[SerializeField] private GameObject objectToPlace;
-
     public static CellController currentlySelected; // The cell is selected by player
 
-    //private bool isFilled;
+    // Constructor
+    public CellController()
+    {
+
+    }
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
-        //GameObject[] numberBar = GameObject.FindGameObjectsWithTag("NumberBar");
     }
 
     /// <summary>
@@ -25,7 +28,7 @@ public class CellController : MonoBehaviour
     /// <summary>
     /// Generate a number object to fill cell
     /// </summary>
-    public void FillNumber(GameObject numberPrefab) {
+    public void FillNumber(int number) {
 
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
@@ -34,10 +37,15 @@ public class CellController : MonoBehaviour
         }
 
         // Instantiate the number
-        GameObject number = Instantiate(numberPrefab, transform);
-        number.transform.localPosition = Vector3.zero;
-        number.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        number.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        GameObject prefab = NumberDatabase.Instance.GetNumber(number);
+        if (prefab != null)
+        {
+            GameObject numberPrefab = Instantiate(prefab, transform);
+            numberPrefab.transform.localPosition = Vector3.zero;
+            numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        }
+
     }
 
     // Update is called once per frame
