@@ -6,13 +6,14 @@ using UnityEngine;
 public class GridController : MonoBehaviour
 {
     CellController[,] cellControllers;
+    CellModel[,] cells;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // Load grid data from model
         GridModel grid = new GridModel();
         string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        CellModel[,] cells = grid.GenerateGrid(filePath);
+        this.cells = grid.GenerateGrid(filePath);
 
         if (cells != null)
         {
@@ -31,5 +32,16 @@ public class GridController : MonoBehaviour
     void Update()
     {
         // Update cell controller for change in grid
+        for (int i=0; i<9; i++)
+        {
+            for (int j=0; j<9; j++)
+            {
+                int numbers = cells[i,j].Numbers;
+                if (numbers != 0)
+                {
+                    cellControllers[i,j].FillNumbee(numbers);
+                }
+            }
+        }
     }
 }
