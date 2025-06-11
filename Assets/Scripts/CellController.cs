@@ -5,10 +5,10 @@ public class CellController : MonoBehaviour
 {
     public static CellController currentlySelected; // The cell is selected by player
 
-    [SerializeField][Range(1, 9)]
-    private int row;
-    [SerializeField][Range(1, 9)]
-    private int col;
+    [Range(1, 9)]
+    public int row;
+    [Range(1, 9)]
+    public int col;
     // Constructor
     public CellController()
     {

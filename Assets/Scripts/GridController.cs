@@ -13,7 +13,7 @@ public class GridController : MonoBehaviour
         // Load grid data from model
         GridModel grid = new GridModel();
         string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        this.cells = grid.GenerateGrid(filePath, 0);
+        this.cells = grid.GenerateGrid(filePath);
 
         if (cells != null)
         {
