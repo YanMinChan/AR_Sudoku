@@ -11,41 +11,31 @@ public class GridController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Load grid data from model
-        GridModel grid = new GridModel();
-        string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        this.cells = grid.GenerateGrid(filePath);
-
-        if (cells != null)
-        {
-            Debug.Log("Cell loaded: " + cells.Length);
-        } 
-        else
-        {
-            Debug.Log("AAAAAAAA");
-        }
-        BuildGrid();
+        LoadData();
+        AssignToCellModel();
+        BuildGrid(init:true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Update cell controller for change in grid
-        for (int i=0; i<9; i++)
-        {
-            for (int j=0; j<9; j++)
-            {
-                int numbers = cells[i,j].Number;
-                if (numbers != 0)
-                {
-                    cellControllers[i,j].FillNumber(numbers);
-                }
-            }
-        }
+        BuildGrid();
+        //// Update cell controller for change in grid
+        //for (int i=0; i<9; i++)
+        //{
+        //    for (int j=0; j<9; j++)
+        //    {
+        //        int numbers = cells[i,j].Number;
+        //        if (numbers != 0)
+        //        {
+        //            cellControllers[i,j].FillNumber(numbers);
+        //        }
+        //    }
+        //}
     }
 
-    // Build the grid by the row and col of cells
-    private void BuildGrid()
+    // Find all cell controllers object and assign them to their respective model
+    private void AssignToCellModel()
     {
         foreach (var controller in FindObjectsOfType<CellController>())
         {
@@ -62,4 +52,38 @@ public class GridController : MonoBehaviour
         }
     }
 
+    // Load data from csv
+    private void LoadData()
+    {
+        // Load grid data from model
+        GridModel grid = new GridModel();
+        string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
+        this.cells = grid.GenerateGrid(filePath);
+
+        if (cells != null)
+            Debug.Log("Cell loaded: " + cells.Length);
+        else
+            Debug.Log("Error, cells not loaded");
+    }
+
+    // Build grid
+    private void BuildGrid(bool init=false)
+    {
+        // Update cell controller for change in grid
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                int numbers = cells[i, j].Number;
+                if (numbers != 0)
+                {
+                    cellControllers[i, j].FillNumber(numbers);
+                    if (init) 
+                    { 
+                        cellControllers[i, j].IsDefaultCell = true; 
+                    }
+                }
+            }
+        }
+    }
 }

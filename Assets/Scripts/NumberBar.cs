@@ -7,11 +7,17 @@ public class NumberBar : MonoBehaviour
 
     public void OnNumberPressed()
     {
-        if (CellController.currentlySelected != null)
+        if (CellController.currentlySelected != null && !CellController.currentlySelected.IsDefaultCell)
         {
             CellController.currentlySelected.FillNumber(this.number);
             Debug.Log("Placed number in selected cell.");
-        } else
+        } 
+        else if (CellController.currentlySelected.IsDefaultCell)
+        {
+            Debug.Log("The cell cannot be changed");
+            
+        }
+        else 
         {
             Debug.Log("No cell is selected");
         }

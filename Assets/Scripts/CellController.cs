@@ -12,6 +12,8 @@ public class CellController : MonoBehaviour
 
     private CellModel cellModel;
 
+    private bool isDefaultCell = false;
+
     // Constructor
     public CellController()
     {
@@ -73,6 +75,12 @@ public class CellController : MonoBehaviour
 
     public CellModel CellModel
     {
-        set {  cellModel = value; }
+        set { cellModel = value; }
+    }
+
+    public bool IsDefaultCell
+    {
+        get { return this.isDefaultCell; }
+        set { isDefaultCell = value; }
     }
 }
