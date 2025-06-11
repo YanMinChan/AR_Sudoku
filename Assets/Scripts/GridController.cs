@@ -7,6 +7,7 @@ public class GridController : MonoBehaviour
 {
     CellController[,] cellControllers = new CellController[9, 9];
     CellModel[,] cells;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,16 +19,12 @@ public class GridController : MonoBehaviour
         if (cells != null)
         {
             Debug.Log("Cell loaded: " + cells.Length);
-            //Debug.Log(cells[0, 0].Solution);
-            //Debug.Log(cells[0, 1].Solution);
-            //Debug.Log(cells[0, 2].Solution);
-            //Debug.Log(cells[0, 3].Solution);
         } 
         else
         {
             Debug.Log("AAAAAAAA");
         }
-        BuildCellList();
+        BuildGrid();
     }
 
     // Update is called once per frame
@@ -47,20 +44,22 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // Build the list of cell controller by their row and col
-    private void BuildCellList()
+    // Build the grid by the row and col of cells
+    private void BuildGrid()
     {
         foreach (var controller in FindObjectsOfType<CellController>())
         {
             int r = controller.Row;
             int c = controller.Col;
-
-            Debug.Log(r + " " + c);
+            
+            // Connect the cell model and controller
             try
             {
-                this.cellControllers[r - 1, c - 1] = controller;
+                controller.CellModel = cells[r-1, c-1];
+                this.cellControllers[r-1, c-1] = controller;
             }
-            catch { Debug.LogWarning(r + " " + c); }
+            catch { Debug.LogWarning((r-1) + " " + (c-1)); }
         }
     }
+
 }

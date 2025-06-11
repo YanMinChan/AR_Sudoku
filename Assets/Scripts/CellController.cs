@@ -3,22 +3,22 @@ using UnityEngine;
 
 public class CellController : MonoBehaviour
 {
+    // Unity changable variables
     public static CellController currentlySelected; // The cell is selected by player
-
     [Range(1, 9)]
     public int row;
     [Range(1, 9)]
     public int col;
+
+    private CellModel cellModel;
+
     // Constructor
     public CellController()
     {
-
     }
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() {
-    }
+    void Start(){}
 
     /// <summary>
     /// Select the current cell
@@ -50,6 +50,9 @@ public class CellController : MonoBehaviour
             numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         }
 
+        // Update the cell model
+        cellModel.Number = number;
+
     }
 
     // Update is called once per frame
@@ -66,5 +69,10 @@ public class CellController : MonoBehaviour
     public int Col
     {
         get { return this.col; }
+    }
+
+    public CellModel CellModel
+    {
+        set {  cellModel = value; }
     }
 }

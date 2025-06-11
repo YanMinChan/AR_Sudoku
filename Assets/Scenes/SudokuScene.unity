@@ -4379,6 +4379,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 843518052898376142, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
+      propertyPath: col
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 843518052898376142, guid: 3af925e3f4c87254dbdfc5594458c256, type: 3}
       propertyPath: row
       value: 7
       objectReference: {fileID: 0}
