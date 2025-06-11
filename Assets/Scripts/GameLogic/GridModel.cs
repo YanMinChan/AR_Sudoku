@@ -62,7 +62,7 @@ public class GridModel
             for (int c = 0; c < 9; c++)
             {
                 int subgrid = (r / 3) + (c / 3);
-                this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], subgrid);
+                this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], subgrid, r, c);
                 testsg[r * 9 + c] = subgrid;
             }
         }

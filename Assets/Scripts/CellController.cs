@@ -5,6 +5,10 @@ public class CellController : MonoBehaviour
 {
     public static CellController currentlySelected; // The cell is selected by player
 
+    [SerializeField][Range(1, 9)]
+    private int row;
+    [SerializeField][Range(1, 9)]
+    private int col;
     // Constructor
     public CellController()
     {
@@ -52,5 +56,15 @@ public class CellController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public int Row
+    {
+        get { return this.row; }
+    }
+
+    public int Col
+    {
+        get { return this.col; }
     }
 }

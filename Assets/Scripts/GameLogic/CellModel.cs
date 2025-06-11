@@ -9,11 +9,15 @@ public class CellModel
     int num;
     int sol;
     int sgrid;
-    public CellModel(int num, int sol, int sgrid)
+    int row;
+    int col;
+    public CellModel(int num, int sol, int sgrid, int row, int col)
     {
         this.num = num;
         this.sol = sol;
         this.sgrid = sgrid;
+        this.row = row;
+        this.col = col;
     }
 
     public int Number
@@ -25,5 +29,15 @@ public class CellModel
     public int Solution
     {
         get { return sol; }
+    }
+
+    public int Row
+    {
+        get { return row; }
+    }
+
+    public int Col
+    {
+        get { return col; }
     }
 }
