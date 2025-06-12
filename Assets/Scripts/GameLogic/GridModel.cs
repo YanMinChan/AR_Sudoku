@@ -67,12 +67,12 @@ public class GridModel
         return this.cells;
     }
 
-    public bool numberIsValid(int num, int[] pos)
+    public bool numberIsValid(int num, int row, int col)
     {
         // Check for dup in col
         for (int i = 0; i < 9; i++)
         {
-            if (this.cells[pos[0], i].num == num)
+            if (this.cells[row, i].num == num)
             {
                 return false;
             }
@@ -80,13 +80,13 @@ public class GridModel
         // Check for dup in row
         for (int i = 0; i < 9; i++)
         {
-            if (this.cells[i, pos[1]].num == num)
+            if (this.cells[i, col].num == num)
             {
                 return false;
             }
         }
         // Check for dup in subgrid
-        int subgrid = this.cells[pos[0], pos[1]].sgrid; // extract the subgrid of user chosen cell
+        int subgrid = this.cells[row, col].sgrid; // extract the subgrid of user chosen cell
         for (int i = 0; i < 9; i++)
         {
             for (int j = 0; j < 9; j++)

@@ -96,12 +96,23 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public void FillNumber(CellController controller, int number)
+    public bool FillNumber(CellController controller, int number)
     {
+        // Load the cell model assigned to the controller
         CellModel model = controller.Model;
-
-        model.num = number;
-
-        controller.FillNumber(number);
+        
+        if (gridModel.numberIsValid(number, model.row, model.col)){
+            // Update the model
+            model.num = number;
+            // Update the cell controller
+            controller.FillNumber(number);
+            return true;
+        } 
+        else
+        {
+            // Change it to fill the number with red highlight
+            Debug.Log("Number not valid AAAA");
+            return false;
+        }
     }
 }

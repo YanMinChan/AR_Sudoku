@@ -13,10 +13,14 @@ public class NumberController : MonoBehaviour
 
     public void OnNumberPressed()
     {
+        Debug.Log("AAA");
         if (CellController.currentlySelected != null && !CellController.currentlySelected.isDefaultCell)
         {
-            this.gridController.FillNumber(CellController.currentlySelected, this.number);
-            Debug.Log("Placed number in selected cell.");
+            if (this.gridController.FillNumber(CellController.currentlySelected, this.number))
+            {
+                Debug.Log("Placed number in selected cell.");
+            } 
+            
         } 
         else if (CellController.currentlySelected.isDefaultCell)
         {
