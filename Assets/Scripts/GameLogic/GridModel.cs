@@ -54,8 +54,6 @@ public class GridModel
         // Choose a puzzle
         (int[] puz, int[] sol) = puzzleSelector(filePath, puzId);
 
-        int[] testsg = new int[puz.Length];
-
         // Construct the cell models by row and column
         for (int r = 0; r < 9; r++)
         {
@@ -63,10 +61,45 @@ public class GridModel
             {
                 int subgrid = (r / 3) + (c / 3);
                 this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], subgrid, r, c);
-                testsg[r * 9 + c] = subgrid;
             }
         }
 
         return this.cells;
+    }
+
+    public bool numberIsValid(int num, int[] pos)
+    {
+        // Check for dup in col
+        for (int i = 0; i < 9; i++)
+        {
+            if (this.cells[pos[0], i].num == num)
+            {
+                return false;
+            }
+        }
+        // Check for dup in row
+        for (int i = 0; i < 9; i++)
+        {
+            if (this.cells[i, pos[1]].num == num)
+            {
+                return false;
+            }
+        }
+        // Check for dup in subgrid
+        int subgrid = this.cells[pos[0], pos[1]].sgrid; // extract the subgrid of user chosen cell
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                if (this.cells[i, j].sgrid == subgrid)
+                {
+                    if (this.cells[i, j].sgrid == num)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

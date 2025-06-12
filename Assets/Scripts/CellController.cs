@@ -6,21 +6,28 @@ public class CellController : MonoBehaviour
     // Unity changable variables
     public static CellController currentlySelected; // The cell is selected by player
     [Range(1, 9)]
-    public int row;
+    public int editorRow;
     [Range(1, 9)]
-    public int col;
+    public int editorCol;
 
+    // Instance variables
     private CellModel cellModel;
-
-    private bool isDefaultCell = false;
+    [HideInInspector]
+    public bool isDefaultCell = false;
+    [HideInInspector]
+    public GameObject numberPrefab;
 
     // Constructor
-    public CellController()
-    {
-    }
+    public CellController(){}
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     /// <summary>
     /// Select the current cell
@@ -46,41 +53,16 @@ public class CellController : MonoBehaviour
         GameObject prefab = NumberDatabase.Instance.GetNumber(number);
         if (prefab != null)
         {
-            GameObject numberPrefab = Instantiate(prefab, transform);
-            numberPrefab.transform.localPosition = Vector3.zero;
-            numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            this.numberPrefab = Instantiate(prefab, transform);
+            this.numberPrefab.transform.localPosition = Vector3.zero;
+            this.numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            this.numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         }
-
-        // Update the cell model
-        cellModel.Number = number;
-
     }
 
-    // Update is called once per frame
-    void Update()
+    public CellModel Model
     {
-        
-    }
-
-    public int Row
-    {
-        get { return this.row; }
-    }
-
-    public int Col
-    {
-        get { return this.col; }
-    }
-
-    public CellModel CellModel
-    {
+        get { return cellModel; }
         set { cellModel = value; }
-    }
-
-    public bool IsDefaultCell
-    {
-        get { return this.isDefaultCell; }
-        set { isDefaultCell = value; }
     }
 }

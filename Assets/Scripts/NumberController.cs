@@ -1,18 +1,24 @@
 using UnityEngine;
 
-public class NumberBar : MonoBehaviour
+public class NumberController : MonoBehaviour
 {
     [Range(1, 9)]
     public int number;
+    private GridController gridController;
+
+    public void Initialize(GridController grid)
+    {
+        this.gridController = grid;
+    }
 
     public void OnNumberPressed()
     {
-        if (CellController.currentlySelected != null && !CellController.currentlySelected.IsDefaultCell)
+        if (CellController.currentlySelected != null && !CellController.currentlySelected.isDefaultCell)
         {
-            CellController.currentlySelected.FillNumber(this.number);
+            this.gridController.FillNumber(CellController.currentlySelected, this.number);
             Debug.Log("Placed number in selected cell.");
         } 
-        else if (CellController.currentlySelected.IsDefaultCell)
+        else if (CellController.currentlySelected.isDefaultCell)
         {
             Debug.Log("The cell cannot be changed");
             

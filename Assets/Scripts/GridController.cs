@@ -1,18 +1,28 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Fill the grid with the puzzle
 /// </summary>
 public class GridController : MonoBehaviour
 {
-    CellController[,] cellControllers = new CellController[9, 9];
-    CellModel[,] cells;
+    GridModel gridModel; 
+    CellModel[,] cellModels;
+    CellController[,] cellControllers;
+    List<NumberController> numberControllers;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Load puzzle data from CSV
         LoadData();
+
+        // Manage other models and controllers
         AssignToCellModel();
+        AssignNumberController();
+
+        // Generate the grid view
         BuildGrid(init:true);
     }
 
@@ -20,32 +30,21 @@ public class GridController : MonoBehaviour
     void Update()
     {
         BuildGrid();
-        //// Update cell controller for change in grid
-        //for (int i=0; i<9; i++)
-        //{
-        //    for (int j=0; j<9; j++)
-        //    {
-        //        int numbers = cells[i,j].Number;
-        //        if (numbers != 0)
-        //        {
-        //            cellControllers[i,j].FillNumber(numbers);
-        //        }
-        //    }
-        //}
     }
 
     // Find all cell controllers object and assign them to their respective model
     private void AssignToCellModel()
     {
+        this.cellControllers = new CellController[9, 9];
         foreach (var controller in FindObjectsOfType<CellController>())
         {
-            int r = controller.Row;
-            int c = controller.Col;
+            int r = controller.editorRow;
+            int c = controller.editorCol;
             
             // Connect the cell model and controller
             try
             {
-                controller.CellModel = cells[r-1, c-1];
+                controller.Model = cellModels[r-1, c-1];
                 this.cellControllers[r-1, c-1] = controller;
             }
             catch { Debug.LogWarning((r-1) + " " + (c-1)); }
@@ -56,12 +55,12 @@ public class GridController : MonoBehaviour
     private void LoadData()
     {
         // Load grid data from model
-        GridModel grid = new GridModel();
+        this.gridModel = new GridModel();
         string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        this.cells = grid.GenerateGrid(filePath);
+        this.cellModels = this.gridModel.GenerateGrid(filePath);
 
-        if (cells != null)
-            Debug.Log("Cell loaded: " + cells.Length);
+        if (cellModels != null)
+            Debug.Log("Cell loaded: " + cellModels.Length);
         else
             Debug.Log("Error, cells not loaded");
     }
@@ -74,16 +73,35 @@ public class GridController : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                int numbers = cells[i, j].Number;
+                int numbers = cellModels[i, j].num;
                 if (numbers != 0)
                 {
-                    cellControllers[i, j].FillNumber(numbers);
+                    this.cellControllers[i, j].FillNumber(numbers);
                     if (init) 
                     { 
-                        cellControllers[i, j].IsDefaultCell = true; 
+                        this.cellControllers[i, j].isDefaultCell = true; 
                     }
                 }
             }
         }
+    }
+
+    // Assign grid to number controller
+    private void AssignNumberController()
+    {
+        this.numberControllers = FindObjectsOfType<NumberController>().ToList();
+        foreach (var cont in this.numberControllers)
+        {
+            cont.Initialize(this);
+        }
+    }
+
+    public void FillNumber(CellController controller, int number)
+    {
+        CellModel model = controller.Model;
+
+        model.num = number;
+
+        controller.FillNumber(number);
     }
 }
