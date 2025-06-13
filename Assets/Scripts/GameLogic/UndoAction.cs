@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+public struct UndoAction
+{
+    public CellController cellController;
+    public int num;
+    public GameObject numberPrefab;
+}

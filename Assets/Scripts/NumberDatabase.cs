@@ -43,7 +43,7 @@ public class NumberDatabase : MonoBehaviour
         {
             return prefab;
         }
-        Debug.Log($"Number {num} not found!");
+        Debug.Log("The cell is now empty");
         return null;
     }
 }

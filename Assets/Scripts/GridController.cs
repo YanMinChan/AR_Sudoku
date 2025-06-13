@@ -11,6 +11,7 @@ public class GridController : MonoBehaviour
     CellModel[,] cellModels;
     CellController[,] cellControllers;
     List<NumberController> numberControllers;
+    Stack<UndoAction> actionStack;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,6 +23,9 @@ public class GridController : MonoBehaviour
         AssignToCellModel();
         AssignNumberController();
 
+        // Instantiate the action stack
+        this.actionStack = new Stack<UndoAction>();
+
         // Generate the grid view
         BuildGrid(init:true);
     }
@@ -30,6 +34,20 @@ public class GridController : MonoBehaviour
     void Update()
     {
         BuildGrid();
+    }
+
+    // Load data from csv
+    private void LoadData()
+    {
+        // Load grid data from model
+        this.gridModel = new GridModel();
+        string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
+        this.cellModels = this.gridModel.GenerateGrid(filePath);
+
+        if (cellModels != null)
+            Debug.Log("Cell loaded: " + cellModels.Length);
+        else
+            Debug.Log("Error, cells not loaded");
     }
 
     // Find all cell controllers object and assign them to their respective model
@@ -51,18 +69,14 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // Load data from csv
-    private void LoadData()
+    // Assign grid to number controller
+    private void AssignNumberController()
     {
-        // Load grid data from model
-        this.gridModel = new GridModel();
-        string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        this.cellModels = this.gridModel.GenerateGrid(filePath);
-
-        if (cellModels != null)
-            Debug.Log("Cell loaded: " + cellModels.Length);
-        else
-            Debug.Log("Error, cells not loaded");
+        this.numberControllers = FindObjectsOfType<NumberController>().ToList();
+        foreach (var cont in this.numberControllers)
+        {
+            cont.Initialize(this);
+        }
     }
 
     // Build grid
@@ -86,26 +100,19 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // Assign grid to number controller
-    private void AssignNumberController()
-    {
-        this.numberControllers = FindObjectsOfType<NumberController>().ToList();
-        foreach (var cont in this.numberControllers)
-        {
-            cont.Initialize(this);
-        }
-    }
-
     public bool FillNumber(CellController controller, int number)
     {
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
         
         if (gridModel.numberIsValid(number, model.row, model.col)){
+            // Store the previous information
+            actionStack.Push(new UndoAction { cellController=controller, num=model.num, numberPrefab=controller.numberPrefab });
             // Update the model
             model.num = number;
             // Update the cell controller
             controller.FillNumber(number);
+
             return true;
         } 
         else
@@ -115,4 +122,22 @@ public class GridController : MonoBehaviour
             return false;
         }
     }
+
+    public void UndoLastAction()
+    {
+        if (actionStack.Count == 0)
+        {
+            Debug.Log("Nothing to undo");
+            return;
+        }
+
+        UndoAction undo = actionStack.Pop();
+
+        // Restore model number
+        undo.cellController.Model.num = undo.num;
+
+        // Restore visual
+        undo.cellController.FillNumber(undo.num);
+    }
+
 }
