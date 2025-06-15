@@ -1,8 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
-using MixedReality.Toolkit.Core;
 
-public class CellController : MonoBehaviour, IPokeInteractor
+public class CellController : MonoBehaviour
 {
     // Unity changable variables
     public static CellController currentlySelected; // The cell is selected by player
