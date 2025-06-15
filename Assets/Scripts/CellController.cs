@@ -1,7 +1,8 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using MixedReality.Toolkit.Core;
 
-public class CellController : MonoBehaviour
+public class CellController : MonoBehaviour, IPokeInteractor
 {
     // Unity changable variables
     public static CellController currentlySelected; // The cell is selected by player
@@ -19,6 +20,13 @@ public class CellController : MonoBehaviour
 
     // Constructor
     public CellController(){}
+
+    // Get set method
+    public CellModel Model
+    {
+        get { return cellModel; }
+        set { cellModel = value; }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){}
@@ -60,9 +68,34 @@ public class CellController : MonoBehaviour
         }
     }
 
-    public CellModel Model
+    /// <summary>
+    /// Highlight the cell with another material
+    /// </summary>
+    public void HighlightCell()
     {
-        get { return cellModel; }
-        set { cellModel = value; }
+        Renderer rend = this.gameObject.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            Debug.Log($"Selecting cell {this.gameObject.name}");
+            rend.material = Resources.Load("Materials/Cell_Transparent_DarkerHighlight_Mat", typeof(Material)) as Material;
+        }
+    }
+
+    public void RemoveHighlightCell()
+    {
+        Renderer rend = this.gameObject.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            rend.material = Resources.Load("Materials/Cell_Transparent_Mat", typeof(Material)) as Material;
+        }
+    }
+
+    /// <summary>
+    /// Highlight the number with another material
+    /// red: invalid, blue: user filled number, black: puzzle
+    /// </summary>
+    public void HighlightNumber()
+    {
+
     }
 }
