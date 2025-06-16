@@ -67,14 +67,14 @@ public class GridModel
         return this.cells;
     }
 
-    public bool numberIsValid(int num, int row, int col)
+    public (bool, int) numberIsValid(int num, int row, int col)
     {
         // Check for dup in col
         for (int i = 0; i < 9; i++)
         {
             if (this.cells[row, i].num == num)
             {
-                return false;
+                return (false, row);
             }
         }
         // Check for dup in row
@@ -82,7 +82,7 @@ public class GridModel
         {
             if (this.cells[i, col].num == num)
             {
-                return false;
+                return (false, row);
             }
         }
         // Check for dup in subgrid
@@ -95,11 +95,11 @@ public class GridModel
                 {
                     if (this.cells[i, j].sgrid == num)
                     {
-                        return false;
+                        return (false, subgrid);
                     }
                 }
             }
         }
-        return true;
+        return (true, -1);
     }
 }

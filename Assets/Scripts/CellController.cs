@@ -41,8 +41,16 @@ public class CellController : MonoBehaviour
     /// </summary>
     public void SelectThisCell()
     {
+        // Remove highlight on previous cell
+        if (currentlySelected != null)
+        {
+            RemoveHighlightCell();
+        }
+        
         currentlySelected = this;
         Debug.Log("Selected cell:" + gameObject.name);
+
+        HighlightCell();
     }
 
     /// <summary>
@@ -72,17 +80,16 @@ public class CellController : MonoBehaviour
     /// </summary>
     public void HighlightCell()
     {
-        Renderer rend = this.gameObject.GetComponent<Renderer>();
+        Renderer rend = currentlySelected.GetComponent<Renderer>();
         if (rend != null)
         {
-            Debug.Log($"Selecting cell {this.gameObject.name}");
             rend.material = Resources.Load("Materials/Cell_Transparent_DarkerHighlight_Mat", typeof(Material)) as Material;
         }
     }
 
     public void RemoveHighlightCell()
     {
-        Renderer rend = this.gameObject.GetComponent<Renderer>();
+        Renderer rend = currentlySelected.GetComponent<Renderer>();
         if (rend != null)
         {
             rend.material = Resources.Load("Materials/Cell_Transparent_Mat", typeof(Material)) as Material;

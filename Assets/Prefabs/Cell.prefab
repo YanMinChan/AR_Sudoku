@@ -123,6 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080e2f4890f488040b3068093833057f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editorRow: 1
+  editorCol: 1
+  isDefaultCell: 0
+  numberPrefab: {fileID: 0}
 --- !u!114 &7904604749014828087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +281,19 @@ MonoBehaviour:
     active: 0
     onEntered:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 466196338720816218}
+          m_TargetAssemblyTypeName: CellController, Cattoku
+          m_MethodName: HighlightCell
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     onExited:
       m_PersistentCalls:
         m_Calls: []
