@@ -105,7 +105,7 @@ public class GridController : MonoBehaviour
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
 
-        (bool valid, int sg) = gridModel.numberIsValid(number, model.row, model.col);
+        bool valid = gridModel.numberIsValid(number, model.row, model.col);
 
         if (valid){
             // Store the previous information
@@ -120,7 +120,6 @@ public class GridController : MonoBehaviour
         else
         {
             // Change it to fill the number with red highlight
-            Debug.Log($"Number not valid AAAA: In subgrid {sg}");
             return false;
         }
     }

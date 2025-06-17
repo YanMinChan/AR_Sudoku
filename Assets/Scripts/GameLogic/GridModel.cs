@@ -59,22 +59,21 @@ public class GridModel
         {
             for (int c = 0; c < 9; c++)
             {
-                int subgrid = (r / 3) + (c / 3);
-                this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], subgrid, r, c);
+                this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
             }
         }
 
         return this.cells;
     }
 
-    public (bool, int) numberIsValid(int num, int row, int col)
+    public bool numberIsValid(int num, int row, int col)
     {
         // Check for dup in col
         for (int i = 0; i < 9; i++)
         {
             if (this.cells[row, i].num == num)
             {
-                return (false, row);
+                return false;
             }
         }
         // Check for dup in row
@@ -82,24 +81,21 @@ public class GridModel
         {
             if (this.cells[i, col].num == num)
             {
-                return (false, row);
+                return false;
             }
         }
         // Check for dup in subgrid
-        int subgrid = this.cells[row, col].sgrid; // extract the subgrid of user chosen cell
-        for (int i = 0; i < 9; i++)
+        int startRow = row - row % 3, startCol = col - col % 3; // extract the subgrid of user chosen cell
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 9; j++)
+            for (int j = 0; j < 3; j++)
             {
-                if (this.cells[i, j].sgrid == subgrid)
+                if (this.cells[i + startRow, j + startCol].num == num)
                 {
-                    if (this.cells[i, j].sgrid == num)
-                    {
-                        return (false, subgrid);
-                    }
+                    return false;
                 }
             }
         }
-        return (true, -1);
+        return true;
     }
 }
