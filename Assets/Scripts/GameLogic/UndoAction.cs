@@ -9,5 +9,5 @@ public struct UndoAction
 {
     public CellController cellController;
     public int num;
-    public GameObject numberPrefab;
+    public string numColor;
 }

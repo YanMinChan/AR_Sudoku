@@ -15,4 +15,5 @@ public class CellModel
         this.row = row;
         this.col = col;
     }
+
 }

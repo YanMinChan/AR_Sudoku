@@ -1531,9 +1531,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1765622893285320683, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2335485236933921044, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
       propertyPath: m_Name
-      value: NearMenuBase
+      value: Menu
       objectReference: {fileID: 0}
     - target: {fileID: 2335485236933921044, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
       propertyPath: m_IsActive
@@ -1566,6 +1570,10 @@ PrefabInstance:
     - target: {fileID: 4965980172199450961, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135889448453599297, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5318425351248371147, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1705,6 +1713,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6492567553477273884, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
       propertyPath: m_Name
+      value: Undo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627950213247508631, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}
+      propertyPath: m_text
       value: Undo
       objectReference: {fileID: 0}
     - target: {fileID: 7384403063639928581, guid: f443144a6d408c34bb8a7d70a73644c4, type: 3}

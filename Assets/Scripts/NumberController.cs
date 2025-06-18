@@ -11,25 +11,22 @@ public class NumberController : MonoBehaviour
         this.gridController = grid;
     }
 
+    // Handles event on number pressed and print debug log
     public void OnNumberPressed()
     {
-        Debug.Log("AAA");
         if (CellController.currentlySelected != null && !CellController.currentlySelected.isDefaultCell)
         {
-            if (this.gridController.FillNumber(CellController.currentlySelected, this.number))
-            {
-                Debug.Log("Placed number in selected cell.");
-            } 
-            
+            this.gridController.FillNumber(CellController.currentlySelected, this.number);
+            Debug.Log("NumberController.cs: Placed number in selected cell.");
         } 
         else if (CellController.currentlySelected.isDefaultCell)
         {
-            Debug.Log("The cell cannot be changed");
+            Debug.Log("NumberController.cs: The cell cannot be changed");
             
         }
         else 
         {
-            Debug.Log("No cell is selected");
+            Debug.Log("NumberController.cs: No cell is selected");
         }
     }
 

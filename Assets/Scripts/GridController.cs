@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 /// <summary>
 /// Fill the grid with the puzzle
@@ -33,7 +34,7 @@ public class GridController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BuildGrid();
+        //BuildGrid();
     }
 
     // Load data from csv
@@ -89,56 +90,55 @@ public class GridController : MonoBehaviour
             {
                 int numbers = cellModels[i, j].num;
                 if (numbers != 0)
-                {
-                    this.cellControllers[i, j].FillNumber(numbers);
+                {   
                     if (init) 
-                    { 
+                    {
+                        this.cellControllers[i, j].FillNumber(numbers, "black");
                         this.cellControllers[i, j].isDefaultCell = true; 
+                    } 
+                    else
+                    {
+                        this.cellControllers[i, j].FillNumber(numbers, "blue");
                     }
                 }
             }
         }
     }
 
-    public bool FillNumber(CellController controller, int number)
+    // Fill number in the selected cell
+    public void FillNumber(CellController controller, int number)
     {
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
 
-        bool valid = gridModel.numberIsValid(number, model.row, model.col);
+        // Check for duplicate number
+        int numDup = gridModel.numberOfDuplicate(number, model.row, model.col);
+        Func<int, string> checkColor = numDup => numDup == 0 ? "blue" : "red";
 
-        if (valid){
-            // Store the previous information
-            actionStack.Push(new UndoAction { cellController=controller, num=model.num, numberPrefab=controller.numberPrefab });
-            // Update the model
-            model.num = number;
-            // Update the cell controller
-            controller.FillNumber(number);
-
-            return true;
-        } 
-        else
-        {
-            // Change it to fill the number with red highlight
-            return false;
-        }
+        // Store the previous information
+        actionStack.Push(new UndoAction { cellController = controller, num = model.num, numColor = checkColor(numDup)});
+        
+        // Update the model and controller
+        model.num = number;
+        controller.FillNumber(number, checkColor(numDup));
     }
 
     public void UndoLastAction()
     {
         if (actionStack.Count == 0)
         {
-            Debug.Log("Nothing to undo");
+            Debug.Log("GridController.cs: Nothing to undo");
             return;
         }
 
+        Debug.Log("GridController.cs: I am undoing");
         UndoAction undo = actionStack.Pop();
 
         // Restore model number
         undo.cellController.Model.num = undo.num;
 
         // Restore visual
-        undo.cellController.FillNumber(undo.num);
+        undo.cellController.FillNumber(undo.num, undo.numColor);
     }
 
 }

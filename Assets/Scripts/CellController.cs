@@ -31,10 +31,7 @@ public class CellController : MonoBehaviour
     void Start(){}
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+    void Update(){}
 
     /// <summary>
     /// Select the current cell
@@ -50,13 +47,13 @@ public class CellController : MonoBehaviour
         currentlySelected = this;
         Debug.Log("Selected cell:" + gameObject.name);
 
-        HighlightCell();
+        HighlightCell("dark");
     }
 
     /// <summary>
     /// Generate a number object to fill cell
     /// </summary>
-    public void FillNumber(int number) {
+    public void FillNumber(int number, string color) {
 
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
@@ -72,18 +69,31 @@ public class CellController : MonoBehaviour
             this.numberPrefab.transform.localPosition = Vector3.zero;
             this.numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
             this.numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            var rend = this.numberPrefab.GetComponent<Renderer>();
+            if (color == "black")
+                rend.material = Resources.Load("Materials/Number_Black_Mat", typeof(Material)) as Material;
+            else if (color == "red")
+            {
+                Debug.Log("CellController.cs: I am red!");
+                rend.material = Resources.Load("Materials/Number_Red_Mat", typeof(Material)) as Material;
+            }
+            else if (color == "blue")
+                rend.material = Resources.Load("Materials/Number_Blue_Mat", typeof(Material)) as Material;
         }
     }
 
     /// <summary>
     /// Highlight the cell with another material
     /// </summary>
-    public void HighlightCell()
+    public void HighlightCell(string color)
     {
         Renderer rend = currentlySelected.GetComponent<Renderer>();
         if (rend != null)
         {
-            rend.material = Resources.Load("Materials/Cell_Transparent_DarkerHighlight_Mat", typeof(Material)) as Material;
+            if (color == "dark")
+                rend.material = Resources.Load("Materials/Cell_Transparent_DarkerHighlight_Mat", typeof(Material)) as Material;
+            else if (color == "red")
+                rend.material = Resources.Load("Materials/Cell_Transparent_RedHighlight_Mat", typeof(Material)) as Material;
         }
     }
 
@@ -100,8 +110,17 @@ public class CellController : MonoBehaviour
     /// Highlight the number with another material
     /// red: invalid, blue: user filled number, black: puzzle
     /// </summary>
-    public void HighlightNumber()
+    public void HighlightNumber(string color)
     {
+        Renderer rend = this.numberPrefab.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            if (color == "red")
+            {
+                Debug.Log("CellController.cs: I am red!");
+                rend.material = Resources.Load("Materials/Number_Red_Mat", typeof(Material)) as Material;
+            }
+        }
 
     }
 }
