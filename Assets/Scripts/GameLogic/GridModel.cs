@@ -73,7 +73,7 @@ public class GridModel
         // Update cell model for each duplicate
         for (int i = 0; i < 9; i++)
         {
-            if (this.cells[row, i].num == num)
+            if (this.cells[row, i].num == num && i != col)
             {
                 numDup++;
             }
@@ -81,7 +81,7 @@ public class GridModel
         // Check for dup in row
         for (int i = 0; i < 9; i++)
         {
-            if (this.cells[i, col].num == num)
+            if (this.cells[i, col].num == num && i != row)
             {
                 numDup++;
             }
@@ -92,12 +92,27 @@ public class GridModel
         {
             for (int j = 0; j < 3; j++)
             {
-                if (this.cells[i + startRow, j + startCol].num == num)
+                if (this.cells[i + startRow, j + startCol].num == num && (i + startRow != row) && (j + startCol != col))
                 {
                     numDup++;
                 }
             }
         }
         return numDup;
+    }
+
+    public bool gameFinished()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                if (this.cells[i, j].num != this.cells[i, j].sol)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

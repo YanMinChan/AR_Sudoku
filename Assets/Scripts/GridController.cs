@@ -35,6 +35,12 @@ public class GridController : MonoBehaviour
     void Update()
     {
         //BuildGrid();
+        // Check if the game is finished
+        if (this.gridModel.gameFinished())
+        {
+            // TODO: Change to on scene feedback
+            Debug.Log("YOU WINNNNN");
+        }
     }
 
     // Load data from csv
@@ -106,21 +112,28 @@ public class GridController : MonoBehaviour
     }
 
     // Fill number in the selected cell
-    public void FillNumber(CellController controller, int number)
+    public void FillNumber(CellController controller, int currNumber)
     {
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
 
-        // Check for duplicate number
-        int numDup = gridModel.numberOfDuplicate(number, model.row, model.col);
+        // Load previous data
         Func<int, string> checkColor = numDup => numDup == 0 ? "blue" : "red";
+        int previousNum = model.num;
+        int previousNumDup = gridModel.numberOfDuplicate(previousNum, model.row, model.col);
+        string previousColor = checkColor(previousNumDup);
 
         // Store the previous information
-        actionStack.Push(new UndoAction { cellController = controller, num = model.num, numColor = checkColor(numDup)});
-        
+        Debug.Log($"[PUSH] At push time - num: {previousNum}, color: {previousColor}");
+        this.actionStack.Push(new UndoAction { cellController = controller, num = previousNum, numColor = previousColor});
+
+        // Check for duplicate number
+        int numDup = gridModel.numberOfDuplicate(currNumber, model.row, model.col);
+        string currColor = checkColor(numDup);
+
         // Update the model and controller
-        model.num = number;
-        controller.FillNumber(number, checkColor(numDup));
+        model.num = currNumber;
+        controller.FillNumber(currNumber, currColor);
     }
 
     public void UndoLastAction()
@@ -130,15 +143,16 @@ public class GridController : MonoBehaviour
             Debug.Log("GridController.cs: Nothing to undo");
             return;
         }
-
-        Debug.Log("GridController.cs: I am undoing");
-        UndoAction undo = actionStack.Pop();
+        UndoAction undo = this.actionStack.Pop();
+        Debug.Log($"[POP] From stack - num: {undo.num}, color: {undo.numColor}");
+        int previousNum = undo.num;
+        string previousColor = undo.numColor;
 
         // Restore model number
-        undo.cellController.Model.num = undo.num;
+        undo.cellController.Model.num = previousNum;
 
         // Restore visual
-        undo.cellController.FillNumber(undo.num, undo.numColor);
+        undo.cellController.FillNumber(previousNum, previousColor);
     }
 
 }
