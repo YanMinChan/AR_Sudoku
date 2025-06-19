@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -19,6 +20,7 @@ public class GridModel
     public CellModel[,] Cells
     {
         get { return this.cells; }
+        set { this.cells = value; }
     }
 
     /// <summary>
@@ -27,7 +29,7 @@ public class GridModel
     /// <param name="filePath"></param>
     /// <param name="puzId"></param>
     /// <returns> the puzzle and solution in a tuple </returns>
-    private (int[], int[]) puzzleSelector(string filePath, int puzId)
+    public (int[], int[]) puzzleSelector(string filePath, int puzId = -1)
     {
         // Load puzzle from file path and store them
         PuzzleReader reader = new PuzzleReader();
@@ -49,15 +51,25 @@ public class GridModel
     }
 
     // Construct the grid model
-    public CellModel[,] GenerateGrid(string filePath, int puzId=-1)
+    public CellModel[,] GenerateGrid(int[] puz = null, int[] sol = null)
     {
-        // Choose a puzzle
-        (int[] puz, int[] sol) = puzzleSelector(filePath, puzId);
+        //// Choose a puzzle
+        //(int[] puz, int[] sol) = puzzleSelector(filePath, puzId);
+
+        // For convenience of generating empty grid
+        if (puz == null)
+        {
+            puz = new int[81];
+        }
+        if (sol == null)
+        {
+            sol = new int[81];
+        }
 
         // Construct the cell models by row and column
-        for (int r = 0; r < 9; r++)
+        for (int r = 0; r < this.cells.GetLength(0); r++)
         {
-            for (int c = 0; c < 9; c++)
+            for (int c = 0; c < this.cells.GetLength(1); c++)
             {
                 this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
             }
@@ -69,30 +81,36 @@ public class GridModel
     public int numberOfDuplicate(int num, int row, int col)
     {
         int numDup = 0;
+
+        if (num == 0)
+        {
+            return numDup;
+        }
         // Check for dup in col
         // Update cell model for each duplicate
-        for (int i = 0; i < 9; i++)
+        for (int c = 0; c < this.cells.GetLength(1); c++)
         {
-            if (this.cells[row, i].num == num && i != col)
+            if (this.cells[row, c].num == num && c != col)
             {
                 numDup++;
             }
         }
         // Check for dup in row
-        for (int i = 0; i < 9; i++)
+        for (int r = 0; r < this.cells.GetLength(0); r++)
         {
-            if (this.cells[i, col].num == num && i != row)
+            if (this.cells[r, col].num == num && r != row)
             {
                 numDup++;
             }
         }
         // Check for dup in subgrid
-        int startRow = row - row % 3, startCol = col - col % 3; // extract the subgrid of user chosen cell
-        for (int i = 0; i < 3; i++)
+        int sgridSize = 3; //subgrid is 3x3
+        int startRow = row - row % sgridSize, startCol = col - col % sgridSize; // extract the subgrid of user chosen cell
+        for (int r = 0; r < sgridSize; r++)
         {
-            for (int j = 0; j < 3; j++)
+            for (int c = 0; c < sgridSize; c++)
             {
-                if (this.cells[i + startRow, j + startCol].num == num && (i + startRow != row) && (j + startCol != col))
+                if (this.cells[r + startRow, c + startCol].num == num && (r + startRow != row) && (c + startCol != col))
                 {
                     numDup++;
                 }
@@ -103,11 +121,11 @@ public class GridModel
 
     public bool gameFinished()
     {
-        for (int i = 0; i < 9; i++)
+        for (int r = 0; r < this.cells.GetLength(0); r++)
         {
-            for (int j = 0; j < 9; j++)
+            for (int c = 0; c < this.cells.GetLength(1); c++)
             {
-                if (this.cells[i, j].num != this.cells[i, j].sol)
+                if (this.cells[r, c].num != this.cells[r, c].sol)
                 {
                     return false;
                 }
