@@ -54,7 +54,7 @@ public class CellController : MonoBehaviour
     /// Generate a number object to fill cell
     /// </summary>
     public void FillNumber(int number, string color) {
-
+        
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
         {
@@ -64,7 +64,11 @@ public class CellController : MonoBehaviour
         // Instantiate the number
         GameObject prefab = NumberDatabase.Instance.GetNumber(number);
         if (prefab != null)
-        {
+        { 
+            // Play sound effect
+            SoundEffectDatabase.Instance.PlayAudio(1);
+
+            // Number prefab transform setup
             this.numberPrefab = Instantiate(prefab, transform);
             this.numberPrefab.transform.localPosition = Vector3.zero;
             this.numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
