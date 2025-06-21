@@ -28,11 +28,10 @@ public class PuzzleReader
             try
             {
                 string[] gameSet; //puzzle and solution
-                int i = 0; //limit num of puzzle read
 
                 string header = sr.ReadLine(); // skip the header
                 string data = sr.ReadLine();
-                while ((data != null) && i < numPuz)
+                while ((data != null) && numPuz != 0)
                 {
                     // obtain the puzzle and solution
                     gameSet = data.Split(',');
@@ -49,7 +48,7 @@ public class PuzzleReader
                     this.solution.Add(solSet);
 
                     data = sr.ReadLine();
-                    i++;
+                    numPuz--;
                 }
             }
             catch (FileNotFoundException fnf)
