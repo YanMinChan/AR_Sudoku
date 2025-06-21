@@ -49,7 +49,8 @@ public class GridController : MonoBehaviour
         // Load grid data from model
         this.gridModel = new GridModel();
         string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        this.cellModels = this.gridModel.GenerateGrid(filePath);
+        (int[] puz, int[] sol) = this.gridModel.puzzleSelector(filePath);
+        this.cellModels = this.gridModel.GenerateGrid(puz, sol);
 
         if (cellModels != null)
             Debug.Log("Cell loaded: " + cellModels.Length);
