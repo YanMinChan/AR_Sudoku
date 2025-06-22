@@ -100,8 +100,7 @@ public class GridController : MonoBehaviour
                 {   
                     if (init) 
                     {
-                        this.cellControllers[i, j].FillNumber(numbers, "black");
-                        this.cellControllers[i, j].isDefaultCell = true; 
+                        this.cellControllers[i, j].FillNumber(numbers, "black", init);
                     } 
                     else
                     {
@@ -139,6 +138,7 @@ public class GridController : MonoBehaviour
 
     public void UndoLastAction()
     {
+        SoundEffectDatabase.Instance.PlayAudio(1);
         if (actionStack.Count == 0)
         {
             Debug.Log("GridController.cs: Nothing to undo");

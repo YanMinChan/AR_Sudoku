@@ -50,6 +50,7 @@ public class PuzzleReader
                     data = sr.ReadLine();
                     numPuz--;
                 }
+                GameLog.Instance.WriteToLog("Read puzzle");
             }
             catch (FileNotFoundException fnf)
             {
