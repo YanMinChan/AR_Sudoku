@@ -11,10 +11,13 @@ public class GridModel
 {
     // Instantiate the cells
     private CellModel[,] _cells;
-    
+    private int[] _puz; private int[] _sol;
+
     public GridModel()
     {
         this._cells = new CellModel[9, 9];
+        this._puz = new int[81];
+        this._sol = new int[81];
     }
 
     public CellModel[,] Cells
@@ -23,13 +26,16 @@ public class GridModel
         set { this._cells = value; }
     }
 
+    public int[] Puz { get { return this._puz; } }
+    public int[] Sol { get { return this._sol; } }
+
     /// <summary>
     /// Choose a random puzzle from the given file
     /// </summary>
-    /// <param name="filePath"></param>
+    /// <param name="filePath"> file path </param>
     /// <param name="puzId"></param>
-    /// <returns> the puzzle and solution in a tuple </returns>
-    public (int[], int[]) puzzleSelector(string filePath, int puzId = -1)
+    /// <returns> the GridModel class </returns>
+    public GridModel SelectPuzzle(string filePath, int puzId = -1)
     {
         // Load puzzle from file path and store them
         PuzzleReader reader = new PuzzleReader();
@@ -40,95 +46,101 @@ public class GridModel
         // Choose a puzzle (random or a given ID)
         if (puzId != -1)
         {
-            return (puzList[puzId], solList[puzId]);
+            this._puz = puzList[puzId];
+            this._sol = solList[puzId];
         } 
         else
         {
             Random rand = new Random();
             int r = rand.Next(puzList.Count);
-            return (puzList[r], solList[r]);
+            this._puz = puzList[r];
+            this._sol = solList[r];
         }
+        return this; // Allow chaining
     }
 
-    // Construct the grid model
-    public CellModel[,] GenerateGrid(int[] puz = null, int[] sol = null)
+    /// <summary>
+    /// Contruct the cell model
+    /// </summary>
+    /// <param name="puz"></param>
+    /// <param name="sol"></param>
+    /// <returns>The GridModel class</returns>
+    public GridModel GenerateGrid(int[] puz = null, int[] sol = null)
     {
-        //// Choose a puzzle
-        //(int[] puz, int[] sol) = puzzleSelector(filePath, puzId);
+        // For convenience of chaining
+        if (puz == null) puz = this._puz;
+        if (sol == null) sol = this._sol;
 
-        // For convenience of generating empty grid
-        if (puz == null)
-        {
-            puz = new int[81];
-        }
-        if (sol == null)
-        {
-            sol = new int[81];
-        }
+        int size = this._cells.GetLength(0); // assume square grid
 
         // Construct the cell models by row and column
-        for (int r = 0; r < this._cells.GetLength(0); r++)
+        for (int r = 0; r < size; r++)
         {
-            for (int c = 0; c < this._cells.GetLength(1); c++)
+            for (int c = 0; c < size; c++)
             {
                 this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
             }
         }
-
-        return this._cells;
+        return this; // Allow chaining
     }
 
-    public int numberOfDuplicate(int num, int row, int col)
+    /// <summary>
+    /// Duplicate check for number placed in the cell
+    /// </summary>
+    /// <param name="num"> number placed </param>
+    /// <param name="row"></param>
+    /// <param name="col"></param>
+    /// <returns></returns>
+    public bool DuplicateExists(int num, int row, int col)
     {
-        int numDup = 0;
+        if (num == 0) return false; // Doesn't count duplicate for empty cell
 
-        if (num == 0)
-        {
-            return numDup;
-        }
+        int size = this._cells.GetLength(0); // assume square grid
+        int sgridSize = 3;
+
         // Check for dup in col
-        // Update cell model for each duplicate
-        for (int c = 0; c < this._cells.GetLength(1); c++)
+        for (int c = 0; c < size; c++)
         {
-            if (this._cells[row, c].num == num && c != col)
-            {
-                numDup++;
-            }
+            if (c == col) continue;
+            if (this._cells[row, c].num == num) return true;
         }
+
         // Check for dup in row
-        for (int r = 0; r < this._cells.GetLength(0); r++)
+        for (int r = 0; r < size; r++)
         {
-            if (this._cells[r, col].num == num && r != row)
-            {
-                numDup++;
-            }
+            if (r == row) continue;
+            if (this._cells[r, col].num == num) return true;
         }
+
         // Check for dup in subgrid
-        int sgridSize = 3; //subgrid is 3x3
-        int startRow = row - row % sgridSize, startCol = col - col % sgridSize; // extract the subgrid of user chosen cell
+        int startRow = row - row % sgridSize;
+        int startCol = col - col % sgridSize;
+
         for (int r = 0; r < sgridSize; r++)
         {
             for (int c = 0; c < sgridSize; c++)
             {
-                if (this._cells[r + startRow, c + startCol].num == num && (r + startRow != row) && (c + startCol != col))
-                {
-                    numDup++;
-                }
+                int checkRow = r + startRow;
+                int checkCol = c + startCol;
+                if (checkRow == row && checkCol == col) continue;
+                if (this._cells[checkRow, checkCol].num == num) return true;
             }
         }
-        return numDup;
+        return false;
     }
 
-    public bool gameFinished()
+    /// <summary>
+    /// Verify if the game is finished
+    /// </summary>
+    /// <returns></returns>
+    public bool GameFinished()
     {
-        for (int r = 0; r < this._cells.GetLength(0); r++)
+        int size = this._cells.GetLength(0); // assume square grid
+        for (int r = 0; r < size; r++)
         {
-            for (int c = 0; c < this._cells.GetLength(1); c++)
+            for (int c = 0; c < size; c++)
             {
-                if (this._cells[r, c].num != this._cells[r, c].sol)
-                {
-                    return false;
-                }
+                if (this._cells[r, c].num != this._cells[r, c].sol) return false;
             }
         }
         return true;

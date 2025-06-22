@@ -4,6 +4,7 @@ public class NumberDatabase : MonoBehaviour
 {
     public static NumberDatabase Instance { get; private set; }
 
+    // Simple class to store number and their respective GameObject prefab
     [System.Serializable]
     public class NumberEntry
     {
@@ -11,9 +12,11 @@ public class NumberDatabase : MonoBehaviour
         public GameObject prefab;
     }
 
+    // Unity changable variable
     public List<NumberEntry> entries;
 
-    private Dictionary<int, GameObject> numberDict;
+    // Instance variable
+    private Dictionary<int, GameObject> _numberDict;
 
     private void Awake()
     {
@@ -28,18 +31,18 @@ public class NumberDatabase : MonoBehaviour
         }
     }
 
-    void BuildDictionary()
+    private void BuildDictionary()
     {
-        numberDict = new Dictionary<int, GameObject>();
+        this._numberDict = new Dictionary<int, GameObject>();
         foreach (var entry in entries)
         {
-            numberDict[entry.num] = entry.prefab;
+            this._numberDict[entry.num] = entry.prefab;
         }
     }
 
     public GameObject GetNumber(int num)
     {
-        if (numberDict.TryGetValue(num, out GameObject prefab))
+        if (this._numberDict.TryGetValue(num, out GameObject prefab))
         {
             return prefab;
         }
