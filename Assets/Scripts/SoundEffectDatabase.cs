@@ -9,6 +9,7 @@ public class SoundEffectDatabase : MonoBehaviour
     public class SoundEffect
     {
         public int id;
+        public string name = "Sound"; // storing name for easier understanding later
         public AudioClip audio;
     }
 
