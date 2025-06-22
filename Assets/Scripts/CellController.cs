@@ -11,11 +11,9 @@ public class CellController : MonoBehaviour
     public int editorCol;
 
     // Instance variables
-    private CellModel cellModel;
-    [HideInInspector]
-    public bool isDefaultCell = false;
-    [HideInInspector]
-    public GameObject numberPrefab;
+    private CellModel _cellModel;
+    private bool _isUnchangable = false;
+    private GameObject _numberPrefab;
 
     // Constructor
     public CellController(){}
@@ -23,8 +21,19 @@ public class CellController : MonoBehaviour
     // Get set method
     public CellModel Model
     {
-        get { return cellModel; }
-        set { cellModel = value; }
+        get { return _cellModel; }
+        set { _cellModel = value; }
+    }
+
+    public bool IsUnchangable
+    {
+        get { return _isUnchangable; }
+        set { _isUnchangable = value; }
+    }
+
+    public GameObject NumberPrefab
+    {
+        get { return _numberPrefab; }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,15 +56,19 @@ public class CellController : MonoBehaviour
         }
         
         currentlySelected = this;
-        SoundEffectDatabase.Instance.PlayAudio(3);
-        Debug.Log("Selected cell:" + gameObject.name);
 
+        // Audio and visual feedback
+        SoundEffectDatabase.Instance.PlayAudio(3);
         HighlightCell("dark");
     }
 
     /// <summary>
-    /// Generate a number object to fill cell event
+    /// Instantiate a number GameObject to fill cell
     /// </summary>
+    /// <param name="number"></param>
+    /// <param name="color"></param>
+    /// <param name="init">If the number is part of puzzle</param>
+
     public void FillNumber(int number, string color, bool init=false) {
         
         // If there is a number in the cell, destroy it
@@ -68,23 +81,16 @@ public class CellController : MonoBehaviour
         GameObject prefab = NumberDatabase.Instance.GetNumber(number);
         if (prefab != null)
         { 
-            // Play sound effect
-            if (!init)
-            {
-                SoundEffectDatabase.Instance.PlayAudio(2);
-            } 
-            else
-            {
-                this.isDefaultCell = true;
-            }
+            if (!init) SoundEffectDatabase.Instance.PlayAudio(2); // Only play sfx when it is user filling in the number
+            else this._isUnchangable = true; // Set cell to unchangeable if it is part of puzzle
             
-            // Number prefab transform setup
-            this.numberPrefab = Instantiate(prefab, transform);
-            this.numberPrefab.transform.localPosition = Vector3.zero;
-            this.numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            this.numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-            var rend = this.numberPrefab.GetComponent<Renderer>();
-            HighlightNumber(color);
+            // Number prefab transform and material setup
+            this._numberPrefab = Instantiate(prefab, transform);
+            this._numberPrefab.transform.localPosition = Vector3.zero;
+            this._numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            this._numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+            InstantiateNumberMaterial(color);
         }
     }
 
@@ -98,7 +104,7 @@ public class CellController : MonoBehaviour
         {
             if (color == "dark")
                 rend.material = Resources.Load("Materials/Cell_Transparent_DarkerHighlight_Mat", typeof(Material)) as Material;
-            else if (color == "red")
+            else if (color == "red") // For now we don't use the red highlight yet
                 rend.material = Resources.Load("Materials/Cell_Transparent_RedHighlight_Mat", typeof(Material)) as Material;
         }
     }
@@ -115,12 +121,12 @@ public class CellController : MonoBehaviour
     // Helper functions
 
     /// <summary>
-    /// Highlight the number with another material
+    /// Highlight the number with different color material
     /// red: invalid, blue: user filled number, black: puzzle
     /// </summary>
-    private void HighlightNumber(string color)
+    private void InstantiateNumberMaterial(string color)
     {
-        Renderer rend = this.numberPrefab.GetComponent<Renderer>();
+        Renderer rend = this._numberPrefab.GetComponent<Renderer>();
         if (rend != null)
         {
             switch (color) { 

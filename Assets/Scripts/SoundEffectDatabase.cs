@@ -5,6 +5,7 @@ public class SoundEffectDatabase : MonoBehaviour
     public AudioSource sfxSource;
     public static SoundEffectDatabase Instance { get; private set; }
 
+    // Simple class to store sound effect information
     [System.Serializable]
     public class SoundEffect
     {
@@ -13,9 +14,11 @@ public class SoundEffectDatabase : MonoBehaviour
         public AudioClip audio;
     }
 
+    // Unity changable instance
     public List<SoundEffect> entries;
 
-    private Dictionary<int, AudioClip> sfxDict;
+    // Instance variable
+    private Dictionary<int, AudioClip> _sfxDict;
 
     private void Awake()
     {
@@ -32,16 +35,16 @@ public class SoundEffectDatabase : MonoBehaviour
 
     void BuildDictionary()
     {
-        sfxDict = new Dictionary<int, AudioClip>();
+        this._sfxDict = new Dictionary<int, AudioClip>();
         foreach (var entry in entries)
         {
-            sfxDict[entry.id] = entry.audio;
+            this._sfxDict[entry.id] = entry.audio;
         }
     }
 
     public AudioClip GetAudio(int id)
     {
-        if (sfxDict.TryGetValue(id, out AudioClip audio))
+        if (this._sfxDict.TryGetValue(id, out AudioClip audio))
         {
             return audio;
         }

@@ -9,14 +9,25 @@ using UnityEngine;
 public class PuzzleReader
 {
     // Instance variable
-    List<int[]> puzzle;
-    List<int[]> solution;
+    private List<int[]> _puzzle;
+    private List<int[]> _solution;
 
     // Constructor
     public PuzzleReader()
     {
-        this.puzzle = new List<int[]>();
-        this.solution = new List<int[]>();
+        this._puzzle = new List<int[]>();
+        this._solution = new List<int[]>();
+    }
+    public List<int[]> Puzzle
+    {
+        get { return this._puzzle; }
+        set { this._puzzle = value; }
+    }
+
+    public List<int[]> Solution
+    {
+        get { return this._solution; }
+        set { this._solution = value; }
     }
 
     // Public methods
@@ -44,30 +55,18 @@ public class PuzzleReader
                         puzSet[j] = gameSet[0][j] - '0';
                         solSet[j] = gameSet[1][j] - '0';
                     }
-                    this.puzzle.Add(puzSet);
-                    this.solution.Add(solSet);
+                    this._puzzle.Add(puzSet);
+                    this._solution.Add(solSet);
 
                     data = sr.ReadLine();
                     numPuz--;
                 }
                 GameLog.Instance.WriteToLog("Read puzzle");
             }
-            catch (FileNotFoundException fnf)
+            catch
             {
                 Console.WriteLine("Error on file path, file not found!");
             }
         }
-    }
-
-    public List<int[]> Puzzle
-    {
-        get { return puzzle; }
-        set { puzzle = value; }
-    }
-
-    public List<int[]> Solution
-    {
-        get { return solution; }
-        set { solution = value; }
     }
 }
