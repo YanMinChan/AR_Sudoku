@@ -8,61 +8,66 @@ using System;
 /// </summary>
 public class GridController : MonoBehaviour
 {
-    GridModel gridModel; 
-    CellModel[,] cellModels;
-    CellController[,] cellControllers;
-    List<NumberController> numberControllers;
-    Stack<UndoAction> actionStack;
+    // Instance variables
+    private GridModel _gridModel; 
+    private CellModel[,] _cellModels;
+    private CellController[,] _cellControllers;
+    private List<NumberController> _numberControllers;
+    private Stack<UndoAction> _actionStack;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Load puzzle data from CSV
-        LoadData();
+        // Instantiate some variables
+        this._gridModel = new GridModel();
+        this._actionStack = new Stack<UndoAction>();
+
+        // Load puzzle data from CSV to cell models
+        InstantiateCellModels();
 
         // Manage other models and controllers
-        AssignToCellModel();
-        AssignNumberController();
-
-        // Instantiate the action stack
-        this.actionStack = new Stack<UndoAction>();
-
+        InstantiateCellControllers();
+        InstantiateNumberControllers();
+        
         // Generate the grid view
-        BuildGrid(init:true);
+        BuildGrid();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //BuildGrid();
         // Check if the game is finished
-        if (this.gridModel.gameFinished())
+        if (this._gridModel.gameFinished())
         {
             // TODO: Change to on scene feedback
             Debug.Log("YOU WINNNNN");
         }
     }
 
-    // Load data from csv
-    private void LoadData()
+    // Load data from csv to cell model
+    private void InstantiateCellModels()
     {
-        // Load grid data from model
-        this.gridModel = new GridModel();
+        // Instantiate cell model
         string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        (int[] puz, int[] sol) = this.gridModel.puzzleSelector(filePath);
-        this.cellModels = this.gridModel.GenerateGrid(puz, sol);
+        this._cellModels = this._gridModel.selectPuzzle(filePath)
+            .generateGrid()
+            .Cells;
 
-        if (cellModels != null)
-            Debug.Log("Cell loaded: " + cellModels.Length);
+        if (this._cellModels != null)
+        {
+            string msg = "Cell loaded: " + this._cellModels.Length;
+            Debug.Log(msg);
+            GameLog.Instance.WriteToLog(msg);
+        }
         else
             Debug.Log("Error, cells not loaded");
     }
 
     // Find all cell controllers object and assign them to their respective model
-    private void AssignToCellModel()
+    private void InstantiateCellControllers()
     {
-        this.cellControllers = new CellController[9, 9];
-        foreach (var controller in FindObjectsOfType<CellController>())
+        this._cellControllers = new CellController[9, 9];
+        foreach (var controller in FindObjectsByType<CellController>(FindObjectsSortMode.None))
         {
             int r = controller.editorRow;
             int c = controller.editorCol;
@@ -70,90 +75,100 @@ public class GridController : MonoBehaviour
             // Connect the cell model and controller
             try
             {
-                controller.Model = cellModels[r-1, c-1];
-                this.cellControllers[r-1, c-1] = controller;
+                controller.Model = this._cellModels[r-1, c-1];
+                this._cellControllers[r-1, c-1] = controller;
             }
             catch { Debug.LogWarning((r-1) + " " + (c-1)); }
         }
     }
 
     // Assign grid to number controller
-    private void AssignNumberController()
+    private void InstantiateNumberControllers()
     {
-        this.numberControllers = FindObjectsOfType<NumberController>().ToList();
-        foreach (var cont in this.numberControllers)
+        this._numberControllers = FindObjectsByType<NumberController>(FindObjectsSortMode.None).ToList();
+        foreach (var cont in this._numberControllers)
         {
             cont.Initialize(this);
         }
     }
 
-    // Build grid
-    private void BuildGrid(bool init=false)
+    // Build a new puzzle
+    private void BuildGrid()
     {
         // Update cell controller for change in grid
         for (int i = 0; i < 9; i++)
         {
             for (int j = 0; j < 9; j++)
             {
-                int numbers = cellModels[i, j].num;
-                if (numbers != 0)
-                {   
-                    if (init) 
-                    {
-                        this.cellControllers[i, j].FillNumber(numbers, "black", init);
-                    } 
-                    else
-                    {
-                        this.cellControllers[i, j].FillNumber(numbers, "blue");
-                    }
-                }
+                int numbers = this._cellModels[i, j].num;
+                if (numbers == 0) continue;
+                this._cellControllers[i, j].FillNumber(numbers, "black", init:true);
             }
         }
     }
 
     // Fill number in the selected cell
-    public void FillNumber(CellController controller, int currNumber)
+    public void FillNumber(CellController controller, int newNumber)
     {
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
 
-        // Load previous data
-        Func<int, string> checkColor = numDup => numDup == 0 ? "blue" : "red";
-        int previousNum = model.num;
-        int previousNumDup = gridModel.numberOfDuplicate(previousNum, model.row, model.col);
-        string previousColor = checkColor(previousNumDup);
+        // Save previous state
+        PushUndoState(controller, model);
 
-        // Store the previous information
-        Debug.Log($"[PUSH] At push time - num: {previousNum}, color: {previousColor}");
-        this.actionStack.Push(new UndoAction { cellController = controller, num = previousNum, numColor = previousColor});
+        // Apply new number
+        model.num = newNumber;
 
-        // Check for duplicate number
-        int numDup = gridModel.numberOfDuplicate(currNumber, model.row, model.col);
-        string currColor = checkColor(numDup);
+        // Determine number and update view
+        bool dup = this._gridModel.duplicateExists(newNumber, model.row, model.col);
+        string newColor = NumberColor(dup);
 
-        // Update the model and controller
-        model.num = currNumber;
-        controller.FillNumber(currNumber, currColor);
+        controller.FillNumber(newNumber, newColor);
     }
 
+    // Handle undo button event
     public void UndoLastAction()
     {
-        SoundEffectDatabase.Instance.PlayAudio(1);
-        if (actionStack.Count == 0)
+        SoundEffectDatabase.Instance.PlayAudio(1); // button click sfx
+
+        if (this._actionStack.Count == 0)
         {
             Debug.Log("GridController.cs: Nothing to undo");
             return;
         }
-        UndoAction undo = this.actionStack.Pop();
-        Debug.Log($"[POP] From stack - num: {undo.num}, color: {undo.numColor}");
-        int previousNum = undo.num;
-        string previousColor = undo.numColor;
 
-        // Restore model number
-        undo.cellController.Model.num = previousNum;
+        // Retrieve previous action from stack
+        UndoAction undo = this._actionStack.Pop();
+        // Debug.Log($"[POP] From stack - num: {undo.num}, color: {undo.numColor}");
 
-        // Restore visual
-        undo.cellController.FillNumber(previousNum, previousColor);
+        // Restore CellModel and CellController
+        undo.cellController.Model.num = undo.num;
+        undo.cellController.FillNumber(undo.num, undo.numColor);
     }
 
+    /// <summary>
+    /// Save previous controller and number state in stack
+    /// </summary>
+    /// <param name="controller"></param>
+    /// <param name="model"></param>
+    private void PushUndoState(CellController controller, CellModel model)
+    {
+        // Load & store previous information
+        bool duplicateExist = this._gridModel.duplicateExists(model.num, model.row, model.col);
+        string previousColor = NumberColor(duplicateExist);
+
+        // Debug.Log($"[PUSH] At push time - num: {previousNum}, color: {previousColor}");
+        this._actionStack.Push(new UndoAction { 
+            cellController = controller,
+            num = model.num, 
+            numColor = previousColor 
+        });
+    }
+
+    // Determine color of the number
+    private string NumberColor(bool duplicateExist)
+    {
+        if (duplicateExist) return "red";
+        else return "blue";
+    }
 }

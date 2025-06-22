@@ -12,11 +12,10 @@ public class GameLog
     // Also only 1 instance is accessible to prevent unexpected result (ie. multiple duplicate of logs recorded)
     // TODO: Write to more logs (Error log, Stream read log etc)
     private static GameLog _instance;
-    private StreamWriter sw;
+    private StreamWriter _sw;
+    private string _filePath = "./Assets/Resources/Log/Gamelog.txt";
     private GameLog()
     {
-        string filePath = "./Assets/Resources/Log/Gamelog.txt";
-        this.sw = new StreamWriter(filePath, true);
     }
 
     public static GameLog Instance
@@ -33,9 +32,9 @@ public class GameLog
     // Write the log to Gamelog.txt
     public void WriteToLog(string msg)
     {
-        using (this.sw)
+        using (this._sw = new StreamWriter(_filePath, true))
         {
-            this.sw.WriteLine(msg);
+            this._sw.WriteLine(msg);
         }
     }
 }

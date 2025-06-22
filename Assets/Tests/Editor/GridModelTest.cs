@@ -12,22 +12,26 @@ public class GridModelTest
     {
         // common Arrange
         _gridModel = new GridModel();
-        _gridModel.GenerateGrid();
+        _gridModel.generateGrid();
 
     }
     // A Test behaves as an ordinary method
     [Test]
-    public void GridModel_numDup_Test_1()
+    [TestCase(true, 1)]
+    [TestCase(true, 3)]
+    [TestCase(true, 4)]
+    [TestCase(false, 5)]
+    public void GridModel_numDup_Test_1(bool expected, int num)
     {
         // Set up content of some cells
         _gridModel.Cells[0, 0].num = 1;
         _gridModel.Cells[0, 3].num = 3;
         _gridModel.Cells[3, 1].num = 4;
 
-        Assert.AreEqual(1, _gridModel.numberOfDuplicate(1, 0, 1)); // row 0 duplicates of 1
-        Assert.AreEqual(1, _gridModel.numberOfDuplicate(3, 0, 1)); // row 0 duplicates of 3
-        Assert.AreEqual(1, _gridModel.numberOfDuplicate(4, 0, 1)); // col 1 duplicates of 4
-        Assert.AreEqual(0, _gridModel.numberOfDuplicate(5, 0, 1)); // no duplicate
+        Assert.AreEqual(expected, _gridModel.duplicateExists(num, 0, 1)); // row 0 duplicates of 1
+        //Assert.AreEqual(1, _gridModel.numberOfDuplicate(3, 0, 1)); // row 0 duplicates of 3
+        //Assert.AreEqual(1, _gridModel.numberOfDuplicate(4, 0, 1)); // col 1 duplicates of 4
+        //Assert.AreEqual(0, _gridModel.numberOfDuplicate(5, 0, 1)); // no duplicate
     }
 
     [Test]
@@ -44,9 +48,9 @@ public class GridModelTest
         _gridModel.Cells[1, 8].num = 3;
         _gridModel.Cells[8, 1].num = 3;
 
-        Assert.AreEqual(3, _gridModel.numberOfDuplicate(1, 1, 1)); // 3 duplicate of 1 at row, col and subgrid
-        Assert.AreEqual(2, _gridModel.numberOfDuplicate(2, 1, 1)); // 2 duplicate of 2 at row and col
-        Assert.AreEqual(2, _gridModel.numberOfDuplicate(3, 1, 1)); // 2 duplicate of 3 at last row and last col
+        Assert.AreEqual(true, _gridModel.duplicateExists(1, 1, 1)); // 3 duplicate of 1 at row, col and subgrid
+        Assert.AreEqual(true, _gridModel.duplicateExists(2, 1, 1)); // 2 duplicate of 2 at row and col
+        Assert.AreEqual(true, _gridModel.duplicateExists(3, 1, 1)); // 2 duplicate of 3 at last row and last col
     }
 
     [Test]
@@ -59,7 +63,7 @@ public class GridModelTest
         // Set up content of some cells
         _gridModel.Cells[row, col].num = num;
 
-        Assert.AreEqual(0, _gridModel.numberOfDuplicate(num, row, col)); // does not check duplicate on self
+        Assert.AreEqual(false, _gridModel.duplicateExists(num, row, col)); // does not check duplicate on self
     }
 
     [Test]
@@ -81,7 +85,7 @@ public class GridModelTest
         _gridModel.Cells[1, 8].num = 3;
         _gridModel.Cells[8, 1].num = 3;
 
-        Assert.AreEqual(0, _gridModel.numberOfDuplicate(0, row, col)); // does not check duplicate on number 0 (empty cell)
+        Assert.AreEqual(false, _gridModel.duplicateExists(0, row, col)); // does not check duplicate on number 0 (empty cell)
     }
 
     // Assumption: there will be no duplicates in solution
@@ -122,8 +126,8 @@ public class GridModelTest
     {
         GridModel gridModelTest1 = new GridModel();
         GridModel gridModelTest2 = new GridModel();
-        gridModelTest1.GenerateGrid(new int[81], new int[81]);
-        gridModelTest2.GenerateGrid();
+        gridModelTest1.generateGrid(new int[81], new int[81]);
+        gridModelTest2.generateGrid();
 
         // Check all the cells are empty
         for (int r = 0; r < gridModelTest1.Cells.GetLength(0); r++)
@@ -161,7 +165,7 @@ public class GridModelTest
         }
 
         // Generate the grid
-        gridModelTest3.GenerateGrid(num, sol);
+        gridModelTest3.generateGrid(num, sol);
 
         // Check all the cells match the input array
         for (int r = 0; r < gridModelTest3.Cells.GetLength(0); r++)
@@ -196,7 +200,7 @@ public class GridModelTest
         }
 
         // Generate the grid
-        gridModelTest3.GenerateGrid(num, sol);
+        gridModelTest3.generateGrid(num, sol);
 
         // Check all the cells match the input array
         for (int c = 0; c < gridModelTest3.Cells.GetLength(0); c++)
@@ -237,7 +241,7 @@ public class GridModelTest
         }
 
         // Generate the grid
-        gridModelTest4.GenerateGrid(num, sol);
+        gridModelTest4.generateGrid(num, sol);
 
         // Check all the cells match the input array
         int checkVal = 1;
@@ -263,7 +267,9 @@ public class GridModelTest
     public void GridModel_puzzleSelector_Test_1()
     {
         string filePath = "./Assets/Resources/sudoku.csv";
-        (int[] puz, int[] sol) = _gridModel.puzzleSelector(filePath, 0);
+        _gridModel.selectPuzzle(filePath, 0);
+        int[] puz = _gridModel.Puz;
+        int[] sol = _gridModel.Sol;
         int[] expectedPuz = {0,0,4,3,0,0,2,0,9,0,0,5,0,0,9,0,0,1,0,7,0,0,6,0,0,4,3,0,0,6,0,0,2,0,8,7,1,9,0,0,0,7,4,0,0,0,5,0,0,8,3,0,0,0,6,0,0,0,0,0,1,0,5,0,0,3,5,0,8,6,9,0,0,4,2,9,1,0,3,0,0};
         int[] expectedSol = {8,6,4,3,7,1,2,5,9,3,2,5,8,4,9,7,6,1,9,7,1,2,6,5,8,4,3,4,3,6,1,9,2,5,8,7,1,9,8,6,5,7,4,3,2,2,5,7,4,8,3,9,1,6,6,8,9,7,3,4,1,2,5,7,1,3,5,2,8,6,9,4,5,4,2,9,1,6,3,7,8};
 
@@ -276,10 +282,10 @@ public class GridModelTest
     public void GridModel_puzzleSelector_Test_2()
     {
         string filePath = "./Assets/Resources/sudoku.csv";
-        (int[] puz, int[] sol) = _gridModel.puzzleSelector(filePath);
+        _gridModel.selectPuzzle(filePath);
 
-        Assert.IsNotNull(puz);
-        Assert.IsNotNull(sol);
+        Assert.IsNotNull(_gridModel.Puz);
+        Assert.IsNotNull(_gridModel.Sol);
     }
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
