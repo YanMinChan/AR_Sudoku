@@ -35,7 +35,7 @@ public class GridModel
     /// <param name="filePath"> file path </param>
     /// <param name="puzId"></param>
     /// <returns> the GridModel class </returns>
-    public GridModel selectPuzzle(string filePath, int puzId = -1)
+    public GridModel SelectPuzzle(string filePath, int puzId = -1)
     {
         // Load puzzle from file path and store them
         PuzzleReader reader = new PuzzleReader();
@@ -65,7 +65,7 @@ public class GridModel
     /// <param name="puz"></param>
     /// <param name="sol"></param>
     /// <returns>The GridModel class</returns>
-    public GridModel generateGrid(int[] puz = null, int[] sol = null)
+    public GridModel GenerateGrid(int[] puz = null, int[] sol = null)
     {
         // For convenience of chaining
         if (puz == null) puz = this._puz;
@@ -91,7 +91,7 @@ public class GridModel
     /// <param name="row"></param>
     /// <param name="col"></param>
     /// <returns></returns>
-    public bool duplicateExists(int num, int row, int col)
+    public bool DuplicateExists(int num, int row, int col)
     {
         if (num == 0) return false; // Doesn't count duplicate for empty cell
 
@@ -133,7 +133,7 @@ public class GridModel
     /// Verify if the game is finished
     /// </summary>
     /// <returns></returns>
-    public bool gameFinished()
+    public bool GameFinished()
     {
         int size = this._cells.GetLength(0); // assume square grid
         for (int r = 0; r < size; r++)

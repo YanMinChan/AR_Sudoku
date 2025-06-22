@@ -37,7 +37,7 @@ public class GridController : MonoBehaviour
     void Update()
     {
         // Check if the game is finished
-        if (this._gridModel.gameFinished())
+        if (this._gridModel.GameFinished())
         {
             // TODO: Change to on scene feedback
             Debug.Log("YOU WINNNNN");
@@ -49,8 +49,8 @@ public class GridController : MonoBehaviour
     {
         // Instantiate cell model
         string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
-        this._cellModels = this._gridModel.selectPuzzle(filePath)
-            .generateGrid()
+        this._cellModels = this._gridModel.SelectPuzzle(filePath)
+            .GenerateGrid()
             .Cells;
 
         if (this._cellModels != null)
@@ -120,7 +120,7 @@ public class GridController : MonoBehaviour
         model.num = newNumber;
 
         // Determine number and update view
-        bool dup = this._gridModel.duplicateExists(newNumber, model.row, model.col);
+        bool dup = this._gridModel.DuplicateExists(newNumber, model.row, model.col);
         string newColor = NumberColor(dup);
 
         controller.FillNumber(newNumber, newColor);
@@ -154,7 +154,7 @@ public class GridController : MonoBehaviour
     private void PushUndoState(CellController controller, CellModel model)
     {
         // Load & store previous information
-        bool duplicateExist = this._gridModel.duplicateExists(model.num, model.row, model.col);
+        bool duplicateExist = this._gridModel.DuplicateExists(model.num, model.row, model.col);
         string previousColor = NumberColor(duplicateExist);
 
         // Debug.Log($"[PUSH] At push time - num: {previousNum}, color: {previousColor}");
