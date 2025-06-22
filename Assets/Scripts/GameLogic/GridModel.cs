@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 public class GridModel
 {
     // Instantiate the cells
-    CellModel[,] cells;
+    private CellModel[,] _cells;
     
     public GridModel()
     {
-        this.cells = new CellModel[9, 9];
+        this._cells = new CellModel[9, 9];
     }
 
     public CellModel[,] Cells
     {
-        get { return this.cells; }
-        set { this.cells = value; }
+        get { return this._cells; }
+        set { this._cells = value; }
     }
 
     /// <summary>
@@ -67,15 +67,15 @@ public class GridModel
         }
 
         // Construct the cell models by row and column
-        for (int r = 0; r < this.cells.GetLength(0); r++)
+        for (int r = 0; r < this._cells.GetLength(0); r++)
         {
-            for (int c = 0; c < this.cells.GetLength(1); c++)
+            for (int c = 0; c < this._cells.GetLength(1); c++)
             {
-                this.cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
+                this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
             }
         }
 
-        return this.cells;
+        return this._cells;
     }
 
     public int numberOfDuplicate(int num, int row, int col)
@@ -88,17 +88,17 @@ public class GridModel
         }
         // Check for dup in col
         // Update cell model for each duplicate
-        for (int c = 0; c < this.cells.GetLength(1); c++)
+        for (int c = 0; c < this._cells.GetLength(1); c++)
         {
-            if (this.cells[row, c].num == num && c != col)
+            if (this._cells[row, c].num == num && c != col)
             {
                 numDup++;
             }
         }
         // Check for dup in row
-        for (int r = 0; r < this.cells.GetLength(0); r++)
+        for (int r = 0; r < this._cells.GetLength(0); r++)
         {
-            if (this.cells[r, col].num == num && r != row)
+            if (this._cells[r, col].num == num && r != row)
             {
                 numDup++;
             }
@@ -110,7 +110,7 @@ public class GridModel
         {
             for (int c = 0; c < sgridSize; c++)
             {
-                if (this.cells[r + startRow, c + startCol].num == num && (r + startRow != row) && (c + startCol != col))
+                if (this._cells[r + startRow, c + startCol].num == num && (r + startRow != row) && (c + startCol != col))
                 {
                     numDup++;
                 }
@@ -121,11 +121,11 @@ public class GridModel
 
     public bool gameFinished()
     {
-        for (int r = 0; r < this.cells.GetLength(0); r++)
+        for (int r = 0; r < this._cells.GetLength(0); r++)
         {
-            for (int c = 0; c < this.cells.GetLength(1); c++)
+            for (int c = 0; c < this._cells.GetLength(1); c++)
             {
-                if (this.cells[r, c].num != this.cells[r, c].sol)
+                if (this._cells[r, c].num != this._cells[r, c].sol)
                 {
                     return false;
                 }
