@@ -5,23 +5,33 @@ using UnityEngine;
 public class TimerController : MonoBehaviour
 {
     private TimerModel _timerModel;
-    private List<TimerNumberController> _timerList;
+    private TimerContainerController[] _timerList;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         this._timerModel = new TimerModel();
-        this._timerList = new List<TimerNumberController>();
+        this._timerList = new TimerContainerController[4];
         BuildTimerNumberControllerList();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Loading elapsed time from model
         //string time = this._timerModel.GetElapsedTime();
         //Debug.Log(time);
+
         DisplayElapsedTime();
     }
 
+    public TimerModel Model
+    {
+        get { return this._timerModel; }
+    }
+
+    /// <summary>
+    /// Display the elapsed time on scene
+    /// </summary>
     public void DisplayElapsedTime()
     {
         string time = this._timerModel.GetElapsedTime();
@@ -29,13 +39,29 @@ public class TimerController : MonoBehaviour
 
         for (int i = 0; i < timeDigits.Length; i++) 
         {
-            GameObject timerPrefab = TimerNumberDatabase.Instance.GetTimerNumber(timeDigits[i]);
-            this._timerList[i].TimerNumber = timerPrefab;
+            // GameObject timerPrefab = TimerNumberDatabase.Instance.GetTimerNumber(timeDigits[i]);
+            this._timerList[i].DisplayDigit(timeDigits[i]);
             Debug.Log(timeDigits[i]);
         }
         //Debug.Log(string.Join(" ", timeDigits));
     }
 
+    public void PauseGame()
+    {
+        this._timerModel.PauseGame();
+    }
+
+    public void ContinueGame()
+    {
+        this._timerModel.ContinueGame();
+    }
+
+    public bool IsPaused()
+    {
+        return this.Model.IsPaused;
+    }
+
+    // Helper functions
     // Convert time from minute to second
     private int[] ConvertTimeStringToIntArray(string time)
     {
@@ -50,11 +76,13 @@ public class TimerController : MonoBehaviour
         return timeArray;
     }
 
+    // Build up the timer container list
     private void BuildTimerNumberControllerList()
     {
-        foreach (TimerNumberController ctr in FindObjectsByType<TimerNumberController>(FindObjectsSortMode.None))
+        foreach (TimerContainerController ctr in FindObjectsByType<TimerContainerController>(FindObjectsSortMode.None))
         {
-            this._timerList.Add(ctr);
+            Debug.Log("Position: " + ctr.Position);
+            this._timerList[ctr.Position] = ctr;
         }
     }
 }

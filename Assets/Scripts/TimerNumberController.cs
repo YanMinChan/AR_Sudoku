@@ -1,12 +1,13 @@
+using PlasticPipe.PlasticProtocol.Messages;
 using UnityEngine;
 
-public class TimerNumberController : MonoBehaviour
+public class TimerContainerController : MonoBehaviour
 {
     // Unity accessible variables
     [SerializeField]
-    private int pos;
+    private int _pos;
     [SerializeField]
-    private GameObject _timerNumber;
+    private GameObject _timerContainer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,22 +20,32 @@ public class TimerNumberController : MonoBehaviour
         
     }
 
-    public GameObject TimerNumber
+    public GameObject TimerContainer
     {
-        get { return _timerNumber; }
-        set { _timerNumber = value; }
+        get { return _timerContainer; }
+        set { _timerContainer = value; }
     }
 
     public int Position
     {
-        get { return pos; }
+        get { return _pos; }
     }
 
-    public void DisplayDigit()
+    public void DisplayDigit(int digits)
     {
+        // If there is a digit in the container, destroy it
         foreach (Transform child in transform)
         {
             GameObject.Destroy(child.gameObject);
+        }
+
+        GameObject timerPrefab = TimerNumberDatabase.Instance.GetTimerNumber(digits);
+        if (timerPrefab != null)
+        {
+            this._timerContainer = Instantiate(timerPrefab, transform);
+            //this._timerContainer.transform.localPosition = Vector3.zero;
+            this._timerContainer.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            this._timerContainer.transform.localScale = Vector3.one;
         }
     }
 }
