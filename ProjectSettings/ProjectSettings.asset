@@ -681,11 +681,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Cattoku
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 804241074f03dd01
   metroApplicationDescription: Cattoku
   wsaImages: {}
   metroTileShortName: Cattoku
