@@ -12,6 +12,7 @@ public class NumberController : MonoBehaviour
     }
 
     // Handles event on number pressed and print debug log
+    // Change all handles to GridController
     public void OnNumberPressed()
     {
         if (CellController.currentlySelected != null && !CellController.currentlySelected.IsUnchangable)

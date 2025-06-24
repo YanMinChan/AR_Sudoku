@@ -4,7 +4,7 @@ using System.Linq;
 using System;
 
 /// <summary>
-/// Fill the grid with the puzzle
+/// The manager class (and controller for Grid)
 /// </summary>
 public class GridController : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class GridController : MonoBehaviour
     private CellController[,] _cellControllers;
     private List<NumberController> _numberControllers;
     private Stack<UndoAction> _actionStack;
+    private TimerController _timerController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,10 +26,11 @@ public class GridController : MonoBehaviour
         // Load puzzle data from CSV to cell models
         InstantiateCellModels();
 
-        // Manage other models and controllers
+        // Manage other models and controllers (assigned in Unity)
         InstantiateCellControllers();
         InstantiateNumberControllers();
-        
+        InstantiateTimerController();
+
         // Generate the grid view
         BuildGrid();
     }
@@ -92,6 +94,11 @@ public class GridController : MonoBehaviour
         }
     }
 
+    private void InstantiateTimerController()
+    {
+        this._timerController = FindObjectsByType<TimerController>(FindObjectsSortMode.None)[0]; // There should be only one timer controller at the menu
+    }
+
     // Build a new puzzle
     private void BuildGrid()
     {
@@ -110,6 +117,11 @@ public class GridController : MonoBehaviour
     // Fill number in the selected cell
     public void FillNumber(CellController controller, int newNumber)
     {
+        if (this._timerController.IsPaused())
+        {
+            Debug.Log("GridController.cs: Game is paused!");
+            return;
+        }
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
 
@@ -129,8 +141,6 @@ public class GridController : MonoBehaviour
     // Handle undo button event
     public void UndoLastAction()
     {
-        SoundEffectDatabase.Instance.PlayAudio(1); // button click sfx
-
         if (this._actionStack.Count == 0)
         {
             Debug.Log("GridController.cs: Nothing to undo");

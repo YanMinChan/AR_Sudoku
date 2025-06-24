@@ -39,7 +39,7 @@ public class MenuButtonController : MonoBehaviour
         SoundEffectDatabase.Instance.PlayAudio(1); // button click sfx
         
 
-        // Handle game logic
+        // Handle visual and update logic
         TimerController ctr = this._timerController;
         if (!ctr.IsPaused())
         {
