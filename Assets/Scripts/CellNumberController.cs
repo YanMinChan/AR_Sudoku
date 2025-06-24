@@ -2,9 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-// This class is not used
-namespace Cattoku
-{
     public class CellNumberController : MonoBehaviour
     {
 
@@ -168,4 +165,3 @@ namespace Cattoku
 
         }
     }
-}
