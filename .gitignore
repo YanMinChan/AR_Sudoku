@@ -87,3 +87,9 @@ crashlytics-build.properties
 # Manually ignore some large files
 Assets/Resources/sudoku.csv
 Assets/Resources/sudoku.csv.meta
+
+# Ignore build files
+_Build
+
+# Ignore log txt files
+Assets/Resources/Log/*
