@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TMPro;
 public class MenuButtonController : MonoBehaviour
 {
     [SerializeField]
@@ -26,7 +26,14 @@ public class MenuButtonController : MonoBehaviour
     public void OnPauseButtonPressed()
     {
         TimerController ctr = this._timerController;
-        if (!ctr.IsPaused()) ctr.PauseGame();
-        else ctr.ContinueGame();
+        if (!ctr.IsPaused())
+        {
+            // GameObject button = ctr.gameObject.transform.Find("Pause").GetComponent<>;
+            ctr.PauseGame();
+        }
+        else
+        {
+            ctr.ContinueGame();
+        }
     }
 }
