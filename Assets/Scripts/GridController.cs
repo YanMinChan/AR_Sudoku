@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Unity.VisualScripting;
 
 /// <summary>
 /// The manager class (and controller for Grid)
@@ -117,11 +118,23 @@ public class GridController : MonoBehaviour
     // Fill number in the selected cell
     public void FillNumber(CellController controller, int newNumber)
     {
+        // Handled failure event
         if (this._timerController.IsPaused())
         {
             Debug.Log("GridController.cs: Game is paused!");
             return;
         }
+        else if (CellController.currentlySelected == null)
+        {
+            Debug.Log("GridController.cs: No cell is selected");
+            return;
+        }
+        else if (CellController.currentlySelected.IsUnchangable)
+        {
+            Debug.Log("GridController.cs: The cell cannot be changed");
+            return;
+        }
+
         // Load the cell model assigned to the controller
         CellModel model = controller.Model;
 
