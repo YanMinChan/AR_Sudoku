@@ -54,4 +54,9 @@ public class MenuButtonController : MonoBehaviour
             this._pauseResumeIcon.CurrentIconName = "Icon 96";
         }
     }
+
+    public void OnRestartButtonPressed()
+    {
+        this._gridController.RestartGame();
+    }
 }

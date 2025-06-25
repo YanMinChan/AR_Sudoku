@@ -109,7 +109,6 @@ public class GridController : MonoBehaviour
             for (int j = 0; j < 9; j++)
             {
                 int numbers = this._cellModels[i, j].num;
-                if (numbers == 0) continue;
                 this._cellControllers[i, j].FillNumber(numbers, "black", init:true);
             }
         }
@@ -167,6 +166,21 @@ public class GridController : MonoBehaviour
         // Restore CellModel and CellController
         undo.cellController.Model.num = undo.num;
         undo.cellController.FillNumber(undo.num, undo.numColor);
+    }
+
+    public void RestartGame()
+    {
+        // Clear the stack & timer
+        this._actionStack = new Stack<UndoAction>();
+        this._timerController.RestartGame();
+
+        // Rebuild the grid
+        this._cellModels = this._gridModel
+            .GenerateGrid()
+            .Cells;
+
+        Debug.Log(this._cellModels[0, 0].num);
+        BuildGrid();
     }
 
     /// <summary>
