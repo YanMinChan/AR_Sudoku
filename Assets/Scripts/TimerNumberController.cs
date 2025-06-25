@@ -42,7 +42,6 @@ public class TimerContainerController : MonoBehaviour
         if (timerPrefab != null)
         {
             this._timerContainer = Instantiate(timerPrefab, transform);
-            //this._timerContainer.transform.localPosition = Vector3.zero;
             this._timerContainer.transform.localRotation = Quaternion.Euler(0, 180, 0);
             this._timerContainer.transform.localScale = Vector3.one;
         }

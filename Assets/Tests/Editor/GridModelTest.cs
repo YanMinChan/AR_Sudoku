@@ -24,9 +24,9 @@ public class GridModelTest
     public void GridModel_numDup_Test_1(bool expected, int num)
     {
         // Set up content of some cells
-        _gridModel.Cells[0, 0].num = 1;
-        _gridModel.Cells[0, 3].num = 3;
-        _gridModel.Cells[3, 1].num = 4;
+        _gridModel.Cells[0, 0].Num = 1;
+        _gridModel.Cells[0, 3].Num = 3;
+        _gridModel.Cells[3, 1].Num = 4;
 
         Assert.AreEqual(expected, _gridModel.DuplicateExists(num, 0, 1)); // row 0 duplicates of 1
         //Assert.AreEqual(1, _gridModel.numberOfDuplicate(3, 0, 1)); // row 0 duplicates of 3
@@ -38,15 +38,15 @@ public class GridModelTest
     public void GridModel_numDup_Test_2()
     {
         // Set up content of some cells
-        _gridModel.Cells[0, 0].num = 1;
-        _gridModel.Cells[1, 3].num = 1;
-        _gridModel.Cells[6, 1].num = 1;
+        _gridModel.Cells[0, 0].Num = 1;
+        _gridModel.Cells[1, 3].Num = 1;
+        _gridModel.Cells[6, 1].Num = 1;
 
-        _gridModel.Cells[1, 4].num = 2;
-        _gridModel.Cells[5, 1].num = 2;
+        _gridModel.Cells[1, 4].Num = 2;
+        _gridModel.Cells[5, 1].Num = 2;
 
-        _gridModel.Cells[1, 8].num = 3;
-        _gridModel.Cells[8, 1].num = 3;
+        _gridModel.Cells[1, 8].Num = 3;
+        _gridModel.Cells[8, 1].Num = 3;
 
         Assert.AreEqual(true, _gridModel.DuplicateExists(1, 1, 1)); // 3 duplicate of 1 at row, col and subgrid
         Assert.AreEqual(true, _gridModel.DuplicateExists(2, 1, 1)); // 2 duplicate of 2 at row and col
@@ -61,7 +61,7 @@ public class GridModelTest
     public void GridModel_numDup_Test_3(int row, int col, int num)
     {
         // Set up content of some cells
-        _gridModel.Cells[row, col].num = num;
+        _gridModel.Cells[row, col].Num = num;
 
         Assert.AreEqual(false, _gridModel.DuplicateExists(num, row, col)); // does not check duplicate on self
     }
@@ -75,15 +75,15 @@ public class GridModelTest
     public void GridModel_numDup_Test_4(int row, int col)
     {
         // Set up content of some cells
-        _gridModel.Cells[0, 0].num = 1;
-        _gridModel.Cells[1, 3].num = 1;
-        _gridModel.Cells[6, 1].num = 1;
+        _gridModel.Cells[0, 0].Num = 1;
+        _gridModel.Cells[1, 3].Num = 1;
+        _gridModel.Cells[6, 1].Num = 1;
 
-        _gridModel.Cells[1, 4].num = 2;
-        _gridModel.Cells[5, 1].num = 2;
+        _gridModel.Cells[1, 4].Num = 2;
+        _gridModel.Cells[5, 1].Num = 2;
 
-        _gridModel.Cells[1, 8].num = 3;
-        _gridModel.Cells[8, 1].num = 3;
+        _gridModel.Cells[1, 8].Num = 3;
+        _gridModel.Cells[8, 1].Num = 3;
 
         Assert.AreEqual(false, _gridModel.DuplicateExists(0, row, col)); // does not check duplicate on number 0 (empty cell)
     }
@@ -97,27 +97,27 @@ public class GridModelTest
     public void GridModel_gameFinished_Test_1(int[] num, bool result)
     {
         // Set up content of some cells
-        _gridModel.Cells[0, 0].sol = 1;
-        _gridModel.Cells[0, 1].sol = 4;
-        _gridModel.Cells[0, 2].sol = 3;
-        _gridModel.Cells[1, 0].sol = 2;
-        _gridModel.Cells[1, 1].sol = 5;
-        _gridModel.Cells[1, 2].sol = 7;
-        _gridModel.Cells[2, 0].sol = 9;
-        _gridModel.Cells[2, 1].sol = 8;
-        _gridModel.Cells[2, 2].sol = 6;
+        _gridModel.Cells[0, 0].Sol = 1;
+        _gridModel.Cells[0, 1].Sol = 4;
+        _gridModel.Cells[0, 2].Sol = 3;
+        _gridModel.Cells[1, 0].Sol = 2;
+        _gridModel.Cells[1, 1].Sol = 5;
+        _gridModel.Cells[1, 2].Sol = 7;
+        _gridModel.Cells[2, 0].Sol = 9;
+        _gridModel.Cells[2, 1].Sol = 8;
+        _gridModel.Cells[2, 2].Sol = 6;
 
-        _gridModel.Cells[0, 0].num = num[0];
-        _gridModel.Cells[0, 1].num = num[1];
-        _gridModel.Cells[0, 2].num = num[2];
-        _gridModel.Cells[1, 0].num = num[3];
-        _gridModel.Cells[1, 1].num = num[4];
-        _gridModel.Cells[1, 2].num = num[5];
-        _gridModel.Cells[2, 0].num = num[6];
-        _gridModel.Cells[2, 1].num = num[7];
-        _gridModel.Cells[2, 2].num = num[8];
+        _gridModel.Cells[0, 0].Num = num[0];
+        _gridModel.Cells[0, 1].Num = num[1];
+        _gridModel.Cells[0, 2].Num = num[2];
+        _gridModel.Cells[1, 0].Num = num[3];
+        _gridModel.Cells[1, 1].Num = num[4];
+        _gridModel.Cells[1, 2].Num = num[5];
+        _gridModel.Cells[2, 0].Num = num[6];
+        _gridModel.Cells[2, 1].Num = num[7];
+        _gridModel.Cells[2, 2].Num = num[8];
 
-        Assert.AreEqual(result, _gridModel.GameFinished());
+        Assert.AreEqual(result, _gridModel.IsGameFinished());
     }
 
     // Test for generating empty cell
@@ -134,12 +134,12 @@ public class GridModelTest
         {
             for (int c = 0; c < gridModelTest1.Cells.GetLength(1); c++)
             {
-                if (gridModelTest1.Cells[r, c].num != gridModelTest2.Cells[r, c].num || gridModelTest1.Cells[r, c].num != 0 || gridModelTest2.Cells[r, c].num != 0) 
+                if (gridModelTest1.Cells[r, c].Num != gridModelTest2.Cells[r, c].Num || gridModelTest1.Cells[r, c].Num != 0 || gridModelTest2.Cells[r, c].Num != 0) 
                 {
                     Assert.Fail($"Error: cell[{r}, {c}]. All cells number should equal and empty!");
                 }
 
-                if (gridModelTest1.Cells[r, c].sol != gridModelTest2.Cells[r, c].sol || gridModelTest1.Cells[r, c].sol != 0 || gridModelTest2.Cells[r, c].sol != 0)
+                if (gridModelTest1.Cells[r, c].Sol != gridModelTest2.Cells[r, c].Sol || gridModelTest1.Cells[r, c].Sol != 0 || gridModelTest2.Cells[r, c].Sol != 0)
                 {
                     Assert.Fail($"Error: cell[{r}, {c}]. All cells solution should equal and empty!");
                 }
@@ -170,11 +170,11 @@ public class GridModelTest
         // Check all the cells match the input array
         for (int r = 0; r < gridModelTest3.Cells.GetLength(0); r++)
         {
-            if (gridModelTest3.Cells[r, 0].num != r)
+            if (gridModelTest3.Cells[r, 0].Num != r)
             {
                 Assert.Fail($"Error: cell[{r}, 0]. Number in grid does not match input array!");
             }
-            if (gridModelTest3.Cells[r, 0].sol != r)
+            if (gridModelTest3.Cells[r, 0].Sol != r)
             {
                 Assert.Fail($"Error: cell[{r}, 0]. Solution in grid does not match input array!");
             }
@@ -205,11 +205,11 @@ public class GridModelTest
         // Check all the cells match the input array
         for (int c = 0; c < gridModelTest3.Cells.GetLength(0); c++)
         {
-            if (gridModelTest3.Cells[0, c].num != c)
+            if (gridModelTest3.Cells[0, c].Num != c)
             {
                 Assert.Fail($"Error: cell[{c}, 0]. Number in grid does not match input array!");
             }
-            if (gridModelTest3.Cells[0, c].sol != c)
+            if (gridModelTest3.Cells[0, c].Sol != c)
             {
                 Assert.Fail($"Error: cell[{c}, 0]. Solution in grid does not match input array!");
             }
@@ -249,11 +249,11 @@ public class GridModelTest
         {
             for (int c = 0; c < 3; c++)
             {
-                if (gridModelTest4.Cells[r, c].num != checkVal)
+                if (gridModelTest4.Cells[r, c].Num != checkVal)
                 {
                     Assert.Fail($"Error: cell[{r}, {c}]. Number in grid does not match input array");
                 }
-                if (gridModelTest4.Cells[r, c].sol != checkVal)
+                if (gridModelTest4.Cells[r, c].Sol != checkVal)
                 {
                     Assert.Fail($"Error: cell[{r}, {c}]. Solution in grid does not match input array");
                 }

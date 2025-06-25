@@ -61,11 +61,15 @@ public class PuzzleReader
                     data = sr.ReadLine();
                     numPuz--;
                 }
-                GameLog.Instance.WriteToLog("Read puzzle");
+                GameLog.Instance.WriteToLog($"(PuzzleReader.cs) Puzzle loaded from {filePath}");
             }
-            catch
+            catch (FileNotFoundException fnf)
             {
-                Console.WriteLine("Error on file path, file not found!");
+                GameLog.Instance.WriteToLog($"(PuzzleReader.cs) Error on loading file: {fnf.Message}");
+            }
+            catch (Exception e)
+            {
+                GameLog.Instance.WriteToLog($"(PuzzleReader.cs) Error on loading file: {e.Message}");
             }
         }
     }
