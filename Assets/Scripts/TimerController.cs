@@ -17,10 +17,6 @@ public class TimerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Loading elapsed time from model
-        //string time = this._timerModel.GetElapsedTime();
-        //Debug.Log(time);
-
         DisplayElapsedTime();
     }
 
@@ -39,26 +35,28 @@ public class TimerController : MonoBehaviour
 
         for (int i = 0; i < timeDigits.Length; i++) 
         {
-            // GameObject timerPrefab = TimerNumberDatabase.Instance.GetTimerNumber(timeDigits[i]);
             this._timerList[i].DisplayDigit(timeDigits[i]);
-            Debug.Log(timeDigits[i]);
         }
-        //Debug.Log(string.Join(" ", timeDigits));
     }
 
     public void PauseGame()
     {
-        this._timerModel.PauseGame();
+        this._timerModel.PauseTimer();
     }
 
     public void ContinueGame()
     {
-        this._timerModel.ContinueGame();
+        this._timerModel.ContinueTimer();
     }
 
     public bool IsPaused()
     {
         return this.Model.IsPaused;
+    }
+
+    public void RestartGame()
+    {
+        this._timerModel.RestartTimer();
     }
 
     // Helper functions
@@ -81,7 +79,7 @@ public class TimerController : MonoBehaviour
     {
         foreach (TimerContainerController ctr in FindObjectsByType<TimerContainerController>(FindObjectsSortMode.None))
         {
-            Debug.Log("Position: " + ctr.Position);
+            // Debug.Log("Position: " + ctr.Position);
             this._timerList[ctr.Position] = ctr;
         }
     }

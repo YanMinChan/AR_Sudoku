@@ -79,7 +79,7 @@ public class CellController : MonoBehaviour
 
         // Instantiate the number
         GameObject prefab = NumberDatabase.Instance.GetNumber(number);
-        if (prefab != null)
+        if (prefab != null) // Handles empty cell for 0
         { 
             if (!init) SoundEffectDatabase.Instance.PlayAudio(2); // Only play sfx when it is user filling in the number
             else this._isUnchangable = true; // Set cell to unchangeable if it is part of puzzle
@@ -89,6 +89,7 @@ public class CellController : MonoBehaviour
             this._numberPrefab.transform.localPosition = Vector3.zero;
             this._numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
             this._numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            this._numberPrefab.GetComponent<NumberController>().enabled = false; // disable number controller script to avoid misclick and throwing error
 
             InstantiateNumberMaterial(color);
         }

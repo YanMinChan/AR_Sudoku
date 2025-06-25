@@ -14,20 +14,7 @@ public class NumberController : MonoBehaviour
     // Handles event on number pressed and print debug log
     public void OnNumberPressed()
     {
-        if (CellController.currentlySelected != null && !CellController.currentlySelected.IsUnchangable)
-        {
-            this._gridController.FillNumber(CellController.currentlySelected, this.number);
-            Debug.Log("NumberController.cs: Placed number in selected cell.");
-        } 
-        else if (CellController.currentlySelected.IsUnchangable)
-        {
-            Debug.Log("NumberController.cs: The cell cannot be changed");
-            
-        }
-        else 
-        {
-            Debug.Log("NumberController.cs: No cell is selected");
-        }
+        this._gridController.FillNumber(CellController.currentlySelected, this.number);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
