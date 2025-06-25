@@ -92,4 +92,4 @@ Assets/Resources/sudoku.csv.meta
 _Build
 
 # Ignore log txt files
-Assets/Resources/Log/*
+Assets/Resources/Log

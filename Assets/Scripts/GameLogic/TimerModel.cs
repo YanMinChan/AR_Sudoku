@@ -30,15 +30,20 @@ public class TimerModel
         return elapsedTime;
     }
 
-    public void PauseGame()
+    public void PauseTimer()
     {
         this._timer.Stop();
         IsPaused = true;
     }
 
-    public void ContinueGame()
+    public void ContinueTimer()
     {
         this._timer.Start(); // Start() also resumes previous timer
         IsPaused = false;
+    }
+
+    public void RestartTimer()
+    {
+        this._timer.Restart();
     }
 }
