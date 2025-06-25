@@ -52,10 +52,13 @@ public class GridModel
         else
         {
             Random rand = new Random();
-            int r = rand.Next(puzList.Count);
-            this._puz = puzList[r];
-            this._sol = solList[r];
+            puzId = rand.Next(puzList.Count);
+            this._puz = puzList[puzId];
+            this._sol = solList[puzId];
         }
+
+        // Log the puzzle id
+        GameLog.Instance.WriteToLog($"(GridModel.cs) Puzzle ID: {puzId}");
         return this; // Allow chaining
     }
 
@@ -102,14 +105,14 @@ public class GridModel
         for (int c = 0; c < size; c++)
         {
             if (c == col) continue;
-            if (this._cells[row, c].num == num) return true;
+            if (this._cells[row, c].Num == num) return true;
         }
 
         // Check for dup in row
         for (int r = 0; r < size; r++)
         {
             if (r == row) continue;
-            if (this._cells[r, col].num == num) return true;
+            if (this._cells[r, col].Num == num) return true;
         }
 
         // Check for dup in subgrid
@@ -123,7 +126,7 @@ public class GridModel
                 int checkRow = r + startRow;
                 int checkCol = c + startCol;
                 if (checkRow == row && checkCol == col) continue;
-                if (this._cells[checkRow, checkCol].num == num) return true;
+                if (this._cells[checkRow, checkCol].Num == num) return true;
             }
         }
         return false;
@@ -133,14 +136,14 @@ public class GridModel
     /// Verify if the game is finished
     /// </summary>
     /// <returns></returns>
-    public bool GameFinished()
+    public bool IsGameFinished()
     {
         int size = this._cells.GetLength(0); // assume square grid
         for (int r = 0; r < size; r++)
         {
             for (int c = 0; c < size; c++)
             {
-                if (this._cells[r, c].num != this._cells[r, c].sol) return false;
+                if (this._cells[r, c].Num != this._cells[r, c].Sol) return false;
             }
         }
         return true;

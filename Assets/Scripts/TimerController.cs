@@ -17,10 +17,6 @@ public class TimerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Loading elapsed time from model
-        //string time = this._timerModel.GetElapsedTime();
-        //Debug.Log(time);
-
         DisplayElapsedTime();
     }
 
@@ -39,11 +35,8 @@ public class TimerController : MonoBehaviour
 
         for (int i = 0; i < timeDigits.Length; i++) 
         {
-            // GameObject timerPrefab = TimerNumberDatabase.Instance.GetTimerNumber(timeDigits[i]);
             this._timerList[i].DisplayDigit(timeDigits[i]);
-            // Debug.Log(timeDigits[i]);
         }
-        //Debug.Log(string.Join(" ", timeDigits));
     }
 
     public void PauseGame()

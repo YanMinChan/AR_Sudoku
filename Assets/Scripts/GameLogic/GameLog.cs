@@ -32,9 +32,12 @@ public class GameLog
     // Write the log to Gamelog.txt
     public void WriteToLog(string msg)
     {
+        // Timestamp
+        string timeNow = DateTime.Now.ToString("HH:mm:ss:ff");
+
         using (this._sw = new StreamWriter(_filePath, true))
         {
-            this._sw.WriteLine(msg);
+            this._sw.WriteLine($"[{timeNow}] {msg}");
         }
     }
 }

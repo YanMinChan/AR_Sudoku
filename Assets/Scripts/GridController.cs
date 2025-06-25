@@ -1,8 +1,9 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
+using UnityEngine;
 
 /// <summary>
 /// The manager class (and controller for Grid)
@@ -16,6 +17,7 @@ public class GridController : MonoBehaviour
     private List<NumberController> _numberControllers;
     private Stack<UndoAction> _actionStack;
     private TimerController _timerController;
+    private bool _hasGameCompleted = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,10 +42,12 @@ public class GridController : MonoBehaviour
     void Update()
     {
         // Check if the game is finished
-        if (this._gridModel.GameFinished())
+        if (!this._hasGameCompleted && this._gridModel.IsGameFinished())
         {
+            this._hasGameCompleted = true;
             // TODO: Change to on scene feedback
             Debug.Log("YOU WINNNNN");
+            GameLog.Instance.WriteToLog("(GridController.cs) The game is finished.");
         }
     }
 
@@ -57,13 +61,9 @@ public class GridController : MonoBehaviour
             .Cells;
 
         if (this._cellModels != null)
-        {
-            string msg = "Cell loaded: " + this._cellModels.Length;
-            Debug.Log(msg);
-            GameLog.Instance.WriteToLog(msg);
-        }
+            GameLog.Instance.WriteToLog($"(GridController.cs) Cells loaded: {this._cellModels.Length}");
         else
-            Debug.Log("Error, cells not loaded");
+            GameLog.Instance.WriteToLog("(GridController.cs) Cells not loaded!");
     }
 
     // Find all cell controllers object and assign them to their respective model
@@ -108,10 +108,11 @@ public class GridController : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                int numbers = this._cellModels[i, j].num;
+                int numbers = this._cellModels[i, j].Num;
                 this._cellControllers[i, j].FillNumber(numbers, "black", init:true);
             }
         }
+        GameLog.Instance.WriteToLog("(GridController.cs) Grid gameObject built.");
     }
 
     // Fill number in the selected cell
@@ -141,13 +142,14 @@ public class GridController : MonoBehaviour
         PushUndoState(controller, model);
 
         // Apply new number
-        model.num = newNumber;
+        model.Num = newNumber;
 
         // Determine number and update view
-        bool dup = this._gridModel.DuplicateExists(newNumber, model.row, model.col);
+        bool dup = this._gridModel.DuplicateExists(newNumber, model.Row, model.Col);
         string newColor = NumberColor(dup);
 
         controller.FillNumber(newNumber, newColor);
+        GameLog.Instance.WriteToLog($"(GridController.cs) Fill number {newNumber} in [{model.Row}, {model.Col}]");
     }
 
     // Handle undo button event
@@ -161,26 +163,30 @@ public class GridController : MonoBehaviour
 
         // Retrieve previous action from stack
         UndoAction undo = this._actionStack.Pop();
-        // Debug.Log($"[POP] From stack - num: {undo.num}, color: {undo.numColor}");
+        
 
         // Restore CellModel and CellController
-        undo.cellController.Model.num = undo.num;
+        undo.cellController.Model.Num = undo.num;
         undo.cellController.FillNumber(undo.num, undo.numColor);
+
+        GameLog.Instance.WriteToLog($"(GridController.cs) Undo Number {undo.num} in [{undo.cellController.Model.Row}, {undo.cellController.Model.Col}]");
     }
 
     public void RestartGame()
     {
-        // Clear the stack & timer
+        // Clear game status
         this._actionStack = new Stack<UndoAction>();
         this._timerController.RestartGame();
+        this._hasGameCompleted = false;
 
         // Rebuild the grid
         this._cellModels = this._gridModel
             .GenerateGrid()
             .Cells;
 
-        Debug.Log(this._cellModels[0, 0].num);
         BuildGrid();
+
+        GameLog.Instance.WriteToLog($"(GridController.cs) Game restarted.");
     }
 
     /// <summary>
@@ -191,13 +197,13 @@ public class GridController : MonoBehaviour
     private void PushUndoState(CellController controller, CellModel model)
     {
         // Load & store previous information
-        bool duplicateExist = this._gridModel.DuplicateExists(model.num, model.row, model.col);
+        bool duplicateExist = this._gridModel.DuplicateExists(model.Num, model.Row, model.Col);
         string previousColor = NumberColor(duplicateExist);
 
         // Debug.Log($"[PUSH] At push time - num: {previousNum}, color: {previousColor}");
         this._actionStack.Push(new UndoAction { 
             cellController = controller,
-            num = model.num, 
+            num = model.Num, 
             numColor = previousColor 
         });
     }
