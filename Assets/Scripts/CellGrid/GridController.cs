@@ -117,6 +117,20 @@ public class GridController : MonoBehaviour
 
         // Update cell model
         cellCtr.UpdateModel(number).FillNumber(newColor);
+
+        // Update GridModel
+        this._gridModel.CalculateDigitUsage();
+        UpdateNumberBarVisibility();
+        //// Update NumberController
+        //if (IsNumberFullyUsed(number))
+        //{
+        //    NumberController numCtr = this._numberControllers.Find(n => n.number == number);
+        //    if (numCtr != null)
+        //    {
+        //        numCtr.SetNumberGameObjectVisibility();
+        //    }
+        //}
+
         GameLog.Instance.WriteToLog($"(GridController.cs) Fill number {number} in [{model.Row}, {model.Col}]");
     }
 
@@ -128,6 +142,17 @@ public class GridController : MonoBehaviour
             this._cellControllers[action.row, action.col]
                 .UpdateModel(action.num)
                 .FillNumber(action.numColor);
+
+            // Update GridModel
+            this._gridModel.CalculateDigitUsage();
+            UpdateNumberBarVisibility();
+            //// Update NumberController
+            //NumberController numCtr = this._numberControllers.Find(n => n.number == action.num);
+            //bool visibility = IsNumberFullyUsed(action.num);
+            //if (numCtr != null)
+            //{
+            //    numCtr.SetNumberGameObjectVisibility(visibility);
+            //} 
         }
         else
         {
@@ -173,10 +198,21 @@ public class GridController : MonoBehaviour
         else return "blue";
     }
 
-    public void DisableCompletedNumber(int number)
+    public void UpdateNumberBarVisibility()
     {
+        for (int i = 1; i <= 9; i++)
+        {
+            NumberController numCtr = this._numberControllers.Find(n => n.number == i);
+            bool numUsed = IsNumberFullyUsed(i);
+            numCtr.SetNumberGameObjectVisibility(numUsed);
+        }
     }
 
     // Function from GridModel
     public bool IsGameFinished() { return this._gridModel.IsGameFinished(); }
+
+    public bool IsNumberFullyUsed(int num)
+    {
+        return this._gridModel.IsNumberFullyUsed(num);
+    }
 }

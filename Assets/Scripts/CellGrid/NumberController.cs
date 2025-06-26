@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.XR.Interaction;
 
 public class NumberController : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class NumberController : MonoBehaviour
     public void OnNumberPressed()
     {
         this._gridController.FillNumber(this.number);
+    }
+
+    public void SetNumberGameObjectVisibility(bool visibility)
+    {
+        this.gameObject.SetActive(!visibility);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

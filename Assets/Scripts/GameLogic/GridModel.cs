@@ -24,7 +24,6 @@ public class GridModel
         this._actionStack = new Stack<UndoAction>();
         this._puz = new int[81];
         this._sol = new int[81];
-        this._numCount = new int[9];
     }
 
     public CellModel[,] Cells
@@ -194,6 +193,8 @@ public class GridModel
     // Calculate the number of time the digit is used
     public void CalculateDigitUsage()
     {
+        // Refresh everytime the function is called
+        this._numCount = new int[9];
         for (int r = 0; r < 9; r++)
         {
             for (int c = 0; c < 9; c++)
@@ -210,6 +211,7 @@ public class GridModel
 
     public bool IsNumberFullyUsed(int num)
     {
+        if (num == 0) return false;
         return this._numCount[num - 1] >= 9;
     }
 
