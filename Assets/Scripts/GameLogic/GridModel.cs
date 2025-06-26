@@ -5,6 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
+using UnityEngine.Assertions.Must;
+using static UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics.HapticsUtility;
 
 // Backend of the grid game logic
 public class GridModel
@@ -12,12 +15,16 @@ public class GridModel
     // Instantiate the cells
     private CellModel[,] _cells;
     private int[] _puz; private int[] _sol;
+    private Stack<UndoAction> _actionStack;
+    private int[] _numCount;
 
     public GridModel()
     {
         this._cells = new CellModel[9, 9];
+        this._actionStack = new Stack<UndoAction>();
         this._puz = new int[81];
         this._sol = new int[81];
+        this._numCount = new int[9];
     }
 
     public CellModel[,] Cells
@@ -28,6 +35,18 @@ public class GridModel
 
     public int[] Puz { get { return this._puz; } }
     public int[] Sol { get { return this._sol; } }
+
+    public void Init()
+    {
+        string filePath = "./Assets/Resources/sudoku.csv";
+        this.SelectPuzzle(filePath)
+            .GenerateGrid();
+
+        if (this._cells != null)
+            GameLog.Instance.WriteToLog($"(GridModel.cs) Cells loaded: {this._cells.Length}");
+        else
+            GameLog.Instance.WriteToLog("(GridModel.cs) Cells not loaded!");
+    }
 
     /// <summary>
     /// Choose a random puzzle from the given file
@@ -68,7 +87,7 @@ public class GridModel
     /// <param name="puz"></param>
     /// <param name="sol"></param>
     /// <returns>The GridModel class</returns>
-    public GridModel GenerateGrid(int[] puz = null, int[] sol = null)
+    public GridModel GenerateGrid(int[] puz = null, int[] sol = null, bool isReset = false)
     {
         // For convenience of chaining
         if (puz == null) puz = this._puz;
@@ -81,7 +100,14 @@ public class GridModel
         {
             for (int c = 0; c < size; c++)
             {
-                this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
+                if (!isReset)
+                {
+                    this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
+                }
+                else
+                {
+                    this._cells[r, c].Num = puz[r * 9 + c];
+                }
             }
         }
         return this; // Allow chaining
@@ -147,5 +173,50 @@ public class GridModel
             }
         }
         return true;
+    }
+
+    public bool TryPopLastAction(out UndoAction action)
+    {
+        return this._actionStack.TryPop(out action);
+    }
+
+    public void PushLastAction(int num, int row, int col, string color)
+    {
+        this._actionStack.Push(new UndoAction
+        {
+            num = num,
+            row = row,
+            col = col,
+            numColor = color
+        });
+    }
+
+    // Calculate the number of time the digit is used
+    public void CalculateDigitUsage()
+    {
+        for (int r = 0; r < 9; r++)
+        {
+            for (int c = 0; c < 9; c++)
+            {
+                int num = this._cells[r, c].Num;
+                if (this._cells[r, c].Sol != num) continue;
+                if (num >= 1 && num <= 9)
+                {
+                    this._numCount[num - 1]++;
+                }
+            }
+        }
+    }
+
+    public bool IsNumberFullyUsed(int num)
+    {
+        return this._numCount[num - 1] >= 9;
+    }
+
+    public GridModel ResetGrid()
+    {
+        GenerateGrid(isReset:true); // Reset the cell model information
+        this._actionStack = new Stack<UndoAction>(); // Reset the undo stack
+        return this; // allow chaining
     }
 }

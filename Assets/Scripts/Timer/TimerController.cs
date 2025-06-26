@@ -9,9 +9,7 @@ public class TimerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        this._timerModel = new TimerModel();
-        this._timerList = new TimerContainerController[4];
-        BuildTimerNumberControllerList();
+
     }
 
     // Update is called once per frame
@@ -23,6 +21,13 @@ public class TimerController : MonoBehaviour
     public TimerModel Model
     {
         get { return this._timerModel; }
+    }
+
+    public void Init()
+    {
+        this._timerModel = new TimerModel();
+        this._timerList = new TimerContainerController[4];
+        BuildTimerNumberControllerList();
     }
 
     /// <summary>
@@ -54,7 +59,7 @@ public class TimerController : MonoBehaviour
         return this.Model.IsPaused;
     }
 
-    public void RestartGame()
+    public void RestartTimer()
     {
         this._timerModel.RestartTimer();
     }

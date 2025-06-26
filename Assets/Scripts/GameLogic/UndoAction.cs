@@ -7,7 +7,8 @@ using UnityEngine;
 
 public struct UndoAction
 {
-    public CellController cellController;
     public int num;
+    public int row;
+    public int col;
     public string numColor;
 }

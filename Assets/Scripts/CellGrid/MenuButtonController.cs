@@ -4,9 +4,7 @@ using MixedReality.Toolkit.UX;
 public class MenuButtonController : MonoBehaviour
 {
     [SerializeField]
-    private GridController _gridController;
-    [SerializeField]
-    private TimerController _timerController;
+    private GameManager _gameManager;
 
     [SerializeField]
     private TMP_Text _pauseResumeLabel;
@@ -30,17 +28,17 @@ public class MenuButtonController : MonoBehaviour
     public void OnUndoButtonPressed()
     {
         SoundEffectDatabase.Instance.PlayAudio(1); // button click sfx
-        this._gridController.UndoLastAction();
+        this._gameManager.Grid.UndoLastAction();
     }
 
     public void OnPauseButtonPressed()
     {
         // Handle audio feedback
         SoundEffectDatabase.Instance.PlayAudio(1); // button click sfx
-        
+
 
         // Handle visual and update logic
-        TimerController ctr = this._timerController;
+        TimerController ctr = this._gameManager.Timer;
         if (!ctr.IsPaused())
         {
             ctr.PauseGame();
@@ -57,6 +55,13 @@ public class MenuButtonController : MonoBehaviour
 
     public void OnRestartButtonPressed()
     {
-        this._gridController.RestartGame();
+        // If the game is previously paused, restart it and reset the button visuals
+        if (this._gameManager.Timer.IsPaused())
+        {
+            this._pauseResumeLabel.text = "Pause";
+            this._pauseResumeIcon.CurrentIconName = "Icon 96";
+        }
+
+        this._gameManager.RestartGame();
     }
 }

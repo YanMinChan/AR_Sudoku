@@ -39,5 +39,4 @@ public class CellModel
         get { return this._col; } 
         set { this._col = value; }
     }
-
 }

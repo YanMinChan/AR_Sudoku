@@ -14,7 +14,7 @@ public class NumberController : MonoBehaviour
     // Handles event on number pressed and print debug log
     public void OnNumberPressed()
     {
-        this._gridController.FillNumber(CellController.currentlySelected, this.number);
+        this._gridController.FillNumber(this.number);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

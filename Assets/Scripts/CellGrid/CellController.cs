@@ -13,7 +13,7 @@ public class CellController : MonoBehaviour
     // Instance variables
     private CellModel _cellModel;
     private bool _isUnchangable = false;
-    private GameObject _numberPrefab;
+    private GameObject _numberPrefab; // number in the cell
 
     // Constructor
     public CellController(){}
@@ -29,11 +29,6 @@ public class CellController : MonoBehaviour
     {
         get { return _isUnchangable; }
         set { _isUnchangable = value; }
-    }
-
-    public GameObject NumberPrefab
-    {
-        get { return _numberPrefab; }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -69,8 +64,10 @@ public class CellController : MonoBehaviour
     /// <param name="color"></param>
     /// <param name="init">If the number is part of puzzle</param>
 
-    public void FillNumber(int number, string color, bool init=false) {
-        
+    public void FillNumber(string color, bool init=false) {
+        // Needa somehow connect GridModel's cellModel and CellController's cellModel
+        int number = this._cellModel.Num;
+        Debug.Log("Cell Controller: " + number);
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
         {
@@ -78,6 +75,7 @@ public class CellController : MonoBehaviour
         }
 
         // Instantiate the number
+        this._cellModel.Num = number;
         GameObject prefab = NumberDatabase.Instance.GetNumber(number);
         if (prefab != null) // Handles empty cell for 0
         { 
@@ -142,6 +140,12 @@ public class CellController : MonoBehaviour
                     break;
             }
         }
+    }
 
+    public CellController UpdateModel(int num)
+    {
+        this._cellModel.Num = num;
+        Debug.Log("I updated a! " + num);
+        return this; // allow chaining
     }
 }

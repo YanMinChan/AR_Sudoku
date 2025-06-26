@@ -45,5 +45,6 @@ public class TimerModel
     public void RestartTimer()
     {
         this._timer.Restart();
+        IsPaused = false;
     }
 }
