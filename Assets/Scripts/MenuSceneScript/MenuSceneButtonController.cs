@@ -61,10 +61,6 @@ public class MenuSceneButtonController : MonoBehaviour
 
         // Transition the location of the menu
         StartCoroutine(MoveAndRotateMenu(transform, targetPosition, targetRotation, 0.2f));
-
-
-
-
     }
 
     public void OnQuitButtonPressed()
