@@ -65,9 +65,7 @@ public class CellController : MonoBehaviour
     /// <param name="init">If the number is part of puzzle</param>
 
     public void FillNumber(string color, bool init=false) {
-        // Needa somehow connect GridModel's cellModel and CellController's cellModel
         int number = this._cellModel.Num;
-        Debug.Log("Cell Controller: " + number);
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
         {
@@ -145,7 +143,6 @@ public class CellController : MonoBehaviour
     public CellController UpdateModel(int num)
     {
         this._cellModel.Num = num;
-        Debug.Log("I updated a! " + num);
         return this; // allow chaining
     }
 }
