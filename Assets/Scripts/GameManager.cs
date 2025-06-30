@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     // Instance variables
     private bool _hasGameCompleted = false;
+    private LeaderboardHistory _leaderboardhistory;
 
     public static GameManager Instance { get; private set; }
 
