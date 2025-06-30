@@ -9,7 +9,8 @@ using System.IO;
 public class LeaderboardHistory
 {
     private List<LeaderboardEntry> _entries;
-    private static string _leaderboardPath = "./Assets/Resources/Leaderboard/";
+    private static string _leaderboardPath = "./Assets/Resources/Leaderboard/history.json";
+    private List<string> _entriesText;
 
     public List<LeaderboardEntry> Entries
     {
@@ -17,14 +18,20 @@ public class LeaderboardHistory
         set { _entries = value; }
     }
 
+    public List<string> EntriesText
+    {
+        get { return _entriesText; }
+        set { _entriesText = value; }
+    }
+
     public void SaveLeaderboard()
     {
         // GenerateSomeEntries();
         string json = JsonConvert.SerializeObject(_entries);
-        File.WriteAllText(_leaderboardPath + "/history.json", json);
+        File.WriteAllText(_leaderboardPath, json);
     }
 
-    public List<LeaderboardEntry> LoadLeaderboard()
+    public void LoadLeaderboard()
     {
         if (!File.Exists(_leaderboardPath))
         {
@@ -35,14 +42,29 @@ public class LeaderboardHistory
             string json = File.ReadAllText(_leaderboardPath);
             this._entries = JsonConvert.DeserializeObject<List<LeaderboardEntry>>(json);
         }
-        return this._entries;
+        this._entriesText = new List<string>();
+    }
+
+    public void AddRecord(string name, float time)
+    {
+        this._entries.Add(new LeaderboardEntry(name, time));
+    }
+
+    public LeaderboardHistory GenerateEntriesString()
+    {
+        foreach (var entry in _entries)
+        {
+            string entryStr = entry.Name + entry.CompletionTime.ToString();
+            this._entriesText.Add(entryStr);
+        }
+        return this;
     }
 
     private void GenerateSomeEntries()
     {
-        LeaderboardEntry entry1 = new LeaderboardEntry("hehehe", "02:18");
-        LeaderboardEntry entry2 = new LeaderboardEntry("hohoho", "03:18");
-        LeaderboardEntry entry3 = new LeaderboardEntry("hihihi", "04:18");
+        LeaderboardEntry entry1 = new LeaderboardEntry("hehehe", 2.18f);
+        LeaderboardEntry entry2 = new LeaderboardEntry("hohoho", 3.18f);
+        LeaderboardEntry entry3 = new LeaderboardEntry("hihihi", 4.18f);
 
         this._entries = new List<LeaderboardEntry>();
         this._entries.Add(entry1);

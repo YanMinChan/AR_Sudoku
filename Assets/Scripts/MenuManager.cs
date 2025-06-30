@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    private LeaderboardHistory _leaderboardhistory;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,8 +16,6 @@ public class MenuManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        // Just testing
-        this._leaderboardhistory = new LeaderboardHistory();
-        this._leaderboardhistory.SaveLeaderboard();
+
     }
 }

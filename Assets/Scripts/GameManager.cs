@@ -3,12 +3,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Unity changable variables
-    [SerializeField] private GridController _gridController;
-    [SerializeField] private TimerController _timerController;
+    private GridController _gridController;
+    private TimerController _timerController;
+    private LeaderboardController _leaderboardController;
 
     // Instance variables
     private bool _hasGameCompleted = false;
-    private LeaderboardHistory _leaderboardhistory;
 
     public static GameManager Instance { get; private set; }
 
@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        this._gridController = GameObject.Find("Grid").GetComponent<GridController>();
+        this._timerController = GameObject.Find("Timer").GetComponent<TimerController>();
+        this._leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,6 +32,7 @@ public class GameManager : MonoBehaviour
     {
         this._gridController.Init();
         this._timerController.Init();
+        this._leaderboardController.Init();
     }
 
     // Update is called once per frame
@@ -38,8 +42,14 @@ public class GameManager : MonoBehaviour
         if (!this._hasGameCompleted && this._gridController.IsGameFinished())
         {
             this._hasGameCompleted = true;
+
+            // Record completion time
+            float completionTime = this._timerController.Model.GetElapsedTimeFloat();
+            this._leaderboardController.History.AddRecord("hehe", completionTime);
+
             // TODO: Change to on scene feedback
             Debug.Log("YOU WINNNNN");
+
             GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
         }
     }

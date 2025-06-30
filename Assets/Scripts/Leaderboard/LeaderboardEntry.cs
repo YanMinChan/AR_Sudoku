@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 public class LeaderboardEntry
 {
     private string _name;
-    private string _completionTime;
+    private float _completionTime;
 
-    public LeaderboardEntry(string name, string completionTime)
+    public LeaderboardEntry(string name, float completionTime)
     {
         this._name = name;
         this._completionTime = completionTime;
@@ -20,7 +20,7 @@ public class LeaderboardEntry
         get { return _name; }
     }
 
-    public string CompletionTime
+    public float CompletionTime
     {
         get { return _completionTime; }
     }
