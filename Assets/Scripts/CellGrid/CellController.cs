@@ -86,8 +86,13 @@ public class CellController : MonoBehaviour
             this._numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
             this._numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             this._numberPrefab.GetComponent<NumberController>().enabled = false; // disable number controller script to avoid misclick and throwing error
-
+            this._numberPrefab.tag = "Untagged";
+            this._numberPrefab.SetActive(true);
             InstantiateNumberMaterial(color);
+        }
+        else if (init != true)
+        {
+            Debug.Log($"Number not available {number}");
         }
     }
 

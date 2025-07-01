@@ -38,7 +38,7 @@ public class GridModel
     public void Init()
     {
         string filePath = "./Assets/Resources/sudoku.csv";
-        this.SelectPuzzle(filePath)
+        this.SelectPuzzle(filePath, 0)
             .GenerateGrid();
 
         if (this._cells != null)

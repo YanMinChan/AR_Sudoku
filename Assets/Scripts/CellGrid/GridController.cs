@@ -32,9 +32,9 @@ public class GridController : MonoBehaviour
         // Instantiate the model
         this._gridModel = new GridModel();
         this._cellControllers = new CellController[9, 9];
+        this._numberControllers = new List<NumberController>();
 
         // Instantiate everything
-        //InstantiateCellModels();
         this._gridModel.Init();
         CellControllersInit();
         NumberControllersInit();
@@ -64,11 +64,19 @@ public class GridController : MonoBehaviour
     // Assign grid to number controller
     private void NumberControllersInit()
     {
-        this._numberControllers = FindObjectsByType<NumberController>(FindObjectsSortMode.None).ToList();
-        foreach (var cont in this._numberControllers)
+        var numberBar = GameObject.FindGameObjectsWithTag("NumberBar");
+
+        foreach (var number in numberBar) 
         {
-            cont.Initialize(this);
+            var controller = number.GetComponentInChildren<NumberController>();
+            this._numberControllers.Add(controller);
+            controller.Initialize(this);
         }
+        //this._numberControllers = FindObjectsByType<NumberController>(FindObjectsSortMode.None).ToList();
+        //foreach (var cont in this._numberControllers)
+        //{
+        //    cont.Initialize(this);
+        //}
     }
 
     // Build a new puzzle
@@ -121,15 +129,6 @@ public class GridController : MonoBehaviour
         // Update GridModel
         this._gridModel.CalculateDigitUsage();
         UpdateNumberBarVisibility();
-        //// Update NumberController
-        //if (IsNumberFullyUsed(number))
-        //{
-        //    NumberController numCtr = this._numberControllers.Find(n => n.number == number);
-        //    if (numCtr != null)
-        //    {
-        //        numCtr.SetNumberGameObjectVisibility();
-        //    }
-        //}
 
         GameLog.Instance.WriteToLog($"(GridController.cs) Fill number {number} in [{model.Row}, {model.Col}]");
     }
@@ -146,13 +145,6 @@ public class GridController : MonoBehaviour
             // Update GridModel
             this._gridModel.CalculateDigitUsage();
             UpdateNumberBarVisibility();
-            //// Update NumberController
-            //NumberController numCtr = this._numberControllers.Find(n => n.number == action.num);
-            //bool visibility = IsNumberFullyUsed(action.num);
-            //if (numCtr != null)
-            //{
-            //    numCtr.SetNumberGameObjectVisibility(visibility);
-            //} 
         }
         else
         {
@@ -200,11 +192,13 @@ public class GridController : MonoBehaviour
 
     public void UpdateNumberBarVisibility()
     {
+
         for (int i = 1; i <= 9; i++)
         {
-            NumberController numCtr = this._numberControllers.Find(n => n.number == i);
+            NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.number == i);
             bool numUsed = IsNumberFullyUsed(i);
             numCtr.SetNumberGameObjectVisibility(numUsed);
+            // Debug.Log("" + numCtr.number + numUsed);
         }
     }
 
