@@ -72,11 +72,6 @@ public class GridController : MonoBehaviour
             this._numberControllers.Add(controller);
             controller.Initialize(this);
         }
-        //this._numberControllers = FindObjectsByType<NumberController>(FindObjectsSortMode.None).ToList();
-        //foreach (var cont in this._numberControllers)
-        //{
-        //    cont.Initialize(this);
-        //}
     }
 
     // Build a new puzzle
@@ -196,8 +191,10 @@ public class GridController : MonoBehaviour
         for (int i = 1; i <= 9; i++)
         {
             NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.number == i);
-            bool numUsed = IsNumberFullyUsed(i);
-            numCtr.SetNumberGameObjectVisibility(numUsed);
+            bool numUsed = this._gridModel.IsNumberFullyUsed(i);
+            bool anyDuplicate = this._gridModel.AnyDuplicateExists(i);
+            bool objectVisibility = numUsed && !anyDuplicate;
+            numCtr.SetNumberGameObjectVisibility(objectVisibility);
             // Debug.Log("" + numCtr.number + numUsed);
         }
     }
@@ -209,4 +206,5 @@ public class GridController : MonoBehaviour
     {
         return this._gridModel.IsNumberFullyUsed(num);
     }
+
 }

@@ -209,6 +209,7 @@ public class GridModel
         }
     }
 
+    // return true if all 9 digits of a number is filled in the right place
     public bool IsNumberFullyUsed(int num)
     {
         if (num == 0) return false;
@@ -220,5 +221,22 @@ public class GridModel
         GenerateGrid(isReset:true); // Reset the cell model information
         this._actionStack = new Stack<UndoAction>(); // Reset the undo stack
         return this; // allow chaining
+    }
+
+    // return true if there is duplicate
+    public bool AnyDuplicateExists(int num)
+    {
+        for (int r = 0; r < this._cells.GetLength(0); r++)
+        {
+            for (int c = 0; c < this._cells.GetLength(1); c++)
+            {
+                int n = this._cells[r, c].Num;
+                if (num == n && DuplicateExists(num, r, c))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
