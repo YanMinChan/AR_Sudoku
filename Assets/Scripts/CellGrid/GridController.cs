@@ -17,15 +17,15 @@ public class GridController : MonoBehaviour
     private CellController[,] _cellControllers;
     private List<NumberController> _numberControllers;
 
+    public GridModel GetGridModel() {  return _gridModel; }
+    public CellController[,] GetCellControllers() {  return _cellControllers; }
+    public List<NumberController> GetNumberControllers() { return _numberControllers; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-    }
+    void Start(){}
 
     // Update is called once per frame
-    void Update()
-    {
-    }
+    void Update(){}
 
     public void Init()
     {
@@ -133,6 +133,12 @@ public class GridController : MonoBehaviour
     // Handle undo button event
     public void UndoLastAction()
     {
+        if (GameManager.Instance.IsTimerPaused())
+        {
+            Debug.Log("GridController.cs: Game is paused!");
+            return;
+        }
+
         if (this._gridModel.TryPopLastAction(out UndoAction action))
         {
             this._cellControllers[action.row, action.col]
