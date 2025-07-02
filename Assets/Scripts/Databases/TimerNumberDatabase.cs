@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class TimerNumberDatabase : MonoBehaviour
+public class TimerNumberDatabase : MonoBehaviour, INumberDatabase
 {
     public static TimerNumberDatabase Instance { get; private set; }
 
@@ -40,7 +40,7 @@ public class TimerNumberDatabase : MonoBehaviour
         }
     }
 
-    public GameObject GetTimerNumber(int num)
+    public GameObject GetNumber(int num)
     {
         if (this._numberDict.TryGetValue(num, out GameObject prefab))
         {

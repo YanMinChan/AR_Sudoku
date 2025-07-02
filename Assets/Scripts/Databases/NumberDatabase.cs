@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class NumberDatabase : MonoBehaviour
+public class NumberDatabase : MonoBehaviour, INumberDatabase
 {
     public static NumberDatabase Instance { get; private set; }
 

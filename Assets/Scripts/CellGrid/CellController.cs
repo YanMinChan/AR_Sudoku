@@ -13,6 +13,7 @@ public class CellController : MonoBehaviour
 
     // Dependency Injection
     private ISoundEffectDatabase _sfxDatabase;
+    private INumberDatabase _numberDatabase;
 
     // Instance variables
     private CellModel _cellModel;
@@ -21,9 +22,10 @@ public class CellController : MonoBehaviour
     private CellNumberController _numberController;
 
     // Constructor
-    public void Init(ISoundEffectDatabase sfxDatabase)
+    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase)
     {
         _sfxDatabase = sfxDatabase;
+        _numberDatabase = numberDatabase;
     }
 
     // Get set method
@@ -83,7 +85,7 @@ public class CellController : MonoBehaviour
         }
 
         int number = this._cellModel.Num;
-        GameObject prefab = NumberDatabase.Instance.GetNumber(number);
+        GameObject prefab = _numberDatabase.GetNumber(number);
         if (prefab != null)
         {
             if (!init) _sfxDatabase.PlayAudio(2);
