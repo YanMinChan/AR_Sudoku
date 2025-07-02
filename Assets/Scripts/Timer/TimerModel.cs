@@ -30,6 +30,13 @@ public class TimerModel
         return elapsedTime;
     }
 
+    public float GetElapsedTimeFloat()
+    {
+        TimeSpan ts = this._timer.Elapsed;
+        float minutes = (float)ts.TotalMinutes;
+        return minutes;
+    }
+
     public void PauseTimer()
     {
         this._timer.Stop();

@@ -17,24 +17,32 @@ public class GridController : MonoBehaviour
     private CellController[,] _cellControllers;
     private List<NumberController> _numberControllers;
 
+    public GridModel GetGridModel() {  return _gridModel; }
+    public CellController[,] GetCellControllers() {  return _cellControllers; }
+    public List<NumberController> GetNumberControllers() { return _numberControllers; }
+
+    // Dependency Injection
+    private ISoundEffectDatabase _sfxDatabase;
+    private INumberDatabase _numberDatabase;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-    }
+    void Start(){}
 
     // Update is called once per frame
-    void Update()
-    {
-    }
+    void Update(){}
 
-    public void Init()
+    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase)
     {
         // Instantiate the model
         this._gridModel = new GridModel();
         this._cellControllers = new CellController[9, 9];
+        this._numberControllers = new List<NumberController>();
+
+        // Instantiate dependency injection
+        this._sfxDatabase = sfxDatabase;
+        this._numberDatabase = numberDatabase;
 
         // Instantiate everything
-        //InstantiateCellModels();
         this._gridModel.Init();
         CellControllersInit();
         NumberControllersInit();
@@ -50,7 +58,8 @@ public class GridController : MonoBehaviour
         {
             int r = controller.editorRow;
             int c = controller.editorCol;
-            
+            controller.Init(_sfxDatabase, _numberDatabase);
+
             // Connect the cell model and controller
             try
             {
@@ -64,10 +73,13 @@ public class GridController : MonoBehaviour
     // Assign grid to number controller
     private void NumberControllersInit()
     {
-        this._numberControllers = FindObjectsByType<NumberController>(FindObjectsSortMode.None).ToList();
-        foreach (var cont in this._numberControllers)
+        var numberBar = GameObject.FindGameObjectsWithTag("NumberBar");
+
+        foreach (var number in numberBar) 
         {
-            cont.Initialize(this);
+            var controller = number.GetComponentInChildren<NumberController>();
+            this._numberControllers.Add(controller);
+            controller.Initialize(this);
         }
     }
 
@@ -120,16 +132,9 @@ public class GridController : MonoBehaviour
 
         // Update GridModel
         this._gridModel.CalculateDigitUsage();
+
         UpdateNumberBarVisibility();
-        //// Update NumberController
-        //if (IsNumberFullyUsed(number))
-        //{
-        //    NumberController numCtr = this._numberControllers.Find(n => n.number == number);
-        //    if (numCtr != null)
-        //    {
-        //        numCtr.SetNumberGameObjectVisibility();
-        //    }
-        //}
+        UpdateNumberColor();
 
         GameLog.Instance.WriteToLog($"(GridController.cs) Fill number {number} in [{model.Row}, {model.Col}]");
     }
@@ -137,6 +142,12 @@ public class GridController : MonoBehaviour
     // Handle undo button event
     public void UndoLastAction()
     {
+        if (GameManager.Instance.IsTimerPaused())
+        {
+            Debug.Log("GridController.cs: Game is paused!");
+            return;
+        }
+
         if (this._gridModel.TryPopLastAction(out UndoAction action))
         {
             this._cellControllers[action.row, action.col]
@@ -146,13 +157,7 @@ public class GridController : MonoBehaviour
             // Update GridModel
             this._gridModel.CalculateDigitUsage();
             UpdateNumberBarVisibility();
-            //// Update NumberController
-            //NumberController numCtr = this._numberControllers.Find(n => n.number == action.num);
-            //bool visibility = IsNumberFullyUsed(action.num);
-            //if (numCtr != null)
-            //{
-            //    numCtr.SetNumberGameObjectVisibility(visibility);
-            //} 
+            UpdateNumberColor();
         }
         else
         {
@@ -199,20 +204,33 @@ public class GridController : MonoBehaviour
     }
 
     public void UpdateNumberBarVisibility()
-    {
+    { 
         for (int i = 1; i <= 9; i++)
         {
-            NumberController numCtr = this._numberControllers.Find(n => n.number == i);
-            bool numUsed = IsNumberFullyUsed(i);
-            numCtr.SetNumberGameObjectVisibility(numUsed);
+            NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.Number == i);
+            bool numUsed = this._gridModel.IsNumberFullyUsed(i);
+            bool anyDuplicate = this._gridModel.AnyDuplicateExists(i);
+            bool objectVisibility = numUsed && !anyDuplicate;
+            numCtr.SetNumberGameObjectVisibility(objectVisibility);
+            // Debug.Log("" + numCtr.number + numUsed);
+        }
+    }
+
+    public void UpdateNumberColor()
+    {
+        for (int r = 0; r < this._cellControllers.GetLength(0); r++)
+        {
+            for (int c = 0; c < this._cellControllers.GetLength(1); c++)
+            {
+                if (this._cellControllers[r, c].IsUnchangable == true) continue;
+                int n = this._cellControllers[r, c].Model.Num;
+                bool duplicateExist = this._gridModel.DuplicateExists(n, r, c);
+                string color = NumberColor(duplicateExist);
+                this._cellControllers[r, c].FillNumber(color);
+            }
         }
     }
 
     // Function from GridModel
     public bool IsGameFinished() { return this._gridModel.IsGameFinished(); }
-
-    public bool IsNumberFullyUsed(int num)
-    {
-        return this._gridModel.IsNumberFullyUsed(num);
-    }
 }

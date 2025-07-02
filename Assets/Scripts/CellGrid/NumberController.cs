@@ -3,9 +3,15 @@ using UnityEngine.Experimental.XR.Interaction;
 
 public class NumberController : MonoBehaviour
 {
-    [Range(1, 9)]
-    public int number;
+    [SerializeField][Range(1, 9)]
+    private int number;
     private GridController _gridController;
+
+    public int Number 
+    {  
+        get { return number; } 
+        set { number = value; }
+    }
 
     public void Initialize(GridController grid)
     {

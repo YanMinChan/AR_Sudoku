@@ -84,6 +84,7 @@ public class TimerController : MonoBehaviour
     {
         foreach (TimerContainerController ctr in FindObjectsByType<TimerContainerController>(FindObjectsSortMode.None))
         {
+            ctr.Init(TimerNumberDatabase.Instance);
             // Debug.Log("Position: " + ctr.Position);
             this._timerList[ctr.Position] = ctr;
         }

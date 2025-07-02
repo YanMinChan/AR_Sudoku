@@ -11,11 +11,13 @@ public class MenuSceneButtonController : MonoBehaviour
     [SerializeField] private TMP_Text _leaderboardButton;
     // Instance variable
     private bool _isLeaderBoardVisible = false;
+    private LeaderboardController _lbController;
 
     // Awake is called on the start of the application
     private void Awake()
     {
         GameLog.Instance.WriteToLog("Application start");
+        this._lbController = _leaderboard.GetComponent<LeaderboardController>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,6 +58,7 @@ public class MenuSceneButtonController : MonoBehaviour
             // Show leaderboard
             _isLeaderBoardVisible = true;
             _leaderboard.SetActive(true);
+            this._lbController.GetLeaderboardTMP();
             _leaderboardButton.text = "Close Leaderboard";
         }
 

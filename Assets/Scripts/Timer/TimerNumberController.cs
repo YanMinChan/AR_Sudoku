@@ -7,6 +7,15 @@ public class TimerContainerController : MonoBehaviour
     private int _pos;
     [SerializeField]
     private GameObject _timerContainer;
+
+    // Dependency Injection
+    private INumberDatabase _timerDatabase;
+
+    public void Init(INumberDatabase timerDatabase)
+    {
+        _timerDatabase = timerDatabase;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,7 +47,7 @@ public class TimerContainerController : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        GameObject timerPrefab = TimerNumberDatabase.Instance.GetTimerNumber(digits);
+        GameObject timerPrefab = _timerDatabase.GetNumber(digits);
         if (timerPrefab != null)
         {
             this._timerContainer = Instantiate(timerPrefab, transform);

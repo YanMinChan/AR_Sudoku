@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class SoundEffectDatabase : MonoBehaviour
+public class SoundEffectDatabase : MonoBehaviour, ISoundEffectDatabase
 {
     public AudioSource sfxSource;
     public static SoundEffectDatabase Instance { get; private set; }
@@ -42,7 +42,7 @@ public class SoundEffectDatabase : MonoBehaviour
         }
     }
 
-    public AudioClip GetAudio(int id)
+    private AudioClip GetAudio(int id)
     {
         if (this._sfxDict.TryGetValue(id, out AudioClip audio))
         {

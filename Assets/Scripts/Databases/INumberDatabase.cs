@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-public class LeaderboardEntry
+public interface INumberDatabase
 {
-    private string _name;
-    private string _completionTime;
-    
+    public GameObject GetNumber(int num);
 }
 
