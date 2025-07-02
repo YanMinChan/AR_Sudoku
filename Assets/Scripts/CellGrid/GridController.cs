@@ -123,7 +123,9 @@ public class GridController : MonoBehaviour
 
         // Update GridModel
         this._gridModel.CalculateDigitUsage();
+
         UpdateNumberBarVisibility();
+        UpdateNumberColor();
 
         GameLog.Instance.WriteToLog($"(GridController.cs) Fill number {number} in [{model.Row}, {model.Col}]");
     }
@@ -140,6 +142,7 @@ public class GridController : MonoBehaviour
             // Update GridModel
             this._gridModel.CalculateDigitUsage();
             UpdateNumberBarVisibility();
+            UpdateNumberColor();
         }
         else
         {
@@ -186,8 +189,7 @@ public class GridController : MonoBehaviour
     }
 
     public void UpdateNumberBarVisibility()
-    {
-
+    { 
         for (int i = 1; i <= 9; i++)
         {
             NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.number == i);
@@ -199,12 +201,21 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // Function from GridModel
-    public bool IsGameFinished() { return this._gridModel.IsGameFinished(); }
-
-    public bool IsNumberFullyUsed(int num)
+    public void UpdateNumberColor()
     {
-        return this._gridModel.IsNumberFullyUsed(num);
+        for (int r = 0; r < this._cellControllers.GetLength(0); r++)
+        {
+            for (int c = 0; c < this._cellControllers.GetLength(1); c++)
+            {
+                if (this._cellControllers[r, c].IsUnchangable == true) continue;
+                int n = this._cellControllers[r, c].Model.Num;
+                bool duplicateExist = this._gridModel.DuplicateExists(n, r, c);
+                string color = NumberColor(duplicateExist);
+                this._cellControllers[r, c].FillNumber(color);
+            }
+        }
     }
 
+    // Function from GridModel
+    public bool IsGameFinished() { return this._gridModel.IsGameFinished(); }
 }
