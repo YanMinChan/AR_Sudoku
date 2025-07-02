@@ -17,6 +17,7 @@ public class GridControllerTest
     [SetUp]
     public void SetUp()
     {
+        // Create Grid and Cell GameObjects
         _grid = new GameObject("testGrid");
 
         for (int r = 0; r < 9; r++)
@@ -26,13 +27,20 @@ public class GridControllerTest
                 var go = new GameObject($"cell {r}{c}").AddComponent<CellController>();
                 go.editorRow = r + 1;
                 go.editorCol = c + 1;
-                // go.Model = _controller.GetGridModel().Cells[r, c];
             }
         }
+
+        // Create mock database
+        var mockNumberDB = new MockNumberDatabase();
+        // Add script and init
         _controller = _grid.AddComponent<GridController>();
-        _controller.Init();
+        _controller.Init(SoundEffectDatabase.Instance, mockNumberDB);
     }
 
+    /// <summary>
+    /// Check if the CellControllers's CellModel always equal the GridModel's CellModels
+    /// </summary>
+    /// <returns></returns>
     [UnityTest]
     public IEnumerator GridController_CellControllerInit_Test_1()
     {
@@ -47,6 +55,21 @@ public class GridControllerTest
                 _controller.GetGridModel().Cells[r, c]
                 );
             }
+        }
+    }
+
+    /// <summary>
+    /// Check GameObject of number 1 to 9 is stored
+    /// </summary>
+    /// <returns></returns>
+    [UnityTest]
+    public IEnumerator GridController_NumberControllersInit_Test_1()
+    {
+        yield return null;
+
+        for (int i = 1; i <= 9; i++)
+        {
+            Assert.AreEqual(i, _controller.GetNumberControllers()[i - 1].Number);
         }
     }
 }

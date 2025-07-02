@@ -21,18 +21,26 @@ public class GridController : MonoBehaviour
     public CellController[,] GetCellControllers() {  return _cellControllers; }
     public List<NumberController> GetNumberControllers() { return _numberControllers; }
 
+    // Dependency Injection
+    private ISoundEffectDatabase _sfxDatabase;
+    private INumberDatabase _numberDatabase;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){}
 
     // Update is called once per frame
     void Update(){}
 
-    public void Init()
+    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase)
     {
         // Instantiate the model
         this._gridModel = new GridModel();
         this._cellControllers = new CellController[9, 9];
         this._numberControllers = new List<NumberController>();
+
+        // Instantiate dependency injection
+        this._sfxDatabase = sfxDatabase;
+        this._numberDatabase = numberDatabase;
 
         // Instantiate everything
         this._gridModel.Init();
@@ -50,11 +58,11 @@ public class GridController : MonoBehaviour
         {
             int r = controller.editorRow;
             int c = controller.editorCol;
-            
+            controller.Init(_sfxDatabase, _numberDatabase);
+
             // Connect the cell model and controller
             try
             {
-                controller.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance);
                 controller.Model = this._gridModel.Cells[r-1, c-1];
                 this._cellControllers[r-1, c-1] = controller;
             }
@@ -199,7 +207,7 @@ public class GridController : MonoBehaviour
     { 
         for (int i = 1; i <= 9; i++)
         {
-            NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.number == i);
+            NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.Number == i);
             bool numUsed = this._gridModel.IsNumberFullyUsed(i);
             bool anyDuplicate = this._gridModel.AnyDuplicateExists(i);
             bool objectVisibility = numUsed && !anyDuplicate;

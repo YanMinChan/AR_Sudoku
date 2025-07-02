@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        this._gridController.Init();
+        this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance);
         this._timerController.Init();
         this._leaderboardController.Init();
     }
