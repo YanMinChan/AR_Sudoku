@@ -11,6 +11,9 @@ public class CellController : MonoBehaviour
     [Range(1, 9)]
     public int editorCol;
 
+    // Dependency Injection
+    private ISoundEffectDatabase _sfxDatabase;
+
     // Instance variables
     private CellModel _cellModel;
     private bool _isUnchangable = false;
@@ -18,7 +21,10 @@ public class CellController : MonoBehaviour
     private CellNumberController _numberController;
 
     // Constructor
-    public CellController(){}
+    public void Init(ISoundEffectDatabase sfxDatabase)
+    {
+        _sfxDatabase = sfxDatabase;
+    }
 
     // Get set method
     public CellModel Model
@@ -59,7 +65,7 @@ public class CellController : MonoBehaviour
         currentlySelected = this;
 
         // Audio and visual feedback
-        SoundEffectDatabase.Instance.PlayAudio(3);
+        _sfxDatabase.PlayAudio(3);
         HighlightCell("dark");
     }
 
@@ -80,7 +86,7 @@ public class CellController : MonoBehaviour
         GameObject prefab = NumberDatabase.Instance.GetNumber(number);
         if (prefab != null)
         {
-            if (!init) SoundEffectDatabase.Instance.PlayAudio(2);
+            if (!init) _sfxDatabase.PlayAudio(2);
             else this._isUnchangable = true;
 
             this._numberPrefab = Instantiate(prefab, transform);

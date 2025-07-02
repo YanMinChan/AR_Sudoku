@@ -54,6 +54,7 @@ public class GridController : MonoBehaviour
             // Connect the cell model and controller
             try
             {
+                controller.Init(SoundEffectDatabase.Instance);
                 controller.Model = this._gridModel.Cells[r-1, c-1];
                 this._cellControllers[r-1, c-1] = controller;
             }
