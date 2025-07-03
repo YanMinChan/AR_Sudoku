@@ -51,7 +51,8 @@ public class GridController : MonoBehaviour
     private void InstantiateCellModels()
     {
         // Instantiate cell model
-        string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
+        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "sudoku.csv");
+        //string filePath = "./Assets/Resources/sudoku.csv"; // path of the dataset
         this._cellModels = this._gridModel.SelectPuzzle(filePath)
             .GenerateGrid()
             .Cells;
@@ -60,7 +61,7 @@ public class GridController : MonoBehaviour
         {
             string msg = "Cell loaded: " + this._cellModels.Length;
             Debug.Log(msg);
-            GameLog.Instance.WriteToLog(msg);
+            //GameLog.Instance.WriteToLog(msg);
         }
         else
             Debug.Log("Error, cells not loaded");
