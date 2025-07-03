@@ -42,7 +42,6 @@ public class LeaderboardHistory
             string json = File.ReadAllText(_leaderboardPath);
             this._entries = JsonConvert.DeserializeObject<List<LeaderboardEntry>>(json);
         }
-        this._entriesText = new List<string>();
     }
 
     public void AddRecord(string name, float time)
@@ -52,9 +51,11 @@ public class LeaderboardHistory
 
     public LeaderboardHistory GenerateEntriesString()
     {
+        this._entriesText = new List<string>();
         foreach (var entry in _entries)
         {
-            string entryStr = entry.Name + entry.CompletionTime.ToString();
+            string completionTime = Math.Round(entry.CompletionTime, 2).ToString();
+            string entryStr = $"Player {entry.Name} | {completionTime} minutes" ;
             this._entriesText.Add(entryStr);
         }
         return this;

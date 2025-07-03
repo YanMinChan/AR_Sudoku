@@ -42,6 +42,9 @@ public class LeaderboardController : MonoBehaviour
         _history.LoadLeaderboard();
     }
 
+    /// <summary>
+    /// Generate the TMP text on scene
+    /// </summary>
     public void GetLeaderboardTMP()
     {
         // Get the records TMP displays

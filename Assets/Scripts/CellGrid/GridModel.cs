@@ -15,13 +15,11 @@ public class GridModel
     // Instantiate the cells
     private CellModel[,] _cells;
     private int[] _puz; private int[] _sol;
-    private Stack<UndoAction> _actionStack;
     private int[] _numCount;
 
     public GridModel()
     {
         this._cells = new CellModel[9, 9];
-        this._actionStack = new Stack<UndoAction>();
         this._puz = new int[81];
         this._sol = new int[81];
     }
@@ -174,23 +172,9 @@ public class GridModel
         return true;
     }
 
-    public bool TryPopLastAction(out UndoAction action)
-    {
-        return this._actionStack.TryPop(out action);
-    }
-
-    public void PushLastAction(int num, int row, int col, string color)
-    {
-        this._actionStack.Push(new UndoAction
-        {
-            num = num,
-            row = row,
-            col = col,
-            numColor = color
-        });
-    }
-
-    // Calculate the number of time the digit is used
+    /// <summary>
+    /// Calculate the frequency of each digit and store them in _numCount
+    /// </summary>
     public void CalculateDigitUsage()
     {
         // Refresh everytime the function is called
@@ -219,7 +203,7 @@ public class GridModel
     public GridModel ResetGrid()
     {
         GenerateGrid(isReset:true); // Reset the cell model information
-        this._actionStack = new Stack<UndoAction>(); // Reset the undo stack
+        //this._actionStack = new Stack<UndoAction>(); // Reset the undo stack
         return this; // allow chaining
     }
 

@@ -41,9 +41,7 @@ public class CellController : MonoBehaviour
         set { _isUnchangable = value; }
     }
 
-    private void Awake()
-    {
-    }
+    private void Awake(){}
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){}
@@ -77,7 +75,7 @@ public class CellController : MonoBehaviour
     /// <param name="color"></param>
     /// <param name="init">If the number is part of puzzle</param>
 
-    public void FillNumber(string color, bool init=false) {
+    public void FillCell(string numColor, bool init=false) {
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
         {
@@ -95,7 +93,7 @@ public class CellController : MonoBehaviour
 
             // Let CellNumberController handle filling in the number
             this._numberController = this._numberPrefab.AddComponent<CellNumberController>();
-            this._numberController.SetNumber(number).SetColor(color);
+            this._numberController.SetNumber(number).SetColor(numColor);
         }
     }
 
@@ -125,7 +123,7 @@ public class CellController : MonoBehaviour
 
     // Helper functions
 
-    public CellController UpdateModel(int num)
+    public CellController SetNumber(int num)
     {
         this._cellModel.Num = num;
         // this._numberController.IsDuplicate = isDuplicate;

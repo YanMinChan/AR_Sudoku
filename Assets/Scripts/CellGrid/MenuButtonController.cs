@@ -1,19 +1,16 @@
-using UnityEngine;
-using TMPro;
 using MixedReality.Toolkit.UX;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 public class MenuButtonController : MonoBehaviour
 {
     [SerializeField]
     private GameManager _gameManager;
-
     [SerializeField]
     private TMP_Text _pauseResumeLabel;
-    //[SerializeField]
-    //private TMP_Text _resumeLabel;
     [SerializeField]
     private FontIconSelector _pauseResumeIcon;
-    //[SerializeField]
-    //private FontIconSelector _resumeIcon;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,5 +60,10 @@ public class MenuButtonController : MonoBehaviour
         }
 
         this._gameManager.RestartGame();
+    }
+
+    public void OnMainMenuButtonPressed()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 }
