@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 
             float leastCompletionTimeOnBoard = _leaderboardController.History.SortEntries().Entries[3].CompletionTime;
             float elapsedTime = this._timerController.Model.GetElapsedTimeFloat();
+            
             // Let user enter their name
             if (elapsedTime < leastCompletionTimeOnBoard)
             {
