@@ -465,12 +465,11 @@ MonoBehaviour:
   - {fileID: -4881044957847371252}
   - {fileID: 7983461196887490591}
   - {fileID: -5262762520542852157}
-  - {fileID: -132021286139208495}
   - {fileID: -5990529953869573313}
   - {fileID: 330288336267311479}
   - {fileID: 7361174366475481233}
-  - {fileID: -3640866691229216586}
   - {fileID: 1378300317597349340}
+  - {fileID: -3640866691229216586}
   - {fileID: 203962782201006580}
   - {fileID: 5029635551868001098}
   - {fileID: 2834771633335573591}
@@ -494,7 +493,6 @@ MonoBehaviour:
   m_spacewarpMotionVectorTextureFormat: 0
   m_optimizeBufferDiscards: 0
   m_symmetricProjection: 0
-  m_foveatedRenderingApi: 0
 --- !u!114 &-1340894879710266204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,12 +509,11 @@ MonoBehaviour:
   - {fileID: 8842440476858677292}
   - {fileID: -7844602117827337806}
   - {fileID: -5104392374296696729}
-  - {fileID: -6567155442516913753}
   - {fileID: -3094131427169039606}
   - {fileID: -255198306121347808}
   - {fileID: -6049501501646281362}
-  - {fileID: 2179954316540815750}
   - {fileID: 6504212625545050191}
+  - {fileID: 2179954316540815750}
   - {fileID: 2308665346805502221}
   - {fileID: 3890810882653615162}
   - {fileID: -8457619386880774110}
@@ -543,7 +540,6 @@ MonoBehaviour:
   m_spacewarpMotionVectorTextureFormat: 0
   m_optimizeBufferDiscards: 0
   m_symmetricProjection: 0
-  m_foveatedRenderingApi: 0
 --- !u!114 &-603081207072696943
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -35,6 +35,7 @@ public class GridController : MonoBehaviour
     public CellController[,] GetCellControllers() { return _cellControllers; }
     public List<NumberController> GetNumberControllers() { return _numberControllers; }
 
+    // Constructor
     public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase)
     {
         // Instantiate the model
@@ -63,10 +64,10 @@ public class GridController : MonoBehaviour
     {
         foreach (var controller in FindObjectsByType<CellController>(FindObjectsSortMode.None))
         {
-            int r = controller.editorRow;
-            int c = controller.editorCol;
             controller.Init(_sfxDatabase, _numberDatabase);
 
+            int r = controller.editorRow;
+            int c = controller.editorCol;
             // Connect the cell model and controller
             try
             {
@@ -101,7 +102,23 @@ public class GridController : MonoBehaviour
                 this._cellControllers[i, j].FillCell("black", init:true);
             }
         }
-        GameLog.Instance.WriteToLog("(GridController.cs) Grid gameObject built.");
+        // GameLog.Instance.WriteToLog("(GridController.cs) Grid gameObject built.");
+    }
+
+    enum ActionValidationResult 
+    { 
+        Success,
+        GamePaused,
+        NoCellSelected,
+        UnchangableCell
+    }
+
+    private ActionValidationResult ValidateAction(CellController cellCtr)
+    {
+        if (GameManager.Instance.IsTimerPaused()) return ActionValidationResult.GamePaused;
+        if (cellCtr == null) return ActionValidationResult.NoCellSelected;
+        if (cellCtr.IsUnchangable) return ActionValidationResult.UnchangableCell;
+        return ActionValidationResult.Success;
     }
 
     // Fill number in the selected cell
@@ -109,20 +126,11 @@ public class GridController : MonoBehaviour
     {
         CellController cellCtr = CellController.currentlySelected;
 
-        // Handled failure event
-        if (GameManager.Instance.IsTimerPaused())
+        var result = ValidateAction(cellCtr);
+        if (result != ActionValidationResult.Success)
         {
-            Debug.Log("GridController.cs: Game is paused!");
-            return;
-        }
-        else if (cellCtr == null)
-        {
-            Debug.Log("GridController.cs: No cell is selected");
-            return;
-        }
-        else if (cellCtr.IsUnchangable)
-        {
-            Debug.Log("GridController.cs: The cell cannot be changed");
+            Debug.Log($"Grid Controller.cs: Validation failed - {result}");
+            _sfxDatabase.PlayAudio(4);
             return;
         }
 
@@ -138,9 +146,12 @@ public class GridController : MonoBehaviour
     // Handle undo button event
     public void UndoLastAction()
     {
-        if (GameManager.Instance.IsTimerPaused())
+        var result = ValidateAction(CellController.currentlySelected);
+
+        if (result == ActionValidationResult.GamePaused)
         {
-            Debug.Log("GridController.cs: Game is paused!");
+            Debug.Log($"GridController.cs: Validation failed - {result}");
+            _sfxDatabase.PlayAudio(4);
             return;
         }
 
@@ -161,18 +172,29 @@ public class GridController : MonoBehaviour
         // Rebuild the grid
         BuildGrid();
 
-        GameLog.Instance.WriteToLog($"(GridController.cs) Game restarted.");
+        // GameLog.Instance.WriteToLog($"(GridController.cs) Game restarted.");
     }
 
     public void UpdateNumberBarVisibility()
-    { 
+    {
         for (int i = 1; i <= 9; i++)
         {
             NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.Number == i);
+            
             bool numUsed = this._gridModel.IsNumberFullyUsed(i);
             bool anyDuplicate = this._gridModel.AnyDuplicateExists(i);
-            bool objectVisibility = numUsed && !anyDuplicate;
-            numCtr.SetNumberGameObjectVisibility(objectVisibility);
+            bool shouldHide = numUsed && !anyDuplicate;
+
+            bool wasActive = numCtr.gameObject.activeSelf;
+
+            numCtr.gameObject.SetActive(!shouldHide);
+
+            // Only play the sfx when first time set disable and game not finished
+            // Will play another sfx at game finish in GameManager
+            if (wasActive && shouldHide && !IsGameFinished()) { 
+                _sfxDatabase.PlayAudio(5);
+            }
+
             // Debug.Log("" + numCtr.number + numUsed);
         }
     }

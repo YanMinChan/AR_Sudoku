@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +6,7 @@ using System.Linq;
 public class LeaderboardController : MonoBehaviour
 {
     private LeaderboardHistory _history;
+    private List<TMP_Text> _displays;
 
     void Awake()
     {
@@ -40,6 +40,10 @@ public class LeaderboardController : MonoBehaviour
     {
         _history = new LeaderboardHistory();
         _history.LoadLeaderboard();
+
+        _displays = GameObject.FindGameObjectsWithTag("LbRecord")
+            .SelectMany(obj => obj.GetComponentsInChildren<TMP_Text>(true))
+            .ToList();
     }
 
     /// <summary>
@@ -47,22 +51,17 @@ public class LeaderboardController : MonoBehaviour
     /// </summary>
     public void GetLeaderboardTMP()
     {
-        // Get the records TMP displays
-        List<TMP_Text> displays = GameObject.FindGameObjectsWithTag("LbRecord")
-            .SelectMany(obj =>obj.GetComponentsInChildren<TMP_Text>(true))
-            .ToList();
-
         List<string> records = this._history.GenerateEntriesString().EntriesText;
         Debug.Log(records);
-        for(int i = 0; i < displays.Count; i++)
+        for(int i = 0; i < _displays.Count; i++)
         {
             if (i < records.Count)
             {
-                displays[i].text = records[i];
+                _displays[i].text = records[i];
             }
             else
             {
-                displays[i].text = "No record yet";
+                _displays[i].text = "No record yet";
             }
         }
     }

@@ -1,14 +1,26 @@
+using System.Collections;
+using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Unity changable variables
+    [SerializeField]
+    private GameObject _keyboard;
+    [SerializeField]
+    private TMP_Text _inputBox;
+    [SerializeField]
+    private Button _enter;
+
+    // Instance variables
     private GridController _gridController;
     private TimerController _timerController;
     private LeaderboardController _leaderboardController;
 
-    // Instance variables
     private bool _hasGameCompleted = false;
+    private bool _inputReceived = false;
+    private ISoundEffectDatabase _sfxDatabase;
 
     public static GameManager Instance { get; private set; }
 
@@ -25,6 +37,9 @@ public class GameManager : MonoBehaviour
         this._gridController = GameObject.Find("Grid").GetComponent<GridController>();
         this._timerController = GameObject.Find("Timer").GetComponent<TimerController>();
         this._leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
+
+        _sfxDatabase = SoundEffectDatabase.Instance;
+        _enter.onClick.AddListener(RecordPlayerInfo);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,16 +56,23 @@ public class GameManager : MonoBehaviour
         // Check if the game is finished
         if (!this._hasGameCompleted && this._gridController.IsGameFinished())
         {
+            // Pause timer
             this._hasGameCompleted = true;
+            this._timerController.Model.PauseTimer();
 
-            // Record completion time
-            float completionTime = this._timerController.Model.GetElapsedTimeFloat();
-            this._leaderboardController.History.AddRecord("hehe", completionTime);
+            // Audio feedback (Also add onscreen feedback later)
+            _sfxDatabase.PlayAudio(6);
 
-            // TODO: Change to on scene feedback
-            Debug.Log("YOU WINNNNN");
-
-            GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
+            float leastCompletionTimeOnBoard = _leaderboardController.History.SortEntries().Entries[3].CompletionTime;
+            float elapsedTime = this._timerController.Model.GetElapsedTimeFloat();
+            // Let user enter their name
+            if (elapsedTime < leastCompletionTimeOnBoard)
+            {
+                _keyboard.SetActive(true);
+                StartCoroutine(WaitForUserInputCoroutine());
+            }
+            
+            // GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
         }
     }
 
@@ -83,5 +105,20 @@ public class GameManager : MonoBehaviour
 
 
         GameLog.Instance.WriteToLog($"(GridController.cs) Game restarted.");
+    }
+
+    private IEnumerator WaitForUserInputCoroutine()
+    {
+        _inputReceived = false;
+
+        yield return new WaitUntil(() => _inputReceived);
+    }
+
+    private void RecordPlayerInfo()
+    {
+        _inputReceived = true;
+        string name = Regex.Replace(_inputBox.text, @"\t|\n|\r", "");
+        float completionTime = this._timerController.Model.GetElapsedTimeFloat();
+        this._leaderboardController.History.AddRecord(name, completionTime);
     }
 }

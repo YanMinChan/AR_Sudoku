@@ -52,9 +52,9 @@ public class SoundEffectDatabase : MonoBehaviour, ISoundEffectDatabase
         return null;
     }
 
-    public void PlayAudio(int id)
+    public void PlayAudio(int id, float volume = 1.0f)
     {
-        sfxSource.clip = GetAudio(id);
-        sfxSource.Play();
+        AudioClip clip = GetAudio(id);
+        sfxSource.PlayOneShot(clip, volume);
     }
 }

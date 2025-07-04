@@ -52,12 +52,19 @@ public class LeaderboardHistory
     public LeaderboardHistory GenerateEntriesString()
     {
         this._entriesText = new List<string>();
+        SortEntries();
         foreach (var entry in _entries)
         {
             string completionTime = Math.Round(entry.CompletionTime, 2).ToString();
             string entryStr = $"Player {entry.Name} | {completionTime} minutes" ;
             this._entriesText.Add(entryStr);
         }
+        return this;
+    }
+
+    public LeaderboardHistory SortEntries()
+    {
+        _entries.Sort((a, b) => a.CompletionTime.CompareTo(b.CompletionTime));
         return this;
     }
 

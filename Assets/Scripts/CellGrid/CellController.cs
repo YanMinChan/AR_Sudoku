@@ -64,7 +64,7 @@ public class CellController : MonoBehaviour
         
         currentlySelected = this;
 
-        // Audio and visual feedback
+        // Visual feedback
         _sfxDatabase.PlayAudio(3);
         HighlightCell("dark");
     }
@@ -86,7 +86,7 @@ public class CellController : MonoBehaviour
         GameObject prefab = _numberDatabase.GetNumber(number);
         if (prefab != null)
         {
-            if (!init) _sfxDatabase.PlayAudio(2);
+            if (!init) _sfxDatabase.PlayAudio(2, 0.2f);
             else this._isUnchangable = true;
 
             this._numberPrefab = Instantiate(prefab, transform);

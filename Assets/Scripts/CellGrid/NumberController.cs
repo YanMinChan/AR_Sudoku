@@ -24,10 +24,10 @@ public class NumberController : MonoBehaviour
         this._gridController.FillNumber(this.number);
     }
 
-    public void SetNumberGameObjectVisibility(bool visibility)
-    {
-        this.gameObject.SetActive(!visibility);
-    }
+    //public void SetNumberGameObjectVisibility(bool visibility)
+    //{
+    //    this.gameObject.SetActive(!visibility);
+    //}
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

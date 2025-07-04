@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 public interface ISoundEffectDatabase
 {
-    public void PlayAudio(int id);
+    public void PlayAudio(int id, float volume = 1.0f);
 }
 
