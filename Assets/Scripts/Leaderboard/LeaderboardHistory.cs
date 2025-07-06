@@ -5,12 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using UnityEngine;
 
 public class LeaderboardHistory
 {
     private List<LeaderboardEntry> _entries;
-    private static string _leaderboardPath = "./Assets/Resources/Leaderboard/history.json";
     private List<string> _entriesText;
+
+    private LeaderboardHistoryIO _io;
+
+    private static string _leaderboardPath = "Leaderboard/history.json";
+    
+    public LeaderboardHistory()
+    {
+        string _filePath = Path.Combine(Application.persistentDataPath, _leaderboardPath);
+
+        _io = new LeaderboardHistoryIO(_filePath);
+    }
 
     public List<LeaderboardEntry> Entries
     {
@@ -26,22 +37,12 @@ public class LeaderboardHistory
 
     public void SaveLeaderboard()
     {
-        // GenerateSomeEntries();
-        string json = JsonConvert.SerializeObject(_entries);
-        File.WriteAllText(_leaderboardPath, json);
+        _io.Save(_entries);
     }
 
     public void LoadLeaderboard()
     {
-        if (!File.Exists(_leaderboardPath))
-        {
-            this._entries = new List<LeaderboardEntry>();
-        }
-        else
-        {
-            string json = File.ReadAllText(_leaderboardPath);
-            this._entries = JsonConvert.DeserializeObject<List<LeaderboardEntry>>(json);
-        }
+        _entries = _io.Load();
     }
 
     public void AddRecord(string name, float time)
@@ -49,16 +50,22 @@ public class LeaderboardHistory
         this._entries.Add(new LeaderboardEntry(name, time));
     }
 
+    /// <summary>
+    /// Construct the leaderboard text to be displayed on leaderboard from LeaderboardEntry
+    /// </summary>
+    /// <returns></returns>
     public LeaderboardHistory GenerateEntriesString()
     {
         this._entriesText = new List<string>();
         SortEntries();
+
         foreach (var entry in _entries)
         {
             string completionTime = Math.Round(entry.CompletionTime, 2).ToString();
             string entryStr = $"Player {entry.Name} | {completionTime} minutes" ;
             this._entriesText.Add(entryStr);
         }
+
         return this;
     }
 
@@ -66,18 +73,6 @@ public class LeaderboardHistory
     {
         _entries.Sort((a, b) => a.CompletionTime.CompareTo(b.CompletionTime));
         return this;
-    }
-
-    private void GenerateSomeEntries()
-    {
-        LeaderboardEntry entry1 = new LeaderboardEntry("hehehe", 2.18f);
-        LeaderboardEntry entry2 = new LeaderboardEntry("hohoho", 3.18f);
-        LeaderboardEntry entry3 = new LeaderboardEntry("hihihi", 4.18f);
-
-        this._entries = new List<LeaderboardEntry>();
-        this._entries.Add(entry1);
-        this._entries.Add(entry2);
-        this._entries.Add(entry3);
     }
 }
 

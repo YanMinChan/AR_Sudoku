@@ -52,7 +52,7 @@ public class LeaderboardController : MonoBehaviour
     public void GetLeaderboardTMP()
     {
         List<string> records = this._history.GenerateEntriesString().EntriesText;
-        Debug.Log(records);
+
         for(int i = 0; i < _displays.Count; i++)
         {
             if (i < records.Count)
