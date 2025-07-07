@@ -7,15 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GameLog
+public class GameLogger: IGameLogger
 {
     // Static instance accessible globally
     // Also only 1 instance is accessible to prevent unexpected result (ie. multiple duplicate of logs recorded)
-    private static GameLog _instance;
+    private static GameLogger _instance;
 
     private string _filePath = AppPaths.GameLogFile;
     private StreamWriter _sw;
-    private GameLog()
+    private GameLogger()
     { 
         string directory = Path.GetDirectoryName(_filePath);
         if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
@@ -23,12 +23,12 @@ public class GameLog
         this._sw = new StreamWriter(_filePath, false);
     }
 
-    public static GameLog Instance
+    public static GameLogger Instance
     {
         get {
             if (_instance == null)
             {
-                _instance = new GameLog();
+                _instance = new GameLogger();
             }
             return _instance;
         }

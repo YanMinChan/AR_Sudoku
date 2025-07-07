@@ -39,9 +39,9 @@ public class GridModel
             .GenerateGrid();
 
         if (this._cells != null)
-            GameLog.Instance.WriteToLog($"(GridModel.cs) Cells loaded: {this._cells.Length}");
+            GameLogger.Instance.WriteToLog($"(GridModel.cs) Cells loaded: {this._cells.Length}");
         else
-            GameLog.Instance.WriteToLog("(GridModel.cs) Cells not loaded!");
+            GameLogger.Instance.WriteToLog("(GridModel.cs) Cells not loaded!");
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public class GridModel
         }
 
         // Log the puzzle id
-        GameLog.Instance.WriteToLog($"(GridModel.cs) Puzzle ID: {puzId}");
+        GameLogger.Instance.WriteToLog($"(GridModel.cs) Puzzle ID: {puzId}");
         return this; // Allow chaining
     }
 

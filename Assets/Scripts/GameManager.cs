@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        GameLog.Instance.CloseLogger();
+        GameLogger.Instance.CloseLogger();
     }
 
     public GridController Grid
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
         this._hasGameCompleted = false;
 
 
-        GameLog.Instance.WriteToLog($"(GridController.cs) Game restarted.");
+        GameLogger.Instance.WriteToLog($"(GridController.cs) Game restarted.");
     }
 
     private IEnumerator WaitForUserInputCoroutine()

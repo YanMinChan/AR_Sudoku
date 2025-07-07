@@ -14,14 +14,15 @@ public class GameCommandManager
         _history.Push(command);
     }
 
-    public void Undo()
+    public bool Undo()
     {
         if (_history.Count > 0) 
         { 
             IGameCommand last = _history.Pop();
             last.Undo();
-            GameLog.Instance.WriteToLog("I am undoing");
+            return true;
         }
+        return false;
     }
 
     public void ResetHistory()

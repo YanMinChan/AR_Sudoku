@@ -67,7 +67,7 @@ public class MenuSceneButtonController : MonoBehaviour
 
     public void OnQuitButtonPressed()
     {
-        GameLog.Instance.WriteToLog("Application quit");
+        GameLogger.Instance.WriteToLog("Application quit");
         // Quit editor if it's in editor version
         if (EditorApplication.isPlaying)
         {

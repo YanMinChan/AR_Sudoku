@@ -22,7 +22,7 @@ public class GridController : MonoBehaviour
     private INumberDatabase _numberDatabase;
 
     // Command manager
-    private GameCommandManager _gameMgr;
+    private GameCommandManager _cmdMgr;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start(){}
@@ -48,7 +48,7 @@ public class GridController : MonoBehaviour
         this._numberDatabase = numberDatabase;
 
         // Instantiate game command manager
-        _gameMgr = new GameCommandManager();
+        _cmdMgr = new GameCommandManager();
 
         // Instantiate everything
         this._gridModel.Init();
@@ -135,7 +135,7 @@ public class GridController : MonoBehaviour
         }
 
         var command = new FillNumberCommand(cellCtr, this._gridModel, number);
-        _gameMgr.ExecuteCommand(command);
+        _cmdMgr.ExecuteCommand(command);
 
         UpdateNumberBarVisibility();
         UpdateNumberColor();
@@ -155,7 +155,7 @@ public class GridController : MonoBehaviour
             return;
         }
 
-        _gameMgr.Undo();
+        if (!_cmdMgr.Undo()) { return; }
 
         UpdateNumberBarVisibility();
         UpdateNumberColor();
@@ -167,7 +167,7 @@ public class GridController : MonoBehaviour
     {
         // Clear game status
         this._gridModel.ResetGrid();
-        _gameMgr.ResetHistory();
+        _cmdMgr.ResetHistory();
 
         // Rebuild the grid
         BuildGrid();
