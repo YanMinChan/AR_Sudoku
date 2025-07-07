@@ -9,24 +9,26 @@ using MixedReality.Toolkit.UX;
 public class MenuSceneButtonController : MonoBehaviour
 {
     // Unity changeable variable
-    [SerializeField] private GameObject _leaderboard;
-    [SerializeField] private GameObject _tutorialDialog;
-    [SerializeField] private TMP_Text _leaderboardButton;
+    [SerializeField] private GameObject _leaderboardGameObject;
+    [SerializeField] private GameObject _tutorialGameObject;
 
     // Instance variable
-    private bool _isLeaderBoardVisible = false;
-    private bool _isTutorialVisible = false;
-
-    private LeaderboardController _lbController;
-    private TutorialController _tutController;
+    private LeaderboardController _lbCtr;
+    private TutorialController _tutCtr;
 
     private IMenuPanel _currPanel;
+
+    public class Panel {
+        public GameObject go;
+        public IMenuPanel panelCtr;
+        public Action onShow = null;
+    }
 
     // Awake is called on the start of the application
     private void Awake()
     {
-        this._lbController = _leaderboard.GetComponent<LeaderboardController>();
-        this._tutController = _tutorialDialog.GetComponent<TutorialController>();
+        _lbCtr = _leaderboardGameObject.GetComponent<LeaderboardController>();
+        _tutCtr = _tutorialGameObject.GetComponent<TutorialController>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,24 +50,24 @@ public class MenuSceneButtonController : MonoBehaviour
 
     public void OnTutorialButtonClicked() 
     {
+        Panel tutorial = new Panel { 
+            go = _tutorialGameObject, 
+            panelCtr = _tutCtr 
+        };
+
         // Show the tutorial dialog
-        this.RevealWindow(
-            _tutorialDialog,
-            ref _isTutorialVisible,
-            _tutController
-        );
+        this.OpenPanel(tutorial);
     }
 
     public void OnLeaderboardButtonClicked()
     {
-        this.RevealWindow(
-            _leaderboard,
-            ref _isLeaderBoardVisible,
-            _lbController,
-            _leaderboardButton,
-            new[] { "Leaderboard", "Close Leaderboard"},
-            () => _lbController.GetLeaderboardTMP()
-        );
+        Panel leaderboard = new Panel { 
+            go = _leaderboardGameObject, 
+            panelCtr = _lbCtr, 
+            onShow = () => _lbCtr.GetLeaderboardTMP()
+        };
+
+        this.OpenPanel(leaderboard);
     }
 
     public void OnQuitButtonClicked()
@@ -83,12 +85,12 @@ public class MenuSceneButtonController : MonoBehaviour
         }
     }
 
-    private void RevealWindow(GameObject window, ref bool isVisible, IMenuPanel panel, TMP_Text button = null, string[] buttonTexts = null, Action onShow = null)
+    private void OpenPanel(Panel panel)
     {
         // Move the menu panel to side
         if (_currPanel == null) { MenuAtMiddle(false); }
 
-        if (_currPanel == panel)
+        if (_currPanel == panel.panelCtr)
         {
             // Close side panel
             _currPanel.Close();
@@ -103,12 +105,10 @@ public class MenuSceneButtonController : MonoBehaviour
             if (_currPanel != null) _currPanel.Close();
 
             // Show another side panel
-            _currPanel = panel;
-            window.SetActive(true);
-            
-            if (button != null && buttonTexts != null) button.text = buttonTexts[1];
+            _currPanel = panel.panelCtr;
+            panel.go.SetActive(true);
 
-            onShow?.Invoke();
+            panel.onShow?.Invoke();
         }
     }
 
