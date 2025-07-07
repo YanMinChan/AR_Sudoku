@@ -16,7 +16,6 @@ public class MenuSceneButtonController : MonoBehaviour
     // Awake is called on the start of the application
     private void Awake()
     {
-        GameLog.Instance.WriteToLog("Application start");
         this._lbController = _leaderboard.GetComponent<LeaderboardController>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

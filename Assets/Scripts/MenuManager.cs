@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        GameLog.Instance.WriteToLog("Application start");
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +20,6 @@ public class MenuManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-
+        GameLog.Instance.CloseLogger();
     }
 }
