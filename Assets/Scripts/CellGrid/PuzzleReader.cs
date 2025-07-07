@@ -12,6 +12,8 @@ public class PuzzleReader
     private List<int[]> _puzzle;
     private List<int[]> _solution;
 
+    private static string _filePath = AppPaths.PuzzleFile;
+
     // Constructor
     public PuzzleReader()
     {
@@ -31,10 +33,10 @@ public class PuzzleReader
     }
 
     // Public methods
-    public void ReadCSV(string filePath, int numPuz = 100)
+    public void Load(int numPuz = 100)
     {
         // Read from csv
-        using (StreamReader sr = new StreamReader(filePath))
+        using (StreamReader sr = new StreamReader(_filePath))
         {
             try
             {
@@ -61,7 +63,7 @@ public class PuzzleReader
                     data = sr.ReadLine();
                     numPuz--;
                 }
-                GameLog.Instance.WriteToLog($"(PuzzleReader.cs) Puzzle loaded from {filePath}");
+                GameLog.Instance.WriteToLog($"(PuzzleReader.cs) Puzzle loaded from {_filePath}");
             }
             catch (FileNotFoundException fnf)
             {

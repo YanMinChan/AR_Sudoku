@@ -7,11 +7,8 @@ using System.IO;
 
 public class LeaderboardHistoryIO
 {
-    private static string _filePath;
-    public LeaderboardHistoryIO(string filePath)
-    {
-        _filePath = filePath;
-    }
+    private static string _filePath = AppPaths.LeaderboardHistoryFile;
+    public LeaderboardHistoryIO(){}
 
     public List<LeaderboardEntry> Load()
     {
@@ -23,10 +20,6 @@ public class LeaderboardHistoryIO
 
     public void Save(List<LeaderboardEntry> entries) 
     {
-        // Create dir at first run
-        string directory = Path.GetDirectoryName(_filePath);
-        if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
-
         string json = IOHelper.ToJson<List<LeaderboardEntry>>(entries);
         File.WriteAllText(_filePath, json);
     }

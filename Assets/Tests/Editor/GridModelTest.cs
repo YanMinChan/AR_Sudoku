@@ -266,8 +266,7 @@ public class GridModelTest
     [Test]
     public void GridModel_puzzleSelector_Test_1()
     {
-        string filePath = "./Assets/Resources/sudoku.csv";
-        _gridModel.SelectPuzzle(filePath, 0);
+        _gridModel.SelectPuzzle(0);
         int[] puz = _gridModel.Puz;
         int[] sol = _gridModel.Sol;
         int[] expectedPuz = {0,0,4,3,0,0,2,0,9,0,0,5,0,0,9,0,0,1,0,7,0,0,6,0,0,4,3,0,0,6,0,0,2,0,8,7,1,9,0,0,0,7,4,0,0,0,5,0,0,8,3,0,0,0,6,0,0,0,0,0,1,0,5,0,0,3,5,0,8,6,9,0,0,4,2,9,1,0,3,0,0};
@@ -281,8 +280,7 @@ public class GridModelTest
     [Test]
     public void GridModel_puzzleSelector_Test_2()
     {
-        string filePath = "./Assets/Resources/sudoku.csv";
-        _gridModel.SelectPuzzle(filePath);
+        _gridModel.SelectPuzzle();
 
         Assert.IsNotNull(_gridModel.Puz);
         Assert.IsNotNull(_gridModel.Sol);

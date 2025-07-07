@@ -35,8 +35,7 @@ public class GridModel
 
     public void Init()
     {
-        string filePath = "./Assets/Resources/sudoku.csv";
-        this.SelectPuzzle(filePath, 0)
+        this.SelectPuzzle(0)
             .GenerateGrid();
 
         if (this._cells != null)
@@ -51,11 +50,11 @@ public class GridModel
     /// <param name="filePath"> file path </param>
     /// <param name="puzId"></param>
     /// <returns> the GridModel class </returns>
-    public GridModel SelectPuzzle(string filePath, int puzId = -1)
+    public GridModel SelectPuzzle(int puzId = -1)
     {
         // Load puzzle from file path and store them
         PuzzleReader reader = new PuzzleReader();
-        reader.ReadCSV(filePath);
+        reader.Load();
         List<int[]> puzList = reader.Puzzle;
         List<int[]> solList = reader.Solution;
 

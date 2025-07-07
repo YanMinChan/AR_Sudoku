@@ -7,7 +7,6 @@ using UnityEngine.TestTools;
 public class PuzzleReaderTest
 {
     PuzzleReader _reader;
-    string _filePath = "./Assets/Resources/sudoku.csv";
 
     [SetUp]
     public void PuzzleReader_SetUp()
@@ -21,7 +20,7 @@ public class PuzzleReaderTest
     public void PuzzleReader_ReadCSV_ReturnedPuzzleSolutionDefaultNumber_Test()
     {
         // Use the Assert class to test
-        _reader.ReadCSV(_filePath);
+        _reader.Load();
 
         Assert.AreEqual(100, _reader.Puzzle.Count);
         Assert.AreEqual(100, _reader.Solution.Count);
@@ -37,7 +36,7 @@ public class PuzzleReaderTest
     public void PuzzleReader_ReadCSV_ReturnedPuzzleSolutionNumber_Test(int numPuz)
     {
         // Use the Assert class to test
-        _reader.ReadCSV(_filePath, numPuz);
+        _reader.Load(numPuz);
 
         Assert.AreEqual(numPuz, _reader.Puzzle.Count);
         Assert.AreEqual(numPuz, _reader.Solution.Count);

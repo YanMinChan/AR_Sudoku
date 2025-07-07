@@ -13,14 +13,10 @@ public class LeaderboardHistory
     private List<string> _entriesText;
 
     private LeaderboardHistoryIO _io;
-
-    private static string _leaderboardPath = "Leaderboard/history.json";
     
     public LeaderboardHistory()
     {
-        string _filePath = Path.Combine(Application.persistentDataPath, _leaderboardPath);
-
-        _io = new LeaderboardHistoryIO(_filePath);
+        _io = new LeaderboardHistoryIO();
     }
 
     public List<LeaderboardEntry> Entries

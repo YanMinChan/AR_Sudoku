@@ -12,13 +12,11 @@ public class GameLog
     // Static instance accessible globally
     // Also only 1 instance is accessible to prevent unexpected result (ie. multiple duplicate of logs recorded)
     private static GameLog _instance;
+
+    private string _filePath = AppPaths.GameLogFile;
     private StreamWriter _sw;
     private GameLog()
-    {
-        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string _filePath = Path.Combine(Application.persistentDataPath, $"Log/GameLog_{timestamp}.txt"); // For more GameLog with diff timestamp
-        // string _filePath = Path.Combine(Application.persistentDataPath, $"Log/GameLog.txt");
-
+    { 
         string directory = Path.GetDirectoryName(_filePath);
         if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
 
@@ -35,14 +33,6 @@ public class GameLog
             return _instance;
         }
     }
-
-    //private void Initialise()
-    //{
-    //    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-    //    // string _filePath = Path.Combine(_dirPath, $"GameLog_{timestamp}.txt"); // For more GameLog with diff timestamp
-    //    string _filePath = Path.Combine(_dirPath, $"GameLog.txt");
-    //    this._sw = new StreamWriter(_filePath, false);
-    //}
 
     // Write the log to Gamelog.txt
     public void WriteToLog(string msg)
