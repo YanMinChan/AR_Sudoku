@@ -3,14 +3,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
+using System;
+using MixedReality.Toolkit.UX;
 
 public class MenuSceneButtonController : MonoBehaviour
 {
     // Unity changeable variable
     [SerializeField] private GameObject _leaderboard;
+    [SerializeField] private GameObject _tutorialDialog;
     [SerializeField] private TMP_Text _leaderboardButton;
+
     // Instance variable
     private bool _isLeaderBoardVisible = false;
+    private bool _isTutorialVisible = false;
+
     private LeaderboardController _lbController;
 
     // Awake is called on the start of the application
@@ -18,6 +24,7 @@ public class MenuSceneButtonController : MonoBehaviour
     {
         this._lbController = _leaderboard.GetComponent<LeaderboardController>();
     }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,42 +37,32 @@ public class MenuSceneButtonController : MonoBehaviour
         
     }
 
-    public void OnStartGameButtonPressed()
+    public void OnStartGameButtonClicked()
     {
         SceneManager.LoadScene("SudokuScene");
     }
 
-    public void OnLeaderboardButtonClicked()
+    public void OnTutorialButtonClicked() 
     {
-        // Original position
-        Vector3 targetPosition = new Vector3(0, 1.6f, 0.2f);
-        Quaternion targetRotation = Quaternion.identity;
-
-        if (_isLeaderBoardVisible) 
-        {
-            // Disable leaderboard
-            _isLeaderBoardVisible = false;
-            _leaderboard.SetActive(false);
-            _leaderboardButton.text = "Leaderboard";
-        }
-        else
-        {
-            // Move menu to side
-            targetPosition = new Vector3(-0.1f, 1.6f, 0.2f);
-            targetRotation = Quaternion.Euler(0f, -8f, 0f);
-
-            // Show leaderboard
-            _isLeaderBoardVisible = true;
-            _leaderboard.SetActive(true);
-            this._lbController.GetLeaderboardTMP();
-            _leaderboardButton.text = "Close Leaderboard";
-        }
-
-        // Transition the location of the menu
-        StartCoroutine(MoveAndRotateMenu(transform, targetPosition, targetRotation, 0.2f));
+        // Show the tutorial dialog
+        this.RevealWindow(
+            _tutorialDialog,
+            ref _isTutorialVisible
+        );
     }
 
-    public void OnQuitButtonPressed()
+    public void OnLeaderboardButtonClicked()
+    {
+        this.RevealWindow(
+            _leaderboard,
+            ref _isLeaderBoardVisible,
+            _leaderboardButton,
+            new[] { "Leaderboard", "Close Leaderboard"},
+            () => _lbController.GetLeaderboardTMP()
+        );
+    }
+
+    public void OnQuitButtonClicked()
     {
         GameLogger.Instance.WriteToLog("Application quit");
         // Quit editor if it's in editor version
@@ -78,6 +75,37 @@ public class MenuSceneButtonController : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+
+    private void RevealWindow(GameObject window, ref bool isVisible, TMP_Text button = null, string[] buttonTexts = null, Action onShow = null)
+    {
+        // Original position
+        Vector3 targetPos = new Vector3(0, 1.6f, 0.2f);
+        Quaternion targetRot = Quaternion.identity;
+
+        if (isVisible)
+        {
+            // Disable leaderboard
+            isVisible = false;
+            window.SetActive(false);
+            if (button != null && buttonTexts != null) button.text = buttonTexts[0];
+        }
+        else
+        {
+            // Move menu to side
+            targetPos = new Vector3(-0.1f, 1.6f, 0.2f);
+            targetRot = Quaternion.Euler(0f, -8f, 0f);
+
+            // Show leaderboard
+            isVisible = true;
+            window.SetActive(true);
+            if (button != null && buttonTexts != null) button.text = buttonTexts[1];
+
+            onShow?.Invoke();
+        }
+
+        // Transition the location of the menu
+        StartCoroutine(MoveAndRotateMenu(this.transform, targetPos, targetRot, 0.2f));
     }
 
     private IEnumerator MoveAndRotateMenu(Transform menuTransform, Vector3 targetPos, Quaternion targetRot, float duration)
