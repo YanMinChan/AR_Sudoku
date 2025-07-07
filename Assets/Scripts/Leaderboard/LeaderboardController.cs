@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using System.Linq;
 
-public class LeaderboardController : MonoBehaviour
+public class LeaderboardController: MonoBehaviour, IMenuPanel
 {
+    private GameObject _lbPane;
     private LeaderboardHistory _history;
     private List<TMP_Text> _displays;
 
@@ -38,6 +39,8 @@ public class LeaderboardController : MonoBehaviour
 
     public void Init()
     {
+        _lbPane = this.gameObject;
+
         _history = new LeaderboardHistory();
         _history.LoadLeaderboard();
 
@@ -64,5 +67,10 @@ public class LeaderboardController : MonoBehaviour
                 _displays[i].text = "No record yet";
             }
         }
+    }
+
+    public void Close()
+    {
+        _lbPane.SetActive(false);
     }
 }
