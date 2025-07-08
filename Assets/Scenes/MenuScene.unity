@@ -886,6 +886,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acbf65a81ce2cf94f82a0809298acf70, type: 3}
+--- !u!1 &2096498180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2096498182}
+  - component: {fileID: 2096498181}
+  m_Layer: 0
+  m_Name: Toast
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2096498181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096498180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d0145bf275ee847a1cde398ec06047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2096498182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096498180}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 350.46094, y: 199.65454, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5899798917326595152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -894,6 +938,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 247304520425256285, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349999055953465892, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_fontSize
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349999055953465892, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349999055953465892, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 3460684257010285899, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.1176088
@@ -942,6 +1002,27 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6954438647669362954, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_text
+      value: "Sudoku is a logic-based number puzzle.\nYour goal is to fill in every
+        empty cell on the grid with numbers 1 - 9, without breaking these rules:\n\n 
+        1. Each row must contain the numbers 1 - 9, no repeats.\n  2. Each column
+        must contain the numbers 1 - 9, no repeats.\n  3. Each 3x3 box must contain
+        1-9, no repeats.\n\nSome numbers are already filled in to get you started
+        - the rest is up to your logic and reasoning! Have fun!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954438647669362954, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_margin.w
+      value: -0.08012827
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954438647669362954, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_margin.y
+      value: -0.015776344
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954438647669362954, guid: 981eb87ea57448d40900acde42792f6d, type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -961,3 +1042,4 @@ SceneRoots:
   - {fileID: 216290753}
   - {fileID: 614866547}
   - {fileID: 5899798917326595152}
+  - {fileID: 2096498182}
