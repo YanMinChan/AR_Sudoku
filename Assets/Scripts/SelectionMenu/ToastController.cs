@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ToastController : MonoBehaviour
 {
-    public GameObject _toastPrefab;
+    [SerializeField]
+    private GameObject _toastPrefab;
 
     public static ToastController Instance { get; private set; }
 
@@ -28,19 +30,25 @@ public class ToastController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Show("Yes", 3);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void Show(string message, float timer) 
     {
-        ToastUI ui = new ToastUI(timer, Instantiate(_toastPrefab));
+        ToastUI ui = new ToastUI(timer, Instantiate(_toastPrefab, transform));
 
-        ui.Instance.GetComponent<TMP_Text>().text = message;
+        ui.Instance.GetComponentInChildren<TMP_Text>().text = message;
+
+        StartCoroutine(ui.StartTimer());
     }
+
+    //public static void Remove()
+    //{
+    //    Destroy();
+    //}
 }

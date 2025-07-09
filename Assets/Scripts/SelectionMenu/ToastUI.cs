@@ -22,6 +22,7 @@ public class ToastUI
     public IEnumerator StartTimer()
     {
         yield return new WaitForSeconds(_removalTimer);
+        //ToastController.Remove();
     }
 
 }
