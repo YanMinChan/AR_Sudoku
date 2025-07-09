@@ -63,16 +63,18 @@ public class GameManager : MonoBehaviour
             // Audio feedback (Also add onscreen feedback later)
             _sfxDatabase.PlayAudio(6);
 
-            float leastCompletionTimeOnBoard = _leaderboardController.History.SortEntries().Entries[3].CompletionTime;
-            float elapsedTime = this._timerController.Model.GetElapsedTimeFloat();
-            
-            // Let user enter their name
-            if (elapsedTime < leastCompletionTimeOnBoard)
-            {
-                _keyboard.SetActive(true);
-                StartCoroutine(WaitForUserInputCoroutine());
-            }
-            
+            //float leastCompletionTimeOnBoard = _leaderboardController.History.SortEntries().Entries[3].CompletionTime;
+            //float elapsedTime = this._timerController.Model.GetElapsedTimeFloat();
+
+            //// Let user enter their name
+            //if (elapsedTime < leastCompletionTimeOnBoard)
+            //{
+            _keyboard.SetActive(true);
+            StartCoroutine(WaitForUserInputCoroutine());
+
+            // if (_inputReceived == true) _keyboard.SetActive(false);
+            //}
+
             // GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
         }
     }
@@ -113,13 +115,15 @@ public class GameManager : MonoBehaviour
         _inputReceived = false;
 
         yield return new WaitUntil(() => _inputReceived);
+
+        _keyboard.SetActive(false);
     }
 
     private void RecordPlayerInfo()
     {
-        _inputReceived = true;
         string name = Regex.Replace(_inputBox.text, @"\t|\n|\r", "");
         float completionTime = this._timerController.Model.GetElapsedTimeFloat();
         this._leaderboardController.History.AddRecord(name, completionTime);
+        _inputReceived = true;
     }
 }
