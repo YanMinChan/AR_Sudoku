@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using System.Linq;
 
 public class Toaster : MonoBehaviour, IToaster
 {
@@ -12,8 +13,8 @@ public class Toaster : MonoBehaviour, IToaster
 
     public static Toaster Instance { get; private set; }
 
-    private List<ToastUI> _tUI;
-
+    private List<ToastUI> _toastList;
+    private float _startingPosAnchorY = 100, _spacing = 10;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class Toaster : MonoBehaviour, IToaster
         else
         {
             Instance = this;
-            _tUI = new List<ToastUI>();
+            _toastList = new List<ToastUI>();
         }
     }
 
@@ -38,20 +39,49 @@ public class Toaster : MonoBehaviour, IToaster
     {
     }
 
-    public void Show(string message, float timer = 2) 
+    public ToastUI Show(string message, float timer = 15) 
     {
         float oriPosX = _toastPrefab.transform.position.x;
 
         ToastUI ui = new ToastUI(timer, Instantiate(_toastPrefab, transform));
-        StartCoroutine(ui.StartTimer());
+        //ui.Rect = ui.Instance.GetComponent<RectTransform>();
 
+        //ui.Instance.transform.position = new Vector3();
         ui.Instance.GetComponentInChildren<TMP_Text>().text = message;
 
-        _tUI.Add(ui);
+        _toastList.Add(ui);
+        StartCoroutine(ui.StartTimer());
+
+        Sync();
+
+        return ui;
     }
 
-    public static void Remove(ToastUI toastUI)
+    public void Remove(ToastUI toastUI)
     {
+        if (toastUI == null) return;
+
         Destroy(toastUI.Instance);
+        _toastList.Remove(toastUI);
+
+        Sync();
+    }
+
+    public void Sync()
+    {
+        ToastUI ui = _toastList.FirstOrDefault();
+        float i = 0;
+        if (ui == null) return;
+
+        foreach(ToastUI toast in _toastList)
+        {
+            float anchorPosY = _startingPosAnchorY - (toast.Rect.sizeDelta.y * i) + _spacing;
+            Vector2 tmpPos = toast.Rect.anchoredPosition;
+            tmpPos.y = anchorPosY;
+
+            toast.Rect.anchoredPosition = tmpPos;
+            i++;
+        }
+
     }
 }

@@ -130,6 +130,7 @@ public class GridController : MonoBehaviour
         if (result != ActionValidationResult.Success)
         {
             Debug.Log($"Grid Controller.cs: Validation failed - {result}");
+            Toaster.Instance.Show($"{result}");
             _sfxDatabase.PlayAudio(4);
             return;
         }
