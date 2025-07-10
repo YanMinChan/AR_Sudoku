@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
 
     private bool _hasGameCompleted = false;
     private bool _inputReceived = false;
+
     private ISoundEffectDatabase _sfxDatabase;
+    private IToaster _toast;
 
     public static GameManager Instance { get; private set; }
 
@@ -39,12 +41,15 @@ public class GameManager : MonoBehaviour
         this._leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
 
         _sfxDatabase = SoundEffectDatabase.Instance;
+        _toast = Toaster.Instance;
+
         _enter.onClick.AddListener(RecordPlayerInfo);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _toast.Show("Game started!", 2);
         this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance);
         this._timerController.Init();
         this._leaderboardController.Init();

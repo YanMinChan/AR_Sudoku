@@ -10,6 +10,7 @@ public class ToastUI
 {
     private float _removalTimer;
     private GameObject _instance;
+    private RectTransform _rect;
 
     public GameObject Instance {  get { return _instance; } }
 
@@ -22,7 +23,7 @@ public class ToastUI
     public IEnumerator StartTimer()
     {
         yield return new WaitForSeconds(_removalTimer);
-        //ToastController.Remove();
+        Toaster.Remove(this);
     }
 
 }

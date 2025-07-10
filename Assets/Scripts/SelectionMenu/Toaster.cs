@@ -5,12 +5,12 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class ToastController : MonoBehaviour
+public class Toaster : MonoBehaviour, IToaster
 {
     [SerializeField]
     private GameObject _toastPrefab;
 
-    public static ToastController Instance { get; private set; }
+    public static Toaster Instance { get; private set; }
 
     private List<ToastUI> _tUI;
 
@@ -24,13 +24,13 @@ public class ToastController : MonoBehaviour
         else
         {
             Instance = this;
+            _tUI = new List<ToastUI>();
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Show("Yes", 3);
     }
 
     // Update is called once per frame
@@ -38,17 +38,20 @@ public class ToastController : MonoBehaviour
     {
     }
 
-    public void Show(string message, float timer) 
+    public void Show(string message, float timer = 2) 
     {
+        float oriPosX = _toastPrefab.transform.position.x;
+
         ToastUI ui = new ToastUI(timer, Instantiate(_toastPrefab, transform));
+        StartCoroutine(ui.StartTimer());
 
         ui.Instance.GetComponentInChildren<TMP_Text>().text = message;
 
-        StartCoroutine(ui.StartTimer());
+        _tUI.Add(ui);
     }
 
-    //public static void Remove()
-    //{
-    //    Destroy();
-    //}
+    public static void Remove(ToastUI toastUI)
+    {
+        Destroy(toastUI.Instance);
+    }
 }
