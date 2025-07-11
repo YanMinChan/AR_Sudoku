@@ -88,9 +88,11 @@ crashlytics-build.properties
 Assets/Resources/sudoku.csv
 Assets/Resources/sudoku.csv.meta
 Assets/StreamingAssets*
+Report\ Resources/
 
 # Ignore build files
 _Build
+_Builds
 
 # Ignore log txt files
 Assets/Resources/Log
