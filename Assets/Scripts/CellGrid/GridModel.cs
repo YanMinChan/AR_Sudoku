@@ -202,7 +202,6 @@ public class GridModel
     public GridModel ResetGrid()
     {
         GenerateGrid(isReset:true); // Reset the cell model information
-        //this._actionStack = new Stack<UndoAction>(); // Reset the undo stack
         return this; // allow chaining
     }
 

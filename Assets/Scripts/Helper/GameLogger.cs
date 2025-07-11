@@ -38,9 +38,9 @@ public class GameLogger: IGameLogger
     public void WriteToLog(string msg)
     { 
         if (this._sw == null) return; 
+
         // Timestamp
         string timeNow = DateTime.Now.ToString("HH:mm:ss:ff");
-
         this._sw.WriteLine($"[{timeNow}] {msg}");
         this._sw.Flush();
     }

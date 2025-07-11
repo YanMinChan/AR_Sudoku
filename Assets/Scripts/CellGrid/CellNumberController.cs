@@ -2,12 +2,9 @@ using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 
-// Handle all numbers in the cell
+// Handle the digit GameObject and its color in each cell
 public class CellNumberController: MonoBehaviour
 {
-    private string _color;
-    private int _number;
-    // private GameObject _numberPrefab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() { }
@@ -22,23 +19,12 @@ public class CellNumberController: MonoBehaviour
         this.gameObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
         this.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         this.gameObject.SetActive(true);
-        
-        this.gameObject.GetComponent<NumberController>().enabled = false; // disable number controller script to avoid misclick and throwing error
+
+        NumberController numCtr = this.gameObject.GetComponent<NumberController>();
+        Destroy(numCtr); // destroy number controller for the annoying exception throwing when misclick
+
         this.gameObject.tag = "Untagged";
         
-        // GameObject prefab = NumberDatabase.Instance.GetNumber(number);
-        //if (prefab != null) // Handles empty cell for 0
-        //{
-        //    // Number prefab transform and material setup
-        //    // this._numberPrefab = Instantiate(prefab, transform);
-        //    this._numberPrefab.transform.localPosition = Vector3.zero;
-        //    this._numberPrefab.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        //    this._numberPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-
-        //    this._numberPrefab.GetComponent<NumberController>().enabled = false; // disable number controller script to avoid misclick and throwing error
-        //    this._numberPrefab.tag = "Untagged";
-        //    this._numberPrefab.SetActive(true);
-        //}
         return this;
     }
 

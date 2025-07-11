@@ -43,8 +43,8 @@ public class PuzzleReader
                 string[] gameSet; //puzzle and solution
 
                 string header = sr.ReadLine(); // skip the header
-                string data = sr.ReadLine();
-                while ((data != null) && numPuz != 0)
+                string data = "";
+                while ((data = sr.ReadLine()) != null && numPuz != 0)
                 {
                     // obtain the puzzle and solution
                     gameSet = data.Split(',');
@@ -59,11 +59,10 @@ public class PuzzleReader
                     }
                     this._puzzle.Add(puzSet);
                     this._solution.Add(solSet);
-
-                    data = sr.ReadLine();
                     numPuz--;
                 }
                 GameLogger.Instance.WriteToLog($"(PuzzleReader.cs) Puzzle loaded from {_filePath}");
+                GameLogger.Instance.WriteToLog($"Puzzle count: {_puzzle.Count}");
             }
             catch (FileNotFoundException fnf)
             {

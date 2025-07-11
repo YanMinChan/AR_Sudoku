@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 public interface IToaster
 {
-    ToastUI Show(string msg, float timer);
+    ToastUI Show(string msg, float timer = 5);
 }

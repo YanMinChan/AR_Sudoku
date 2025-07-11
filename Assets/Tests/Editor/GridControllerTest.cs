@@ -34,7 +34,7 @@ public class GridControllerTest
         var mockNumberDB = new MockNumberDatabase();
         // Add script and init
         _controller = _grid.AddComponent<GridController>();
-        _controller.Init(SoundEffectDatabase.Instance, mockNumberDB);
+        _controller.Init(SoundEffectDatabase.Instance, mockNumberDB, Toaster.Instance);
     }
 
     /// <summary>

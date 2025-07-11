@@ -20,15 +20,10 @@ public class GridController : MonoBehaviour
     // Dependency Injection
     private ISoundEffectDatabase _sfxDatabase;
     private INumberDatabase _numberDatabase;
+    private IToaster _toast;
 
     // Command manager
     private GameCommandManager _cmdMgr;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start(){}
-
-    // Update is called once per frame
-    void Update(){}
 
     // Get methods
     public GridModel GetGridModel() { return _gridModel; }
@@ -36,7 +31,7 @@ public class GridController : MonoBehaviour
     public List<NumberController> GetNumberControllers() { return _numberControllers; }
 
     // Constructor
-    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase)
+    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase, IToaster toast)
     {
         // Instantiate the model
         this._gridModel = new GridModel();
@@ -46,6 +41,7 @@ public class GridController : MonoBehaviour
         // Instantiate dependency injection
         this._sfxDatabase = sfxDatabase;
         this._numberDatabase = numberDatabase;
+        _toast = toast;
 
         // Instantiate game command manager
         _cmdMgr = new GameCommandManager();
@@ -173,7 +169,7 @@ public class GridController : MonoBehaviour
         // Rebuild the grid
         BuildGrid();
 
-        // GameLog.Instance.WriteToLog($"(GridController.cs) Game restarted.");
+        _toast.Show("Game Restarted!");
     }
 
     public void UpdateNumberBarVisibility()
@@ -195,8 +191,6 @@ public class GridController : MonoBehaviour
             if (wasActive && shouldHide && !IsGameFinished()) { 
                 _sfxDatabase.PlayAudio(5);
             }
-
-            // Debug.Log("" + numCtr.number + numUsed);
         }
     }
 

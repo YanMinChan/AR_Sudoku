@@ -39,7 +39,7 @@ public class Toaster : MonoBehaviour, IToaster
     {
     }
 
-    public ToastUI Show(string message, float timer = 15) 
+    public ToastUI Show(string message, float timer = 5) 
     {
         float oriPosX = _toastPrefab.transform.position.x;
 

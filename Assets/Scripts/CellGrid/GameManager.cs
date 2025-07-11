@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _toast.Show("Game started!", 2);
-        this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance);
+        this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
         this._timerController.Init();
         this._leaderboardController.Init();
     }
