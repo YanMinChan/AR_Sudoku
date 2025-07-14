@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics.HapticsUtility;
 
 /// <summary>
 /// GridController class

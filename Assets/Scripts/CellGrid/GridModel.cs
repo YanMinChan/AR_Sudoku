@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine.Assertions.Must;
-using static UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics.HapticsUtility;
 
 // Backend of the grid game logic
 public class GridModel
