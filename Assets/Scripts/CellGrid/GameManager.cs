@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -14,20 +15,22 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button _enter;
 
-    // Instance variables
-    private GridController _gridController;
     private TimerController _timerController;
     private LeaderboardController _leaderboardController;
 
     private bool _hasGameCompleted = false;
+    private bool _hasPuzzleFinished = false;
     private bool _inputReceived = false;
 
     private ISoundEffectDatabase _sfxDatabase;
     private IToaster _toast;
 
-    private List<IGameObserver> _observers;
+    private List<ITimerObserver> _timerObservers;
 
     public static GameManager Instance { get; private set; }
+    public bool HasPuzzleFinished { set {  _hasPuzzleFinished = value; } }
+
+    public List<ITimerObserver> Test { get { return _timerObservers; } }
 
     private void Awake()
     {
@@ -39,14 +42,13 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        this._gridController = GameObject.Find("Grid").GetComponent<GridController>();
+        _timerObservers = new List<ITimerObserver>();
+
         this._timerController = GameObject.Find("Timer").GetComponent<TimerController>();
         this._leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
 
         _sfxDatabase = SoundEffectDatabase.Instance;
         _toast = Toaster.Instance;
-
-        _observers = new List<IGameObserver>();
 
         _enter.onClick.AddListener(RecordPlayerInfo);
     }
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //_toast.Show("Game started!", 2);
-        this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
+        //this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
         this._timerController.Init();
         this._leaderboardController.Init();
     }
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Check if the game is finished
-        if (!this._hasGameCompleted && this._gridController.IsGameFinished())
+        if (!_hasGameCompleted && _hasPuzzleFinished)
         {
             // Pause timer
             this._hasGameCompleted = true;
@@ -85,11 +87,6 @@ public class GameManager : MonoBehaviour
         GameLogger.Instance.CloseLogger();
     }
 
-    public GridController Grid
-    {
-        get { return this._gridController; }
-    }
-
     public TimerController Timer
     {
         get { return this._timerController; }
@@ -103,7 +100,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         // Clear game status
-        this._gridController.ResetGrid();
+        // this._gridController.ResetGrid();
         this._timerController.RestartTimer();
         this._hasGameCompleted = false;
 
@@ -128,17 +125,16 @@ public class GameManager : MonoBehaviour
         _inputReceived = true;
     }
 
-    public void AddObserver(IGameObserver observer)
+    public void AddTimerObserver(ITimerObserver observer)
     {
-        _observers.Add(observer);
+        _timerObservers.Add(observer);
     }
 
     public void NotifyObservers() 
     {
-        foreach (var o in _observers) 
+        foreach (var o in _timerObservers) 
         {
-            o.Execute(IsTimerPaused());
-            Debug.Log(IsTimerPaused());
+            o.Invoke(IsTimerPaused());
         }
     }
 }

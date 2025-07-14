@@ -25,7 +25,7 @@ public class MenuButtonController : MonoBehaviour
     public void OnUndoButtonPressed()
     {
         SoundEffectDatabase.Instance.PlayAudio(1); // button click sfx
-        this._gameManager.Grid.UndoLastAction();
+        UIEvents.UndoPressed();
     }
 
     public void OnPauseButtonPressed()

@@ -75,7 +75,7 @@ public class CellController : MonoBehaviour
     /// <param name="color"></param>
     /// <param name="init">If the number is part of puzzle</param>
 
-    public void FillCell(string numColor, bool init=false) {
+    public void FillCell(string numColor, bool init=false, bool mute=false) {
         // If there is a number in the cell, destroy it
         foreach (Transform child in transform)
         {
@@ -86,8 +86,9 @@ public class CellController : MonoBehaviour
         GameObject prefab = _numberDatabase.GetNumber(number);
         if (prefab != null)
         {
-            if (!init) _sfxDatabase.PlayAudio(2, 0.2f);
-            else this._isUnchangable = true;
+            if (init) _isUnchangable = true;
+            if (!mute) { _sfxDatabase.PlayAudio(2, 0.2f);}
+
 
             this._numberPrefab = Instantiate(prefab, transform);
 

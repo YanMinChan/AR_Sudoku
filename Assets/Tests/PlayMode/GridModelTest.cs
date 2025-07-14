@@ -117,7 +117,7 @@ public class GridModelTest
         _gridModel.Cells[2, 1].Num = num[7];
         _gridModel.Cells[2, 2].Num = num[8];
 
-        Assert.AreEqual(result, _gridModel.IsGameFinished());
+        Assert.AreEqual(result, _gridModel.IsPuzzleFinished());
     }
 
     // Test for generating empty cell

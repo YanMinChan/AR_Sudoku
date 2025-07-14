@@ -5,7 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class Bootstrapper: MonoBehaviour
+// Initialise controllers and inject database dependency
+public class Bootstrapper : MonoBehaviour
 {
+    [SerializeField]
+    private GridController _gridController;
 
+    public void Awake()
+    {
+
+    }
+
+    public void Start()
+    {
+        _gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
+    }
 }

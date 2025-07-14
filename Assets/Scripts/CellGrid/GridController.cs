@@ -9,7 +9,7 @@ using UnityEngine;
 /// GridController class
 /// Manages GridModel, and is a collection of CellControllers and NumberControllers
 /// </summary>
-public class GridController : MonoBehaviour, IGameObserver
+public class GridController : MonoBehaviour, ITimerObserver
 {
     [SerializeField]
     private GameManager _gameMgr;
@@ -30,36 +30,46 @@ public class GridController : MonoBehaviour, IGameObserver
     private GameCommandManager _cmdMgr;
 
     // Get methods
-    public GridModel GetGridModel() { return _gridModel; }
-    public CellController[,] GetCellControllers() { return _cellControllers; }
-    public List<NumberController> GetNumberControllers() { return _numberControllers; }
+    public GridModel Model { get { return _gridModel; } }
+    public CellController[,] CellControllers { get { return _cellControllers; } }
+    public List<NumberController> NumberControllers { get { return _numberControllers; } }
+
+    void Awake() { }
+
+    public void OnEnable()
+    {
+        UIEvents.OnUndoPressed += UndoLastAction;
+    }
+
+    public void OnDisable()
+    {
+        UIEvents.OnUndoPressed -= UndoLastAction;
+    }
 
     // Constructor
     public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase, IToaster toast)
     {
-        // Instantiate the model
-        this._gridModel = new GridModel();
-        this._cellControllers = new CellController[9, 9];
-        this._numberControllers = new List<NumberController>();
+        // Instantiate
+        _gridModel = new GridModel();
+        _cellControllers = new CellController[9, 9];
+        _numberControllers = new List<NumberController>();
 
-        // Instantiate dependency injection
+        _cmdMgr = new GameCommandManager();
+        _isGamePaused = false;
+
+        // Dependency injection
         this._sfxDatabase = sfxDatabase;
         this._numberDatabase = numberDatabase;
         _toast = toast;
 
-        // Instantiate game command manager
-        _cmdMgr = new GameCommandManager();
-
-        // Instantiate bool
-        _isGamePaused = false;
-
-        // Instantiate everything
+        // Instantiate models and controllers
         this._gridModel.Init();
         CellControllersInit();
         NumberControllersInit();
 
         // Subscribe to game manager
-        _gameMgr.AddObserver(this);
+        if (_gameMgr.Test == null) { Debug.Log("Is null"); }
+        _gameMgr.AddTimerObserver(this);
 
         // Generate the grid view
         BuildGrid();
@@ -105,7 +115,7 @@ public class GridController : MonoBehaviour, IGameObserver
         {
             for (int j = 0; j < 9; j++)
             {
-                this._cellControllers[i, j].FillCell("black", init:true);
+                this._cellControllers[i, j].FillCell("black", init:true, mute:true);
             }
         }
         // GameLog.Instance.WriteToLog("(GridController.cs) Grid gameObject built.");
@@ -119,12 +129,12 @@ public class GridController : MonoBehaviour, IGameObserver
         UnchangableCell
     }
 
-    private ActionValidationResult ValidateAction(CellController cellCtr)
+    private (ActionValidationResult, string) ValidateAction(CellController cellCtr)
     {
-        if (_isGamePaused) return ActionValidationResult.GamePaused;
-        if (cellCtr == null) return ActionValidationResult.NoCellSelected;
-        if (cellCtr.IsUnchangable) return ActionValidationResult.UnchangableCell;
-        return ActionValidationResult.Success;
+        if (_isGamePaused) return (ActionValidationResult.GamePaused, "Game is paused");
+        if (cellCtr == null) return (ActionValidationResult.NoCellSelected, "No cell is selected");
+        if (cellCtr.IsUnchangable) return (ActionValidationResult.UnchangableCell, "Cell is unchangeable");
+        return (ActionValidationResult.Success, "Success");
     }
 
     // Fill number in the selected cell
@@ -132,11 +142,10 @@ public class GridController : MonoBehaviour, IGameObserver
     {
         CellController cellCtr = CellController.currentlySelected;
 
-        var result = ValidateAction(cellCtr);
+        var (result, msg) = ValidateAction(cellCtr);
         if (result != ActionValidationResult.Success)
         {
-            Debug.Log($"Grid Controller.cs: Validation failed - {result}");
-            Toaster.Instance.Show($"{result}");
+            _toast.Show(msg);
             _sfxDatabase.PlayAudio(4);
             return;
         }
@@ -147,17 +156,17 @@ public class GridController : MonoBehaviour, IGameObserver
         UpdateNumberBarVisibility();
         UpdateNumberColor();
 
-        // GameLog.Instance.WriteToLog($"(GridController.cs) Fill number {number} in [{model.Row}, {model.Col}]");
+        if (_gridModel.IsPuzzleFinished()) { _gameMgr.HasPuzzleFinished = true; }
     }
 
     // Handle undo button event
     public void UndoLastAction()
     {
-        var result = ValidateAction(CellController.currentlySelected);
+        var (result, msg) = ValidateAction(CellController.currentlySelected);
 
         if (result == ActionValidationResult.GamePaused)
         {
-            Debug.Log($"GridController.cs: Validation failed - {result}");
+            _toast.Show(msg);
             _sfxDatabase.PlayAudio(4);
             return;
         }
@@ -166,8 +175,6 @@ public class GridController : MonoBehaviour, IGameObserver
 
         UpdateNumberBarVisibility();
         UpdateNumberColor();
-
-        // GameLog.Instance.WriteToLog($"(GridController.cs) Undo Number {action.num} in [{action.row}, {action.col}]");
     }
 
     public void ResetGrid()
@@ -198,7 +205,7 @@ public class GridController : MonoBehaviour, IGameObserver
 
             // Only play the sfx when first time set disable and game not finished
             // Will play another sfx at game finish in GameManager
-            if (wasActive && shouldHide && !IsGameFinished()) { 
+            if (wasActive && shouldHide && !_gridModel.IsPuzzleFinished()) { 
                 _sfxDatabase.PlayAudio(5);
             }
         }
@@ -214,15 +221,12 @@ public class GridController : MonoBehaviour, IGameObserver
                 int n = this._cellControllers[r, c].Model.Num;
                 bool duplicateExist = this._gridModel.DuplicateExists(n, r, c);
                 string color = duplicateExist ? "red" : "blue";
-                this._cellControllers[r, c].FillCell(color);
+                this._cellControllers[r, c].FillCell(color, mute:true);
             }
         }
     }
 
-    // Function from GridModel
-    public bool IsGameFinished() { return this._gridModel.IsGameFinished(); }
-
-    public void Execute(bool IsGamePaused)
+    public void Invoke(bool IsGamePaused)
     {
         _isGamePaused = IsGamePaused;
     }

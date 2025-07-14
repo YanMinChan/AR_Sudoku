@@ -45,13 +45,13 @@ public class GridControllerTest
     {
         yield return null; // Wait for init
 
-        for (int r = 0; r < _controller.GetCellControllers().GetLength(1); r++)
+        for (int r = 0; r < _controller.CellControllers.GetLength(1); r++)
         {
-            for (int c = 0; c < _controller.GetCellControllers().GetLength(1); c++)
+            for (int c = 0; c < _controller.CellControllers.GetLength(1); c++)
             {
                 Assert.AreEqual(
-                _controller.GetCellControllers()[r, c].Model,
-                _controller.GetGridModel().Cells[r, c]
+                _controller.CellControllers[r, c].Model,
+                _controller.Model.Cells[r, c]
                 );
             }
         }
@@ -68,7 +68,7 @@ public class GridControllerTest
 
         for (int i = 1; i <= 9; i++)
         {
-            Assert.AreEqual(i, _controller.GetNumberControllers()[i - 1].Number);
+            Assert.AreEqual(i, _controller.NumberControllers[i - 1].Number);
         }
     }
 

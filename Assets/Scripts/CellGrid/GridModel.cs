@@ -157,7 +157,7 @@ public class GridModel
     /// Verify if the game is finished
     /// </summary>
     /// <returns></returns>
-    public bool IsGameFinished()
+    public bool IsPuzzleFinished()
     {
         int size = this._cells.GetLength(0); // assume square grid
         for (int r = 0; r < size; r++)
