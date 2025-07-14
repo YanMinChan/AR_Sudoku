@@ -9,12 +9,17 @@ using UnityEngine;
 /// GridController class
 /// Manages GridModel, and is a collection of CellControllers and NumberControllers
 /// </summary>
-public class GridController : MonoBehaviour
+public class GridController : MonoBehaviour, IGameObserver
 {
+    [SerializeField]
+    private GameManager _gameMgr;
+
     // Instance variables
     private GridModel _gridModel; 
     private CellController[,] _cellControllers;
     private List<NumberController> _numberControllers;
+
+    private bool _isGamePaused;
 
     // Dependency Injection
     private ISoundEffectDatabase _sfxDatabase;
@@ -45,10 +50,16 @@ public class GridController : MonoBehaviour
         // Instantiate game command manager
         _cmdMgr = new GameCommandManager();
 
+        // Instantiate bool
+        _isGamePaused = false;
+
         // Instantiate everything
         this._gridModel.Init();
         CellControllersInit();
         NumberControllersInit();
+
+        // Subscribe to game manager
+        _gameMgr.AddObserver(this);
 
         // Generate the grid view
         BuildGrid();
@@ -110,7 +121,7 @@ public class GridController : MonoBehaviour
 
     private ActionValidationResult ValidateAction(CellController cellCtr)
     {
-        if (GameManager.Instance.IsTimerPaused()) return ActionValidationResult.GamePaused;
+        if (_isGamePaused) return ActionValidationResult.GamePaused;
         if (cellCtr == null) return ActionValidationResult.NoCellSelected;
         if (cellCtr.IsUnchangable) return ActionValidationResult.UnchangableCell;
         return ActionValidationResult.Success;
@@ -210,4 +221,9 @@ public class GridController : MonoBehaviour
 
     // Function from GridModel
     public bool IsGameFinished() { return this._gridModel.IsGameFinished(); }
+
+    public void Execute(bool IsGamePaused)
+    {
+        _isGamePaused = IsGamePaused;
+    }
 }

@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
+    [SerializeField]
+    private GameManager _mgr;
+
     private TimerModel _timerModel;
     private TimerContainerController[] _timerList;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,16 +50,18 @@ public class TimerController : MonoBehaviour
     public void PauseGame()
     {
         this._timerModel.PauseTimer();
+        _mgr.NotifyObservers();
     }
 
     public void ContinueGame()
     {
         this._timerModel.ContinueTimer();
+        _mgr.NotifyObservers();
     }
 
     public bool IsPaused()
     {
-        return this.Model.IsPaused;
+        return this._timerModel.IsPaused;
     }
 
     public void RestartTimer()

@@ -3466,6 +3466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b1db1610e6c4f45878b3c25cbb8ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameMgr: {fileID: 1207021994}
 --- !u!1001 &5220023959020770779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3518,6 +3519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Timer
       objectReference: {fileID: 0}
+    - target: {fileID: 6458115096492750827, guid: e83a1959d62979547bd6e9e22a9997fe, type: 3}
+      propertyPath: _mgr
+      value: 
+      objectReference: {fileID: 1207021994}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

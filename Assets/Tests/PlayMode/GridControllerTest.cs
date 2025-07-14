@@ -71,4 +71,10 @@ public class GridControllerTest
             Assert.AreEqual(i, _controller.GetNumberControllers()[i - 1].Number);
         }
     }
+
+    [Test]
+    public void GridController_ActionValidationResult_Test()
+    {
+
+    }
 }

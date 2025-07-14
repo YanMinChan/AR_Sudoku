@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
     private ISoundEffectDatabase _sfxDatabase;
     private IToaster _toast;
 
+    private List<IGameObserver> _observers;
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -43,13 +46,15 @@ public class GameManager : MonoBehaviour
         _sfxDatabase = SoundEffectDatabase.Instance;
         _toast = Toaster.Instance;
 
+        _observers = new List<IGameObserver>();
+
         _enter.onClick.AddListener(RecordPlayerInfo);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _toast.Show("Game started!", 2);
+        //_toast.Show("Game started!", 2);
         this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
         this._timerController.Init();
         this._leaderboardController.Init();
@@ -68,17 +73,8 @@ public class GameManager : MonoBehaviour
             // Audio feedback (Also add onscreen feedback later)
             _sfxDatabase.PlayAudio(6);
 
-            //float leastCompletionTimeOnBoard = _leaderboardController.History.SortEntries().Entries[3].CompletionTime;
-            //float elapsedTime = this._timerController.Model.GetElapsedTimeFloat();
-
-            //// Let user enter their name
-            //if (elapsedTime < leastCompletionTimeOnBoard)
-            //{
             _keyboard.SetActive(true);
             StartCoroutine(WaitForUserInputCoroutine());
-
-            // if (_inputReceived == true) _keyboard.SetActive(false);
-            //}
 
             // GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
         }
@@ -130,5 +126,19 @@ public class GameManager : MonoBehaviour
         float completionTime = this._timerController.Model.GetElapsedTimeFloat();
         this._leaderboardController.History.AddRecord(name, completionTime);
         _inputReceived = true;
+    }
+
+    public void AddObserver(IGameObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void NotifyObservers() 
+    {
+        foreach (var o in _observers) 
+        {
+            o.Execute(IsTimerPaused());
+            Debug.Log(IsTimerPaused());
+        }
     }
 }
