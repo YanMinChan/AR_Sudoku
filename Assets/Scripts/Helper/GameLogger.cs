@@ -47,6 +47,7 @@ public class GameLogger: IGameLogger
 
     public void CloseLogger()
     {
+        LogCleaner.CleanOldLog(5);
         if (this._sw != null)
         {
             this._sw.Close();

@@ -1013,13 +1013,13 @@ MonoBehaviour:
     audio: {fileID: 8300000, guid: 72e7ec6b3237f724aa37a13418cbf0ba, type: 3}
   - id: 4
     name: Error
-    audio: {fileID: 8300000, guid: 427cfb69043c246478d89364e99c5b44, type: 3}
+    audio: {fileID: 8300000, guid: 3ee7e05fbcf7eb24bb64dcd72a69164e, type: 3}
   - id: 5
     name: CompletingNumber
     audio: {fileID: 8300000, guid: 4ebf873fa5f28eb4d95d5ad4055c527b, type: 3}
   - id: 6
     name: WinGame
-    audio: {fileID: 8300000, guid: bb2d2c852edd2864596724ebe596a1ea, type: 3}
+    audio: {fileID: 8300000, guid: 5d80c7b6c7a54b54c9cf154f23086d2a, type: 3}
 --- !u!4 &813380330
 Transform:
   m_ObjectHideFlags: 0
