@@ -16,7 +16,7 @@ public static class LogCleaner
         var files = Directory.GetFiles(dir).Select(f=> new FileInfo(f)).OrderBy(f=>f.CreationTime);
 
         // fill not clean log if less than num present
-        if (files.Count() < num) return;
+        if (files.Count() <= num) return;
 
         // Delete the log files
         foreach (var file in files)
