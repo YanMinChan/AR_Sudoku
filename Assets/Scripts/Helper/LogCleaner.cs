@@ -9,25 +9,24 @@ using System.Threading.Tasks;
 public static class LogCleaner
 {
     private static string _logPath = AppPaths.GameLogFile;
-    public static void CleanOldLog(int num = 5)
+    public static void CleanOldLog(int num = 20)
     {
         // Get all logfiles
         string dir = Path.GetDirectoryName(_logPath);
-        var files = Directory.GetFiles(dir).Select(f=> new FileInfo(f)).OrderBy(f=>f.CreationTime);
+        var files = Directory.GetFiles(dir);
 
-        // fill not clean log if less than num present
         if (files.Count() <= num) return;
 
+        var filesToDelete = files.Select(f=> new FileInfo(f)).OrderBy(f=>f.CreationTime).Take(files.Length - num);
+
+        // fill not clean log if less than num present
+        
+
         // Delete the log files
-        foreach (var file in files)
+        foreach (var file in filesToDelete)
         {
-            string normaliseFileName = _logPath.Replace('/', '\\');
-            if (file.FullName == normaliseFileName) continue;
-            else
-            {
-                File.Delete(file.FullName);
-                GameLogger.Instance.WriteToLog($"Deleted log: {file.FullName}");
-            }
+            File.Delete(file.FullName);
+            GameLogger.Instance.WriteToLog($"Deleted log: {file.FullName}");
         }
     }
 }

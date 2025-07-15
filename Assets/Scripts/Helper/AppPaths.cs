@@ -12,7 +12,7 @@ public static class AppPaths
     public static readonly string streamingRoot = Application.streamingAssetsPath;
 
     public static string Logs = Path.Combine(persistantRoot, "Logs");
-    public static string GameLogFile = Path.Combine(Logs, $"GameLog_{DateTime.Now: yyyyMMdd_HHmmss}.txt");
+    public static string GameLogFile = Path.Combine(Logs, $"GameLog_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
 
     public static string LeaderboardHistoryFile = Path.Combine(persistantRoot, "history.json");
 
