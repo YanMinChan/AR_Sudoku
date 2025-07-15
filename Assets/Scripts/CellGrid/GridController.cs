@@ -39,11 +39,15 @@ public class GridController : MonoBehaviour, ITimerObserver
     public void OnEnable()
     {
         UIEvents.OnUndoPressed += UndoLastAction;
+        GameEvents.OnGameReset += ResetGrid;
+        GameEvents.OnNewPuzzle += ResetGrid;
     }
 
     public void OnDisable()
     {
         UIEvents.OnUndoPressed -= UndoLastAction;
+        GameEvents.OnGameReset -= ResetGrid;
+        GameEvents.OnNewPuzzle -= ResetGrid;
     }
 
     // Constructor
@@ -177,14 +181,22 @@ public class GridController : MonoBehaviour, ITimerObserver
         UpdateNumberColor();
     }
 
-    public void ResetGrid()
+    public void ResetGrid(bool newPuzzle = false)
     {
         // Clear game status
-        this._gridModel.ResetGrid();
+        _gridModel.ResetGrid(newPuzzle);
         _cmdMgr.ResetHistory();
 
         // Rebuild the grid
+        foreach (var cell in _cellControllers)
+        {
+            cell.IsUnchangable = false;
+        }
         BuildGrid();
+        foreach (var n in _numberControllers)
+        {
+            n.gameObject.SetActive(true);
+        }
 
         _toast.Show("Game Restarted!");
     }

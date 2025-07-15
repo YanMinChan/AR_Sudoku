@@ -21,6 +21,20 @@ public class TimerController : MonoBehaviour
         DisplayElapsedTime();
     }
 
+    public void OnEnable()
+    {
+        GameEvents.OnGameReset += RestartTimer;
+        GameEvents.OnGameComplete += PauseGame;
+        GameEvents.OnNewPuzzle += RestartTimer;
+    }
+
+    public void OnDisable()
+    {
+        GameEvents.OnGameReset -= RestartTimer;
+        GameEvents.OnGameComplete -= PauseGame;
+        GameEvents.OnNewPuzzle -= RestartTimer;
+    }
+
     public TimerModel Model
     {
         get { return this._timerModel; }
@@ -64,9 +78,10 @@ public class TimerController : MonoBehaviour
         return this._timerModel.IsPaused;
     }
 
-    public void RestartTimer()
+    public void RestartTimer(bool _)
     {
         this._timerModel.RestartTimer();
+        _mgr.NotifyObservers();
     }
 
     // Helper functions

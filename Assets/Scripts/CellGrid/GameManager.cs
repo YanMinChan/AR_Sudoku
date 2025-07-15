@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //_toast.Show("Game started!", 2);
-        //this._gridController.Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
         this._timerController.Init();
         this._leaderboardController.Init();
     }
@@ -68,15 +67,8 @@ public class GameManager : MonoBehaviour
         // Check if the game is finished
         if (!_hasGameCompleted && _hasPuzzleFinished)
         {
-            // Pause timer
-            this._hasGameCompleted = true;
-            this._timerController.Model.PauseTimer();
-
-            // Audio feedback (Also add onscreen feedback later)
-            _sfxDatabase.PlayAudio(6);
-
-            _keyboard.SetActive(true);
-            StartCoroutine(WaitForUserInputCoroutine());
+            _hasGameCompleted = true;
+            StartCoroutine(HandleGameCompleteCoroutine());
 
             // GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
         }
@@ -99,22 +91,25 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        // Clear game status
-        // this._gridController.ResetGrid();
-        this._timerController.RestartTimer();
-        this._hasGameCompleted = false;
-
+        _hasGameCompleted = false;
+        GameEvents.ResetGame(false);
 
         GameLogger.Instance.WriteToLog($"(GridController.cs) Game restarted.");
     }
 
-    private IEnumerator WaitForUserInputCoroutine()
+    private IEnumerator HandleGameCompleteCoroutine()
     {
+        GameEvents.GameComplete();
+        _sfxDatabase.PlayAudio(6);
+        
+        _keyboard.SetActive(true);
         _inputReceived = false;
-
         yield return new WaitUntil(() => _inputReceived);
-
         _keyboard.SetActive(false);
+        
+        GameEvents.NewPuzzle(true);
+        _hasGameCompleted = false;
+        _hasPuzzleFinished = false;
     }
 
     private void RecordPlayerInfo()

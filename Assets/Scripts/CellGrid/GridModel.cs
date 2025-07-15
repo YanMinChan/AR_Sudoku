@@ -32,10 +32,10 @@ public class GridModel
     public int[] Puz { get { return this._puz; } }
     public int[] Sol { get { return this._sol; } }
 
-    public void Init()
+    public void Init(bool isNewPuzzle = false)
     {
-        this.SelectPuzzle(0)
-            .GenerateGrid();
+        this.SelectPuzzle()
+            .GenerateGrid(isNewPuzzle:isNewPuzzle);
 
         if (this._cells != null)
             GameLogger.Instance.WriteToLog($"(GridModel.cs) Cells loaded: {this._cells.Length}");
@@ -82,7 +82,7 @@ public class GridModel
     /// <param name="puz"></param>
     /// <param name="sol"></param>
     /// <returns>The GridModel class</returns>
-    public GridModel GenerateGrid(int[] puz = null, int[] sol = null, bool isReset = false)
+    public GridModel GenerateGrid(int[] puz = null, int[] sol = null, bool isReset = false, bool isNewPuzzle = false)
     {
         // For convenience of chaining
         if (puz == null) puz = this._puz;
@@ -95,13 +95,18 @@ public class GridModel
         {
             for (int c = 0; c < size; c++)
             {
-                if (!isReset)
+                if (isReset)
                 {
-                    this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
+                    this._cells[r, c].Num = puz[r * 9 + c];   
+                }
+                else if (isNewPuzzle)
+                {
+                    this._cells[r, c].Num = puz[r * 9 + c];
+                    this._cells[r, c].Sol = sol[r * 9 + c];
                 }
                 else
                 {
-                    this._cells[r, c].Num = puz[r * 9 + c];
+                    this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
                 }
             }
         }
@@ -198,9 +203,11 @@ public class GridModel
         return this._numCount[num - 1] >= 9;
     }
 
-    public GridModel ResetGrid()
+    public GridModel ResetGrid(bool newPuzzle = false)
     {
-        GenerateGrid(isReset:true); // Reset the cell model information
+        if (newPuzzle) Init(newPuzzle);
+        else GenerateGrid(isReset:true); // Reset the cell model information
+
         return this; // allow chaining
     }
 

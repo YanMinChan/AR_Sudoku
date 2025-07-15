@@ -81,12 +81,13 @@ public class CellController : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-
+        
         int number = this._cellModel.Num;
         GameObject prefab = _numberDatabase.GetNumber(number);
         if (prefab != null)
         {
             if (init) _isUnchangable = true;
+
             if (!mute) { _sfxDatabase.PlayAudio(2, 0.2f);}
 
 
