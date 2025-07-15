@@ -1,9 +1,11 @@
+using MixedReality.Toolkit.UX;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -14,6 +16,8 @@ public class GameManager : MonoBehaviour
     private TMP_Text _inputBox;
     [SerializeField]
     private Button _enter;
+    [SerializeField]
+    private DialogPool _dialogPool;
 
     private TimerController _timerController;
     private LeaderboardController _leaderboardController;
@@ -106,8 +110,13 @@ public class GameManager : MonoBehaviour
         _inputReceived = false;
         yield return new WaitUntil(() => _inputReceived);
         _keyboard.SetActive(false);
-        
-        GameEvents.NewPuzzle(true);
+
+        _dialogPool.Get()
+            .SetBody("Start a new game?")
+            .SetPositive("Yes", (args) => { GameEvents.NewPuzzle(true); })
+            .SetNegative("No", (args) => { SceneManager.LoadScene("MenuScene"); })
+            .Show();
+
         _hasGameCompleted = false;
         _hasPuzzleFinished = false;
     }
