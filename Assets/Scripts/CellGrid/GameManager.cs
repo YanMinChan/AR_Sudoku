@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using MixedReality.Toolkit.SpatialManipulation;
 
 public class GameManager : MonoBehaviour
 {
@@ -111,11 +112,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => _inputReceived);
         _keyboard.SetActive(false);
 
-        _dialogPool.Get()
+        Dialog d = (Dialog) _dialogPool.Get()
             .SetBody("Start a new game?")
             .SetPositive("Yes", (args) => { GameEvents.NewPuzzle(true); })
             .SetNegative("No", (args) => { SceneManager.LoadScene("MenuScene"); })
             .Show();
+
+        d.gameObject.GetComponent<Follow>().MaxDistance = 0.3f;
 
         _hasGameCompleted = false;
         _hasPuzzleFinished = false;

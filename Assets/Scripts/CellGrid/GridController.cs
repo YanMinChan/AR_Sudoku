@@ -218,7 +218,7 @@ public class GridController : MonoBehaviour, ITimerObserver
             // Only play the sfx when first time set disable and game not finished
             // Will play another sfx at game finish in GameManager
             if (wasActive && shouldHide && !_gridModel.IsPuzzleFinished()) { 
-                _sfxDatabase.PlayAudio(5);
+                _sfxDatabase.PlayAudio(5, 0.5f);
             }
         }
     }
