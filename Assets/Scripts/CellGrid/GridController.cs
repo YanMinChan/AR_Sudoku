@@ -62,12 +62,12 @@ public class GridController : MonoBehaviour, ITimerObserver
         _isGamePaused = false;
 
         // Dependency injection
-        this._sfxDatabase = sfxDatabase;
-        this._numberDatabase = numberDatabase;
+        _sfxDatabase = sfxDatabase;
+        _numberDatabase = numberDatabase;
         _toast = toast;
 
         // Instantiate models and controllers
-        this._gridModel.Init();
+        _gridModel.Init();
         CellControllersInit();
         NumberControllersInit();
 
@@ -91,8 +91,8 @@ public class GridController : MonoBehaviour, ITimerObserver
             // Connect the cell model and controller
             try
             {
-                controller.Model = this._gridModel.Cells[r-1, c-1];
-                this._cellControllers[r-1, c-1] = controller;
+                controller.Model = _gridModel.Cells[r-1, c-1];
+                _cellControllers[r-1, c-1] = controller;
             }
             catch { Debug.LogWarning((r-1) + " " + (c-1)); }
         }
@@ -106,7 +106,7 @@ public class GridController : MonoBehaviour, ITimerObserver
         foreach (var number in numberBar) 
         {
             var controller = number.GetComponentInChildren<NumberController>();
-            this._numberControllers.Add(controller);
+            _numberControllers.Add(controller);
             controller.Initialize(this);
         }
     }
@@ -119,7 +119,7 @@ public class GridController : MonoBehaviour, ITimerObserver
         {
             for (int j = 0; j < 9; j++)
             {
-                this._cellControllers[i, j].FillCell("black", init:true, mute:true);
+                _cellControllers[i, j].FillCell("black", init:true, mute:true);
             }
         }
         // GameLog.Instance.WriteToLog("(GridController.cs) Grid gameObject built.");
@@ -154,7 +154,7 @@ public class GridController : MonoBehaviour, ITimerObserver
             return;
         }
 
-        var command = new FillNumberCommand(cellCtr, this._gridModel, number);
+        var command = new FillNumberCommand(cellCtr, _gridModel, number);
         _cmdMgr.ExecuteCommand(command);
 
         UpdateNumberBarVisibility();
@@ -205,10 +205,10 @@ public class GridController : MonoBehaviour, ITimerObserver
     {
         for (int i = 1; i <= 9; i++)
         {
-            NumberController numCtr = this._numberControllers.FirstOrDefault(n => n.Number == i);
+            NumberController numCtr = _numberControllers.FirstOrDefault(n => n.Number == i);
             
-            bool numUsed = this._gridModel.IsNumberFullyUsed(i);
-            bool anyDuplicate = this._gridModel.AnyDuplicateExists(i);
+            bool numUsed = _gridModel.IsNumberFullyUsed(i);
+            bool anyDuplicate = _gridModel.AnyDuplicateExists(i);
             bool shouldHide = numUsed && !anyDuplicate;
 
             bool wasActive = numCtr.gameObject.activeSelf;
@@ -225,15 +225,15 @@ public class GridController : MonoBehaviour, ITimerObserver
 
     public void UpdateNumberColor()
     {
-        for (int r = 0; r < this._cellControllers.GetLength(0); r++)
+        for (int r = 0; r < _cellControllers.GetLength(0); r++)
         {
-            for (int c = 0; c < this._cellControllers.GetLength(1); c++)
+            for (int c = 0; c < _cellControllers.GetLength(1); c++)
             {
-                if (this._cellControllers[r, c].IsUnchangable == true) continue;
-                int n = this._cellControllers[r, c].Model.Num;
-                bool duplicateExist = this._gridModel.DuplicateExists(n, r, c);
+                if (_cellControllers[r, c].IsUnchangable == true) continue;
+                int n = _cellControllers[r, c].Model.Num;
+                bool duplicateExist = _gridModel.DuplicateExists(n, r, c);
                 string color = duplicateExist ? "red" : "blue";
-                this._cellControllers[r, c].FillCell(color, mute:true);
+                _cellControllers[r, c].FillCell(color, mute:true);
             }
         }
     }

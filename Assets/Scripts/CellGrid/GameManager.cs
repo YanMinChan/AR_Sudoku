@@ -21,11 +21,10 @@ public class GameManager : MonoBehaviour
     private DialogPool _dialogPool;
 
     private TimerController _timerController;
-    private LeaderboardController _leaderboardController;
+    //private LeaderboardController _leaderboardController;
 
     private bool _hasGameCompleted = false;
     private bool _hasPuzzleFinished = false;
-    private bool _inputReceived = false;
 
     private ISoundEffectDatabase _sfxDatabase;
     private IToaster _toast;
@@ -49,21 +48,19 @@ public class GameManager : MonoBehaviour
         }
         _timerObservers = new List<ITimerObserver>();
 
-        this._timerController = GameObject.Find("Timer").GetComponent<TimerController>();
-        this._leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
+        _timerController = FindObjectOfType<TimerController>();
+        //_leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
 
         _sfxDatabase = SoundEffectDatabase.Instance;
         _toast = Toaster.Instance;
-
-        _enter.onClick.AddListener(RecordPlayerInfo);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //_toast.Show("Game started!", 2);
-        this._timerController.Init();
-        this._leaderboardController.Init();
+        _timerController.Init();
+        //_leaderboardController.Init();
     }
 
     // Update is called once per frame
@@ -75,7 +72,7 @@ public class GameManager : MonoBehaviour
             _hasGameCompleted = true;
             StartCoroutine(HandleGameCompleteCoroutine());
 
-            // GameLog.Instance.WriteToLog("GameManager.cs) The game is finished.");
+            //GameLogger.Instance.WriteToLog("GameManager.cs) The game is finished.");
         }
     }
 
@@ -86,13 +83,13 @@ public class GameManager : MonoBehaviour
 
     public TimerController Timer
     {
-        get { return this._timerController; }
+        get { return _timerController; }
     }
 
     public bool IsTimerPaused()
     {
-        return this._timerController.IsPaused();
-    }
+        return _timerController.IsPaused();
+    }   
 
     public void RestartGame()
     {
@@ -106,12 +103,20 @@ public class GameManager : MonoBehaviour
     {
         GameEvents.GameComplete();
         _sfxDatabase.PlayAudio(6);
-        
+
+        // Keyboard settings
+        bool inputReceived = false;
         _keyboard.SetActive(true);
-        _inputReceived = false;
-        yield return new WaitUntil(() => _inputReceived);
+        _enter.onClick.AddListener(()=>
+        {
+            RecordPlayerInfo();
+            inputReceived = true;
+        });
+
+        yield return new WaitUntil(() => inputReceived);
         _keyboard.SetActive(false);
 
+        // Dialog settings
         Dialog d = (Dialog) _dialogPool.Get()
             .SetBody("Start a new game?")
             .SetPositive("Yes", (args) => { GameEvents.NewPuzzle(true); })
@@ -127,9 +132,9 @@ public class GameManager : MonoBehaviour
     private void RecordPlayerInfo()
     {
         string name = Regex.Replace(_inputBox.text, @"\t|\n|\r", "");
-        float completionTime = this._timerController.Model.GetElapsedTimeFloat();
-        this._leaderboardController.History.AddRecord(name, completionTime);
-        _inputReceived = true;
+        float completionTime = _timerController.Model.GetElapsedTimeFloat();
+        // _leaderboardController.History.AddRecord(name, completionTime);
+        GameEvents.AddPlayerRecord(name, completionTime);
     }
 
     public void AddTimerObserver(ITimerObserver observer)

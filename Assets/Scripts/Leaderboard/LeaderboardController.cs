@@ -26,7 +26,12 @@ public class LeaderboardController: MonoBehaviour, IMenuPanel
         
     }
 
-    private void OnDestroy()
+    public void OnEnable()
+    {
+        GameEvents.OnAddPlayerRecord += _history.AddRecord;
+    }
+
+    public void OnDestroy()
     {
         this._history.SaveLeaderboard();
     }
