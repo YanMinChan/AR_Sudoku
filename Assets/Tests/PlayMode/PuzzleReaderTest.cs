@@ -14,6 +14,7 @@ public class PuzzleReaderTest
         _reader = new PuzzleReader();
         
     }
+
     // A Test behaves as an ordinary method
     // Test the number of puzzle and their respective solution returned match the default (100 puzzle)
     [Test]
@@ -27,7 +28,6 @@ public class PuzzleReaderTest
     }
 
     // Test the number of puzzle and their respective solution returned match the default (100 puzzle)
-    // TODO: Add test of large number of puzzle later to see the speed of loading them
     [Test]
     [TestCase(10)]
     [TestCase(1000)]
@@ -40,15 +40,5 @@ public class PuzzleReaderTest
 
         Assert.AreEqual(numPuz, _reader.Puzzle.Count);
         Assert.AreEqual(numPuz, _reader.Solution.Count);
-    }
-
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator NewTestScriptWithEnumeratorPasses()
-    {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
     }
 }

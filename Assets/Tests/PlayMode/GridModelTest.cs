@@ -29,9 +29,6 @@ public class GridModelTest
         _gridModel.Cells[3, 1].Num = 4;
 
         Assert.AreEqual(expected, _gridModel.DuplicateExists(num, 0, 1)); // row 0 duplicates of 1
-        //Assert.AreEqual(1, _gridModel.numberOfDuplicate(3, 0, 1)); // row 0 duplicates of 3
-        //Assert.AreEqual(1, _gridModel.numberOfDuplicate(4, 0, 1)); // col 1 duplicates of 4
-        //Assert.AreEqual(0, _gridModel.numberOfDuplicate(5, 0, 1)); // no duplicate
     }
 
     [Test]
@@ -120,7 +117,7 @@ public class GridModelTest
         Assert.AreEqual(result, _gridModel.IsPuzzleFinished());
     }
 
-    // Test for generating empty cell
+    // Test for generating empty grid
     [Test]
     public void GridModel_GenerateGrid_Test_1()
     {
@@ -284,14 +281,5 @@ public class GridModelTest
 
         Assert.IsNotNull(_gridModel.Puz);
         Assert.IsNotNull(_gridModel.Sol);
-    }
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator GridModelTestWithEnumeratorPasses()
-    {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
     }
 }
