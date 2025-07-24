@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using MixedReality.Toolkit.SpatialManipulation;
+using MixedReality.Toolkit.UX.Experimental;
 
 public class GameManager : MonoBehaviour
 {
@@ -107,11 +108,15 @@ public class GameManager : MonoBehaviour
         // Keyboard settings
         bool inputReceived = false;
         _keyboard.SetActive(true);
-        _enter.onClick.AddListener(()=>
-        {
-            RecordPlayerInfo();
-            inputReceived = true;
-        });
+        NonNativeKeyboard.Instance.Open();
+        _keyboard.GetComponent<NonNativeKeyboard>().SubmitOnEnter = true;
+        _keyboard.GetComponent<NonNativeKeyboard>().OnTextSubmit.AddListener(RecordPlayerInfo());
+
+        //_enter.onClick.AddListener(()=>
+        //{
+            //RecordPlayerInfo();
+            //inputReceived = true;
+        //});
 
         yield return new WaitUntil(() => inputReceived);
         _keyboard.SetActive(false);
