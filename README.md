@@ -22,3 +22,6 @@
 
 - Puzzle:
     - [https://www.kaggle.com/datasets/bryanpark/sudoku](https://www.kaggle.com/datasets/bryanpark/sudoku)
+
+- Keyboard: 
+    - [https://github.com/LocalJoost/MRTK3TouchableNonNativeKeyboard](https://github.com/LocalJoost/MRTK3TouchableNonNativeKeyboard)
