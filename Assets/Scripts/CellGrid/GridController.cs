@@ -34,7 +34,15 @@ public class GridController : MonoBehaviour, ITimerObserver
     public CellController[,] CellControllers { get { return _cellControllers; } }
     public List<NumberController> NumberControllers { get { return _numberControllers; } }
 
-    void Awake() { }
+    void Awake()
+    {
+        
+    }
+
+    void Start()
+    {
+        Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
+    }
 
     public void OnEnable()
     {
