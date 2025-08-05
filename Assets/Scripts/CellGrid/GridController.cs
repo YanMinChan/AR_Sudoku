@@ -25,6 +25,7 @@ public class GridController : MonoBehaviour, ITimerObserver
     private ISoundEffectDatabase _sfxDatabase;
     private INumberDatabase _numberDatabase;
     private IToaster _toast;
+    private IGameLogger _logger;
 
     // Command manager
     private GameCommandManager _cmdMgr;
@@ -41,7 +42,7 @@ public class GridController : MonoBehaviour, ITimerObserver
 
     void Start()
     {
-        Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance);
+        Init(SoundEffectDatabase.Instance, NumberDatabase.Instance, Toaster.Instance, GameLogger.Instance);
     }
 
     public void OnEnable()
@@ -59,10 +60,10 @@ public class GridController : MonoBehaviour, ITimerObserver
     }
 
     // Constructor
-    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase, IToaster toast)
+    public void Init(ISoundEffectDatabase sfxDatabase, INumberDatabase numberDatabase, IToaster toast, IGameLogger logger)
     {
         // Instantiate
-        _gridModel = new GridModel();
+        _gridModel = new GridModel(logger);
         _cellControllers = new CellController[9, 9];
         _numberControllers = new List<NumberController>();
 
@@ -73,6 +74,7 @@ public class GridController : MonoBehaviour, ITimerObserver
         _sfxDatabase = sfxDatabase;
         _numberDatabase = numberDatabase;
         _toast = toast;
+        _logger = logger;
 
         // Instantiate models and controllers
         _gridModel.Init();
@@ -92,7 +94,7 @@ public class GridController : MonoBehaviour, ITimerObserver
     {
         foreach (var controller in FindObjectsByType<CellController>(FindObjectsSortMode.None))
         {
-            controller.Init(_sfxDatabase, _numberDatabase);
+            controller.Init(_sfxDatabase, _numberDatabase, _logger);
 
             int r = controller.editorRow;
             int c = controller.editorCol;
@@ -122,15 +124,16 @@ public class GridController : MonoBehaviour, ITimerObserver
     // Build a new puzzle
     private void BuildGrid()
     {
+        _logger.WriteToLog("Initialising puzzle...");
         // Update cell controller for change in grid
         for (int i = 0; i < 9; i++)
         {
             for (int j = 0; j < 9; j++)
             {
-                _cellControllers[i, j].FillCell("black", init:true, mute:true);
+                _cellControllers[i, j].FillCell("black", init:true, muteSfx:true);
             }
         }
-        // GameLog.Instance.WriteToLog("(GridController.cs) Grid gameObject built.");
+        _logger.WriteToLog("Puzzle initialised.\n\n");
     }
 
     enum ActionValidationResult 
@@ -241,7 +244,7 @@ public class GridController : MonoBehaviour, ITimerObserver
                 int n = _cellControllers[r, c].Model.Num;
                 bool duplicateExist = _gridModel.DuplicateExists(n, r, c);
                 string color = duplicateExist ? "red" : "blue";
-                _cellControllers[r, c].FillCell(color, mute:true);
+                _cellControllers[r, c].FillCell(color, muteSfx:true);
             }
         }
     }

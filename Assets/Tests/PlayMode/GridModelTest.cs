@@ -11,7 +11,7 @@ public class GridModelTest
     public void SetUp()
     {
         // common Arrange
-        _gridModel = new GridModel();
+        _gridModel = new GridModel(GameLogger.Instance);
         _gridModel.GenerateGrid();
 
     }
@@ -121,8 +121,8 @@ public class GridModelTest
     [Test]
     public void GridModel_GenerateGrid_Test_1()
     {
-        GridModel gridModelTest1 = new GridModel();
-        GridModel gridModelTest2 = new GridModel();
+        GridModel gridModelTest1 = new GridModel(GameLogger.Instance);
+        GridModel gridModelTest2 = new GridModel(GameLogger.Instance);
         gridModelTest1.GenerateGrid(new int[81], new int[81]);
         gridModelTest2.GenerateGrid();
 
@@ -149,7 +149,7 @@ public class GridModelTest
     public void GridModel_GenerateGrid_Test_2()
     {
         // Construct the model
-        GridModel gridModelTest3 = new GridModel();
+        GridModel gridModelTest3 = new GridModel(GameLogger.Instance);
         
         // Populate first column of the num and sol array
         int[] num = new int[81];
@@ -184,7 +184,7 @@ public class GridModelTest
     public void GridModel_GenerateGrid_Test_3()
     {
         // Construct the model
-        GridModel gridModelTest3 = new GridModel();
+        GridModel gridModelTest3 = new GridModel(GameLogger.Instance);
 
         // Populate first row of the num and sol array
         int[] num = new int[81];
@@ -219,7 +219,7 @@ public class GridModelTest
     public void GridModel_GenerateGrid_Test_4()
     {
         // Construct the model
-        GridModel gridModelTest4 = new GridModel();
+        GridModel gridModelTest4 = new GridModel(GameLogger.Instance);
 
         // Populate first subgrid of the num and sol array
         int[] num = new int[81];

@@ -12,24 +12,28 @@ public class PuzzleReader
     private List<int[]> _puzzle;
     private List<int[]> _solution;
 
+    private IGameLogger _logger;
+
     private static string _filePath = AppPaths.PuzzleFile;
 
     // Constructor
-    public PuzzleReader()
+    public PuzzleReader(IGameLogger logger)
     {
-        this._puzzle = new List<int[]>();
-        this._solution = new List<int[]>();
+        _puzzle = new List<int[]>();
+        _solution = new List<int[]>();
+
+        _logger = logger;
     }
     public List<int[]> Puzzle
     {
-        get { return this._puzzle; }
-        set { this._puzzle = value; }
+        get { return _puzzle; }
+        set { _puzzle = value; }
     }
 
     public List<int[]> Solution
     {
-        get { return this._solution; }
-        set { this._solution = value; }
+        get { return _solution; }
+        set { _solution = value; }
     }
 
     // Public methods
@@ -57,20 +61,20 @@ public class PuzzleReader
                         puzSet[j] = gameSet[0][j] - '0';
                         solSet[j] = gameSet[1][j] - '0';
                     }
-                    this._puzzle.Add(puzSet);
-                    this._solution.Add(solSet);
+                    _puzzle.Add(puzSet);
+                    _solution.Add(solSet);
                     numPuz--;
                 }
-                GameLogger.Instance.WriteToLog($"(PuzzleReader.cs) Puzzle loaded from {_filePath}");
+                GameLogger.Instance.WriteToLog($"Puzzle loaded from {_filePath}");
                 GameLogger.Instance.WriteToLog($"Puzzle count: {_puzzle.Count}");
             }
             catch (FileNotFoundException fnf)
             {
-                GameLogger.Instance.WriteToLog($"(PuzzleReader.cs) Error on loading file: {fnf.Message}");
+                GameLogger.Instance.WriteToLog($"Error on loading file: {fnf.Message}");
             }
             catch (Exception e)
             {
-                GameLogger.Instance.WriteToLog($"(PuzzleReader.cs) Error on loading file: {e.Message}");
+                GameLogger.Instance.WriteToLog($"Error on loading file: {e.Message}");
             }
         }
     }

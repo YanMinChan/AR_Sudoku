@@ -11,7 +11,7 @@ public class PuzzleReaderTest
     [SetUp]
     public void PuzzleReader_SetUp()
     {
-        _reader = new PuzzleReader();
+        _reader = new PuzzleReader(GameLogger.Instance);
         
     }
 

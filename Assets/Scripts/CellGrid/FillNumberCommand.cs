@@ -41,7 +41,7 @@ public class FillNumberCommand: IGameCommand
     // Undo previous action
     public void Undo() 
     {
-        _ctr.SetNumber(_oldNum).FillCell(_oldColor, mute:true);
+        _ctr.SetNumber(_oldNum).FillCell(_oldColor, muteSfx:true);
         _gridModel.CalculateDigitUsage();
     }
 }

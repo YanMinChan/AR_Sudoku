@@ -16,31 +16,39 @@ public class GridModel
     private int[] _puz; private int[] _sol;
     private int[] _numCount;
 
-    public GridModel()
+    private IGameLogger _logger;
+
+    public GridModel(IGameLogger logger)
     {
-        this._cells = new CellModel[9, 9];
-        this._puz = new int[81];
-        this._sol = new int[81];
+        _cells = new CellModel[9, 9];
+        _puz = new int[81];
+        _sol = new int[81];
+        _logger = logger;
     }
 
     public CellModel[,] Cells
     {
-        get { return this._cells; }
-        set { this._cells = value; }
+        get { return _cells; }
+        set { _cells = value; }
     }
 
-    public int[] Puz { get { return this._puz; } }
-    public int[] Sol { get { return this._sol; } }
+    public int[] Puz { get { return _puz; } }
+    public int[] Sol { get { return _sol; } }
 
     public void Init(bool isNewPuzzle = false)
     {
-        this.SelectPuzzle()
+
+        _logger.WriteToLog($"Begin Grid Model initialisation...");
+
+        SelectPuzzle()
             .GenerateGrid(isNewPuzzle:isNewPuzzle);
 
-        if (this._cells != null)
-            GameLogger.Instance.WriteToLog($"(GridModel.cs) Cells loaded: {this._cells.Length}");
+        if (_cells != null)
+            _logger.WriteToLog($"Cells loaded: {_cells.Length}");
         else
-            GameLogger.Instance.WriteToLog("(GridModel.cs) Cells not loaded!");
+            _logger.WriteToLog("Cells not loaded!");
+
+        _logger.WriteToLog($"Completed Grid Model initialisation \n\n");
     }
 
     /// <summary>
@@ -52,7 +60,7 @@ public class GridModel
     public GridModel SelectPuzzle(int puzId = -1)
     {
         // Load puzzle from file path and store them
-        PuzzleReader reader = new PuzzleReader();
+        PuzzleReader reader = new PuzzleReader(_logger);
         reader.Load();
         List<int[]> puzList = reader.Puzzle;
         List<int[]> solList = reader.Solution;
@@ -60,19 +68,19 @@ public class GridModel
         // Choose a puzzle (random or a given ID)
         if (puzId != -1)
         {
-            this._puz = puzList[puzId];
-            this._sol = solList[puzId];
+            _puz = puzList[puzId];
+            _sol = solList[puzId];
         } 
         else
         {
             Random rand = new Random();
             puzId = rand.Next(puzList.Count);
-            this._puz = puzList[puzId];
-            this._sol = solList[puzId];
+            _puz = puzList[puzId];
+            _sol = solList[puzId];
         }
 
         // Log the puzzle id
-        GameLogger.Instance.WriteToLog($"(GridModel.cs) Puzzle ID: {puzId}");
+        _logger.WriteToLog($"Puzzle ID: {puzId}");
         return this; // Allow chaining
     }
 
@@ -85,10 +93,10 @@ public class GridModel
     public GridModel GenerateGrid(int[] puz = null, int[] sol = null, bool isReset = false, bool isNewPuzzle = false)
     {
         // For convenience of chaining
-        if (puz == null) puz = this._puz;
-        if (sol == null) sol = this._sol;
+        if (puz == null) puz = _puz;
+        if (sol == null) sol = _sol;
 
-        int size = this._cells.GetLength(0); // assume square grid
+        int size = _cells.GetLength(0); // assume square grid
 
         // Construct the cell models by row and column
         for (int r = 0; r < size; r++)
@@ -97,16 +105,16 @@ public class GridModel
             {
                 if (isReset)
                 {
-                    this._cells[r, c].Num = puz[r * 9 + c];   
+                    _cells[r, c].Num = puz[r * 9 + c];   
                 }
                 else if (isNewPuzzle)
                 {
-                    this._cells[r, c].Num = puz[r * 9 + c];
-                    this._cells[r, c].Sol = sol[r * 9 + c];
+                    _cells[r, c].Num = puz[r * 9 + c];
+                    _cells[r, c].Sol = sol[r * 9 + c];
                 }
                 else
                 {
-                    this._cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
+                    _cells[r, c] = new CellModel(puz[r * 9 + c], sol[r * 9 + c], r, c);
                 }
             }
         }
@@ -124,21 +132,21 @@ public class GridModel
     {
         if (num == 0) return false; // Doesn't count duplicate for empty cell
 
-        int size = this._cells.GetLength(0); // assume square grid
+        int size = _cells.GetLength(0); // assume square grid
         int sgridSize = 3;
 
         // Check for dup in col
         for (int c = 0; c < size; c++)
         {
             if (c == col) continue;
-            if (this._cells[row, c].Num == num) return true;
+            if (_cells[row, c].Num == num) return true;
         }
 
         // Check for dup in row
         for (int r = 0; r < size; r++)
         {
             if (r == row) continue;
-            if (this._cells[r, col].Num == num) return true;
+            if (_cells[r, col].Num == num) return true;
         }
 
         // Check for dup in subgrid
@@ -152,7 +160,7 @@ public class GridModel
                 int checkRow = r + startRow;
                 int checkCol = c + startCol;
                 if (checkRow == row && checkCol == col) continue;
-                if (this._cells[checkRow, checkCol].Num == num) return true;
+                if (_cells[checkRow, checkCol].Num == num) return true;
             }
         }
         return false;
@@ -164,12 +172,12 @@ public class GridModel
     /// <returns></returns>
     public bool IsPuzzleFinished()
     {
-        int size = this._cells.GetLength(0); // assume square grid
+        int size = _cells.GetLength(0); // assume square grid
         for (int r = 0; r < size; r++)
         {
             for (int c = 0; c < size; c++)
             {
-                if (this._cells[r, c].Num != this._cells[r, c].Sol) return false;
+                if (_cells[r, c].Num != _cells[r, c].Sol) return false;
             }
         }
         return true;
@@ -181,16 +189,16 @@ public class GridModel
     public void CalculateDigitUsage()
     {
         // Refresh everytime the function is called
-        this._numCount = new int[9];
+        _numCount = new int[9];
         for (int r = 0; r < 9; r++)
         {
             for (int c = 0; c < 9; c++)
             {
-                int num = this._cells[r, c].Num;
-                if (this._cells[r, c].Sol != num) continue;
+                int num = _cells[r, c].Num;
+                if (_cells[r, c].Sol != num) continue;
                 if (num >= 1 && num <= 9)
                 {
-                    this._numCount[num - 1]++;
+                    _numCount[num - 1]++;
                 }
             }
         }
@@ -200,12 +208,12 @@ public class GridModel
     public bool IsNumberFullyUsed(int num)
     {
         if (num == 0) return false;
-        return this._numCount[num - 1] >= 9;
+        return _numCount[num - 1] >= 9;
     }
 
     public GridModel ResetGrid(bool newPuzzle = false)
     {
-        if (newPuzzle) Init(newPuzzle);
+        if (newPuzzle) Init(isNewPuzzle:newPuzzle);
         else GenerateGrid(isReset:true); // Reset the cell model information
 
         return this; // allow chaining
@@ -214,11 +222,11 @@ public class GridModel
     // return true if there is duplicate
     public bool AnyDuplicateExists(int num)
     {
-        for (int r = 0; r < this._cells.GetLength(0); r++)
+        for (int r = 0; r < _cells.GetLength(0); r++)
         {
-            for (int c = 0; c < this._cells.GetLength(1); c++)
+            for (int c = 0; c < _cells.GetLength(1); c++)
             {
-                int n = this._cells[r, c].Num;
+                int n = _cells[r, c].Num;
                 if (num == n && DuplicateExists(num, r, c))
                 {
                     return true;
