@@ -22,13 +22,13 @@ public class GameManager : MonoBehaviour
     private DialogPool _dialogPool;
 
     private TimerController _timerController;
-    //private LeaderboardController _leaderboardController;
 
-    private bool _hasGameCompleted = false;
-    private bool _hasPuzzleFinished = false;
+    private bool _hasGameCompleted = false; // Game status
+    private bool _hasPuzzleFinished = false; // Puzzle status
 
     private ISoundEffectDatabase _sfxDatabase;
     private IToaster _toast;
+    private IGameLogger _logger;
 
     private List<ITimerObserver> _timerObservers;
 
@@ -50,18 +50,16 @@ public class GameManager : MonoBehaviour
         _timerObservers = new List<ITimerObserver>();
 
         _timerController = FindObjectOfType<TimerController>();
-        //_leaderboardController = GameObject.Find("Leaderboard").GetComponent<LeaderboardController>();
 
         _sfxDatabase = SoundEffectDatabase.Instance;
         _toast = Toaster.Instance;
+        _logger = GameLogger.Instance;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //_toast.Show("Game started!", 2);
         _timerController.Init();
-        //_leaderboardController.Init();
     }
 
     // Update is called once per frame
@@ -71,9 +69,10 @@ public class GameManager : MonoBehaviour
         if (!_hasGameCompleted && _hasPuzzleFinished)
         {
             _hasGameCompleted = true;
-            StartCoroutine(HandleGameCompleteCoroutine());
+            _logger.WriteToLog("The game is finished.");
 
-            //GameLogger.Instance.WriteToLog("GameManager.cs) The game is finished.");
+            StartCoroutine(HandleGameCompleteCoroutine());
+            _logger.WriteToLog("Result recorded.");
         }
     }
 
@@ -97,7 +96,7 @@ public class GameManager : MonoBehaviour
         _hasGameCompleted = false;
         GameEvents.ResetGame(false);
 
-        GameLogger.Instance.WriteToLog($"(GridController.cs) Game restarted.");
+        GameLogger.Instance.WriteToLog($"Game restarted.");
     }
 
     private IEnumerator HandleGameCompleteCoroutine()

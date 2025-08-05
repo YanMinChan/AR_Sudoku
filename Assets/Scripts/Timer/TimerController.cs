@@ -38,13 +38,13 @@ public class TimerController : MonoBehaviour
 
     public TimerModel Model
     {
-        get { return this._timerModel; }
+        get { return _timerModel; }
     }
 
     public void Init()
     {
-        this._timerModel = new TimerModel();
-        this._timerList = new TimerContainerController[4];
+        _timerModel = new TimerModel();
+        _timerList = new TimerContainerController[4];
         BuildTimerNumberControllerList();
     }
 
@@ -53,35 +53,35 @@ public class TimerController : MonoBehaviour
     /// </summary>
     public void DisplayElapsedTime()
     {
-        string time = this._timerModel.GetElapsedTime();
+        string time = _timerModel.GetElapsedTime();
         int[] timeDigits = ConvertTimeStringToIntArray(time);
 
         for (int i = 0; i < timeDigits.Length; i++) 
         {
-            this._timerList[i].DisplayDigit(timeDigits[i]);
+            _timerList[i].DisplayDigit(timeDigits[i]);
         }
     }
 
     public void PauseGame()
     {
-        this._timerModel.PauseTimer();
+        _timerModel.PauseTimer();
         _mgr.NotifyObservers();
     }
 
     public void ContinueGame()
     {
-        this._timerModel.ContinueTimer();
+        _timerModel.ContinueTimer();
         _mgr.NotifyObservers();
     }
 
     public bool IsPaused()
     {
-        return this._timerModel.IsPaused;
+        return _timerModel.IsPaused;
     }
 
     public void RestartTimer(bool _)
     {
-        this._timerModel.RestartTimer();
+        _timerModel.RestartTimer();
         _mgr.NotifyObservers();
     }
 
@@ -107,7 +107,7 @@ public class TimerController : MonoBehaviour
         {
             ctr.Init(TimerNumberDatabase.Instance);
             // Debug.Log("Position: " + ctr.Position);
-            this._timerList[ctr.Position] = ctr;
+            _timerList[ctr.Position] = ctr;
         }
     }
 }
