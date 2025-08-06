@@ -135,7 +135,6 @@ public class GameManager : MonoBehaviour
     {
         string name = Regex.Replace(_inputBox.text, @"\t|\n|\r", "");
         float completionTime = _timerController.Model.GetElapsedTimeFloat();
-        // _leaderboardController.History.AddRecord(name, completionTime);
         GameEvents.AddPlayerRecord(name, completionTime);
     }
 
