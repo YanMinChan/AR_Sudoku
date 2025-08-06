@@ -30,9 +30,9 @@ Below is the steps on how to install and set up the application in Unity.
    git remote -v # confirm the changes
    ```
 
-3. Install the sudoku puzzle from the following link and manually move it to the `Assets/StreamingAssets`. [[Link][Sudoku-url]]
+3. Install the sudoku puzzle from the following link and manually move it to the `Assets/StreamingAssets` directory. [[Link][Sudoku-url]]
 
-4. Set up the OpenXRproject with MRTK configurations. [[Link][OpenXRconfig-url]]
+4. Set up the OpenXR project with MRTK configurations. [[Link][OpenXRconfig-url]]
 
 ### Deployment (HoloLens 2)
 Deployment can be done by following the steps in the following links.
