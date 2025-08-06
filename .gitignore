@@ -85,8 +85,6 @@ crashlytics-build.properties
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
 # Manually ignore some large files
-Assets/StreamingAssets/sudoku.csv
-Assets/StreamingAssets/sudoku.csv.meta
 Report\ Resources/
 
 # Ignore build files
