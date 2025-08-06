@@ -68,8 +68,8 @@ Deployment can be done by following the steps in the following links.
 [CSharp-url]: https://learn.microsoft.com/en-us/dotnet/csharp/
 [Dotnet]: https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white
 [Dotnet-url]: https://dotnet.microsoft.com/en-us/
-[MRTK-url]: (https://www.microsoft.com/en-us/download/details.aspx?id=102778)
-[Newtonsoft-url]: (https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@3.2/manual/index.html)
+[MRTK-url]: (https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk3-overview/)
+[Newtonsoft-url]: (https://www.newtonsoft.com/json)
 [vs-url]: https://visualstudio.microsoft.com/
 [OpenXRconfig-url]: https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/new-openxr-project-with-mrtk
 [BuildDeploy-url]: https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/build-and-deploy-to-hololens
