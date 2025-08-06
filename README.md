@@ -1,5 +1,7 @@
 # AR_Sudoku
  sudoku game developed for HoloLens 2
+ 
+![VideoDemo](./Report%20Resources/VideoDemo.gif)
 
 ### Built with
 [![Unity][Unity]][Unity-url]
@@ -68,8 +70,8 @@ Deployment can be done by following the steps in the following links.
 [CSharp-url]: https://learn.microsoft.com/en-us/dotnet/csharp/
 [Dotnet]: https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white
 [Dotnet-url]: https://dotnet.microsoft.com/en-us/
-[MRTK-url]: (https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk3-overview/)
-[Newtonsoft-url]: (https://www.newtonsoft.com/json)
+[MRTK-url]: https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk3-overview/
+[Newtonsoft-url]: https://www.newtonsoft.com/json
 [vs-url]: https://visualstudio.microsoft.com/
 [OpenXRconfig-url]: https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/new-openxr-project-with-mrtk
 [BuildDeploy-url]: https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/build-and-deploy-to-hololens
