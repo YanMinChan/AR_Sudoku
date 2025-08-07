@@ -17,8 +17,6 @@ public class LeaderboardHistory
     public LeaderboardHistory()
     {
         _io = new LeaderboardHistoryIO();
-        // Register listener
-        GameEvents.OnAddPlayerRecord += AddRecord;
     }
 
     public List<LeaderboardEntry> Entries
