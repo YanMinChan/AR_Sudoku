@@ -108,12 +108,12 @@ public class GameManager : MonoBehaviour
         bool inputReceived = false;
         _keyboard.SetActive(true);
         NonNativeKeyboard.Instance.Open();
-        _keyboard.GetComponent<NonNativeKeyboard>().SubmitOnEnter = true;
 
         _enter.onClick.AddListener(() =>
         {
             RecordPlayerInfo();
             inputReceived = true;
+            _keyboard.SetActive(false);
         });
 
         yield return new WaitUntil(() => inputReceived);
